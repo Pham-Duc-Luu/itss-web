@@ -38,3 +38,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Interface Documentation
 
 https://app.visily.ai/projects/9a61fcf9-5f7f-4dcf-9cbf-8a1d2f65a508/boards/860457
+
+## Tung : login, sign up, forgot password
+
+## Trung : home page , searching
+
+## Hoang : collection creation + collection editing
+
+## Hieu : class ui + create class + editing class
+
+## luu : Profile + settings + library
