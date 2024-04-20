@@ -16,12 +16,18 @@ import { Input } from "@/components/ui/input"
 
 const formSchema = z.object({
     email: z.string().email(),
-    password: z.string()
+    usename: z.string().min(6),
+    password: z.string(),
+    passwordConfirm: z.string()
+  }).refine((data) => {
+        return data.password === data.passwordConfirm
+  },{
+    message: "password do not match",
+    path: ["passwordConfirm"]
   })
 
-
   
-const ProfileForm = () => {
+const SignUpForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -35,7 +41,7 @@ const ProfileForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-md w-full flex flex-col gap-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-md w-full flex flex-col">
         <FormField
           control={form.control}
           name="email"
@@ -45,13 +51,25 @@ const ProfileForm = () => {
               <FormControl>
                 <Input placeholder="Enter your email" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="email" />
               </FormControl>
-              <FormDescription>
-                This is your account&apos;s email.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="usename"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Usename</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your usename" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="email" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="password"
@@ -61,17 +79,30 @@ const ProfileForm = () => {
               <FormControl>
                 <Input placeholder="Enter your password" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="password"/>
               </FormControl>
-              <FormDescription>
-                This is your password.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-pink-400 text-white hover:text-pink-500">Đăng nhập</Button>
+
+        <FormField
+          control={form.control}
+          name="usename"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password Confirm</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your password" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="email" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+        <Button type="submit" className="bg-white-400 text-pink-500 hover:bg-pink-500 hover:text-white rounded-full border-2 border-pink-500">Tạo tài khoản</Button>
       </form>
     </Form>
   )
 }
 
-export default ProfileForm;
+export default SignUpForm;
