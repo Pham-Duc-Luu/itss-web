@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { boolean, z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -23,18 +23,27 @@ const formSchema = z.object({
   .refine((data) => {
         return data.password === data.passwordConfirm
   },{
-    message: "password do not match",
+    message: "Password do not match",
     path: ["passwordConfirm"]
   })
   .refine((data) => {
-      return data.password.search(/[0-9]/)
+      let containNum =data.password.search(/[0-9]/)==-1?false:true
+      return containNum
     },
       {
-        message: "password must contain number",
+        message: "Password must contain number",
         path: ["password"]
-      });
-      //cho nay van chua bat duoc validation
-  
+      })
+    .refine((data) => {
+      let containNum =data.password.search(/[^A-Za-z0-9]/)==-1?false:true
+      return containNum
+    },
+      {
+        message: "Password must contain at least one specail character",
+        path: ["password"]
+      })  
+      ;
+     
 const SignUpForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -44,7 +53,8 @@ const SignUpForm = () => {
     })
    
     function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
+      console.log(values.password === values.passwordConfirm)
+      console.log(values.password.search(/[0-9]/))
     }
 
   return (
@@ -71,7 +81,7 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel>Usename</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your usename" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="email" />
+                <Input placeholder="Enter your usename" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="text" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +109,7 @@ const SignUpForm = () => {
             <FormItem>
               <FormLabel>Password Confirm</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your password" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="email" />
+                <Input placeholder="Enter your password" {...field} className="bg-stone-200 rounded-full border-none focus:border-pink" type="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
