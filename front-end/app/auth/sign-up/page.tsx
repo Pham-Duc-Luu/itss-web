@@ -20,15 +20,15 @@ const page: FC = () => {
     <div className='w-3/5  h-auto container rounded-lg shadow-lg bg-white flex m-auto px-0 animate-[ping_0.5s_0s]'>
       <Card className='w-1/2 text-black bg-white border-none max-sm:w-full'>
           <CardHeader className='text-center'>
-            <CardTitle>Page Xàm l</CardTitle>
-            <CardDescription>Member Login</CardDescription>
+            <CardTitle>Anki</CardTitle>
+            <CardDescription>Create account</CardDescription>
           </CardHeader>
           <CardContent>
             <SignUpForm />
           </CardContent>
 
           <CardFooter className='max-w-md w-full flex flex-col gap-3'>
-            <Link href="\auth\login" className='underline underline-offset-2'>Đăng nhập</Link>
+            <p>Go back to <Link href="\auth\login" className='underline underline-offset-2'>Login</Link></p>
           </CardFooter>
       </Card>
     <img src={imgURl} className='w-1/2 object-cover rounded-r-lg max-sm:hidden' alt='login-picture'/>

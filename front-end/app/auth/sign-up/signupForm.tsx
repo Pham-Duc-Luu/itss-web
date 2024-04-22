@@ -17,15 +17,23 @@ import { Input } from "@/components/ui/input"
 const formSchema = z.object({
     email: z.string().email(),
     usename: z.string().min(6),
-    password: z.string(),
+    password: z.string().min(8).max(20),
     passwordConfirm: z.string()
-  }).refine((data) => {
+  })
+  .refine((data) => {
         return data.password === data.passwordConfirm
   },{
     message: "password do not match",
     path: ["passwordConfirm"]
   })
-
+  .refine((data) => {
+      return data.password.search(/[0-9]/)
+    },
+      {
+        message: "password must contain number",
+        path: ["password"]
+      });
+      //cho nay van chua bat duoc validation
   
 const SignUpForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -41,7 +49,7 @@ const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-md w-full flex flex-col">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7 max-w-md w-full flex flex-col">
         <FormField
           control={form.control}
           name="email"
@@ -99,7 +107,7 @@ const SignUpForm = () => {
         />
 
 
-        <Button type="submit" className="bg-white-400 text-pink-500 hover:bg-pink-500 hover:text-white rounded-full border-2 border-pink-500">Tạo tài khoản</Button>
+        <Button type="submit" className="bg-white-400 text-pink-500 hover:bg-pink-500 hover:text-white rounded-full border-2 border-pink-500">Create account</Button>
       </form>
     </Form>
   )

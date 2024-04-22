@@ -30,7 +30,7 @@ const page = () => {
           </CardContent>
 
           <CardFooter className='max-w-md w-full flex flex-col'>
-            <p>Quay lại trang <Link href="\auth\login" className='underline underline-offset-2'>Đăng nhập</Link></p>
+            <p>Go back to <Link href="\auth\login" className='underline underline-offset-2'>Login</Link></p>
           </CardFooter>
       </Card>
     </div>

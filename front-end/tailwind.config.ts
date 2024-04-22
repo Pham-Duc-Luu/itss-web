@@ -10,6 +10,7 @@ const config = {
     './src/**/*.{ts,tsx}',
     'app/**/*.{ts,tsx}',
     'components/**/*.{ts,tsx}',
+    "./node_modules/tw-elements/js/**/*.js"
   ],
   prefix: '',
   theme: {

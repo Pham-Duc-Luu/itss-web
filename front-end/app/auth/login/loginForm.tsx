@@ -68,7 +68,7 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-pink-400 text-white hover:text-pink-500">Đăng nhập</Button>
+        <Button type="submit" className="bg-pink-400 text-white hover:text-pink-500 rounded-full font-bold">Login</Button>
       </form>
     </Form>
   )
