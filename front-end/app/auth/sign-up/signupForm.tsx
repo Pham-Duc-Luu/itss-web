@@ -94,7 +94,7 @@ const SignUpForm = () => {
 
         <FormField
           control={form.control}
-          name="usename"
+          name="passwordConfirm"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password Confirm</FormLabel>
