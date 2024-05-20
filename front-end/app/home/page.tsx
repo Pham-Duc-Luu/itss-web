@@ -1,4 +1,7 @@
-import React from 'react';
+import React from "react";
+import NavBar from "../../components/Navbar/NavBar";
+
+
 
 // * search bar
 // * logo + user avatar + settings button + create new collection button
@@ -6,8 +9,14 @@ import React from 'react';
 // * list of public class
 // * list of collection
 
+
 const page = () => {
-  return <div>page</div>;
+ 
+  return (
+  <NavBar/>
+  );
 };
 
 export default page;
+
+/**/
