@@ -22,7 +22,7 @@ const NavBar = () => {
           <div className="pl-10 h-full flex gap-1 items-center select-none col-span-2">
             <img src={Logo.src} alt="" className=" block h-20" />
 
-            <Button variant="link" className="font-bold">
+            <Button variant = "link" className="font-bold">
               {' '}
               Home
             </Button>
@@ -35,7 +35,6 @@ const NavBar = () => {
               className="rounded-full"
             />
             <Button
-              size="sm"
               disabled={false}
               className="!absolute right-1 top-[3px] rounded-full flex items-center justify-center bg-gray-700">
               <MagnifyingGlassIcon className=" text-lg text-white h-4 w-4 " />
@@ -50,7 +49,6 @@ const NavBar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="outline"
                   color="blue-gray"
                   className=" rounded-full h-10 w-10 bg-blue-100/20 py-0 pr-0 pl-0 ">
                   <User className=" h-10 w-10 text-blue-300 fill-blue-300  rounded-full p-1.5" />
