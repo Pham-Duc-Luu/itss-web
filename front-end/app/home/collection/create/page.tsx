@@ -24,14 +24,10 @@ import Plus from '@/components/Svg/Plus';
 
 
 
-const CollectionList = () => {
-  const [collections, setCollections] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+const WordsList = () => {
+  const [wordList, setWordList] = useState([])
 
-  const handleAddCollection = () => {
-    setCollections([...collections, inputValue]);
-    setInputValue('');
-  };
+
 
   return (
     <div className='px-16 py-10'>
@@ -39,31 +35,19 @@ const CollectionList = () => {
       <div className='w-1/2 flex flex-col gap-7 mb-10'>
         <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'}/>
         <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}/>
-      </div>
-
-      <div className="flex">
-        <div className="box">
-          <Input 
-            className="mr-4"
-            placeholder="Collection Name" 
-            value={inputValue} 
-            onChange={(e) => setInputValue(e.target.value)} 
-          />
         </div>
-        <Button onClick={handleAddCollection} disabled={!inputValue.trim()} className='flex gap-3'><Plus />Add</Button>
+      <div className="flex justify-center">
+        <input type="text" name="" id="" />
+        <input type="text" name="" id="" />
+        <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded flex gap-3">
+          <div className='mt-1'>
+            <Plus />
+          </div>
+          Add
+        </button>
       </div>
-      {collections.map((collection, index) => (
-        <div className="flex items-center mt-4" key={index}>
-          <div style={{ backgroundColor: 'green'}}></div>
-          <span>{collection}</span>
-          <div className="flex-1"></div>
-          <Link href = "/collection/edit-collection">
-          <button className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Edit</button>
-          </Link>        
-        </div>
-      ))}
     </div>
   );
 };
 
-export default CollectionList;
+export default WordsList;

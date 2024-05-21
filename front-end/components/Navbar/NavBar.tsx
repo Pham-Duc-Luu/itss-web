@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import Logo from './quiz-logo.png';
+import Logo from '../../assets/quiz-logo.png';
 import { Input } from '@/components/ui/input';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
@@ -80,7 +80,7 @@ const NavBar = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span><Link href="\Login">Log out</Link></span>
+                    <span><Link href="\auth\login">Log out</Link></span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
