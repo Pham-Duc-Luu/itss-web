@@ -16,6 +16,7 @@ import Link from 'next/link';
 import CreateCollectionInput from '@/components/Input/CreateCollectionInput';
 import Plus from '@/components/Svg/Plus';
 import WordEditCard from '@/components/Collection/WordEditCard';
+import { FakeCollectionData } from '@/API/FakeData';
 // * name field
 // * description field
 // * summary field
@@ -25,8 +26,10 @@ import WordEditCard from '@/components/Collection/WordEditCard';
 
 
 
-const WordsList = () => {
-  const [wordList, setWordList] = useState<any[]>([{word: '', meaning: ''},{word: '', meaning: ''}])
+const Page = ({params} :{params : {collectionId : string}}) => {
+const collection = FakeCollectionData[Number(params.collectionId)]
+
+  const [wordList, setWordList] = useState<any[]>(collection.flashcard)
   const [word, setWord] = useState<string>()
   const [mean, setMean] = useState<string>()
 
@@ -40,8 +43,8 @@ const WordsList = () => {
     <form className='px-16 py-10'>
       <h1 className='font-black text-2xl mb-10'>Create new collection</h1>
       <div className='w-1/2 flex flex-col gap-7 mb-10'>
-        <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'}/>
-        <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}/>
+        <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'} defaultValue={collection.title}/>
+        <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}  defaultValue={collection.description}/>
         </div>
       <div className="flex justify-center gap-10 mb-10">
         <input type="text" name="" id="" value={word} onChange={ (e) => setWord(e.target.value)} placeholder='Word' className='px-3 border-2 rounded-lg border-gray-300'/>
@@ -70,4 +73,4 @@ const WordsList = () => {
   );
 };
 
-export default WordsList;
+export default Page

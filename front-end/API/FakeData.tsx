@@ -6,6 +6,7 @@ export const FakeCollectionData = [
         rate : 4.5,
         number_of_rate: 3,
         author: "Luu db",
+        author_id: 1,
         flashcard: [
             {
                 word: "You",
@@ -28,6 +29,7 @@ export const FakeCollectionData = [
         rate : 4.5,
         number_of_rate: 3,
         author: "Trung db",
+        author_id: 2,
         flashcard: [
             {
                 word: "You",
@@ -50,6 +52,7 @@ export const FakeCollectionData = [
         rate : 4.5,
         number_of_rate: 3,
         author: "Tung dz",
+        author_id: 3,
         flashcard: [
             {
                 word: "You",

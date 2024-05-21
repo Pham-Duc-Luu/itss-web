@@ -1,3 +1,4 @@
+'use client'
 import { FakeCollectionData } from '@/API/FakeData';
 import CollectionCard from '@/components/Collection/CollectionCard';
 import WordCard from '@/components/Collection/WordCard';
@@ -8,11 +9,18 @@ import FlashCard from '@/components/Svg/FlashCard';
 import Share from '@/components/Svg/Share';
 import Star from '@/components/Svg/Star';
 import Three_dot from '@/components/Svg/Three_dot';
-import React from 'react';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
-const page = ({params} :{params : {collectionId : string}}) => {
+const Page = ({params} :{params : {collectionId : string}}) => {
 
   const collection = FakeCollectionData[Number(params.collectionId) - 1]
+  const [userId, setUserId] = useState<number>()
+    useEffect(() => {
+        if(localStorage.getItem('user')) {
+            setUserId(Number(localStorage.getItem('user')))
+        }
+    },[]) 
     
   return (
         <div className="px-32 py-12 flex flex-col gap-12 w-3/4">
@@ -81,6 +89,10 @@ const page = ({params} :{params : {collectionId : string}}) => {
                 <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100'>
                     <Copy />
                 </button>
+                {userId === collection.author_id &&
+                <Link className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100' href={`/home/collection/${params.collectionId}/edit`}>
+                    edit
+                </Link>}
                 <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100'>
                     <Three_dot />
                 </button>
@@ -107,6 +119,6 @@ const page = ({params} :{params : {collectionId : string}}) => {
   )
 };
 
-export default page;
+export default Page;
 
 /**/
