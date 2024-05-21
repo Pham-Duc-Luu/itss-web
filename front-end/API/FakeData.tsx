@@ -2,6 +2,8 @@ export const FakeCollectionData = [
     {
         title: "Unit 2",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        rate : 4.5,
+        number_of_rate: 3,
         author: "Luu db",
         flashcard: [
             {
@@ -21,6 +23,8 @@ export const FakeCollectionData = [
     {
         title: "Unit 1",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        rate : 4.5,
+        number_of_rate: 3,
         author: "Trung db",
         flashcard: [
             {
@@ -40,6 +44,8 @@ export const FakeCollectionData = [
     {
         title: "Unit 3",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        rate : 4.5,
+        number_of_rate: 3,
         author: "Tung dz",
         flashcard: [
             {
