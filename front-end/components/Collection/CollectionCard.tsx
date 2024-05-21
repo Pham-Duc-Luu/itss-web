@@ -1,6 +1,12 @@
+'use client';
+import { useRouter } from 'next/navigation'
+
 function CollectionCard({collection}) {
+  const router = useRouter()
+
   return (
-    <div className="w-1/3 h-48 border-[1px] border-slate-400 rounded-xl px-10 py-5 shadow-md flex flex-col justify-between hover:border-b-4 hover:border-b-sky-700 bg-white">
+    <div className="w-1/3 h-48 border-[1px] border-slate-400 rounded-xl px-10 py-5 shadow-md flex flex-col justify-between hover:border-b-4 hover:border-b-sky-700 bg-white" 
+    onClick={() => router.push('/home/collection')}>
         <div>
             <h1 className="text-xl font-semibold mb-3">{collection.title}</h1>
             <h2 className="bg-slate-200 rounded-full w-auto inline-block px-2 py-1 font-semibold text-sm">{collection.flashcard.length} words</h2>

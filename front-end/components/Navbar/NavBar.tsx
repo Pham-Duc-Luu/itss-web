@@ -13,18 +13,23 @@ import {
   DropdownMenuGroup,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
+import Link from 'next/link';
 
 const NavBar = () => {
   return (
     <>
-      <div className="w-full  fixed top-0 z-50">
+      <div className="w-full  fixed top-0 z-50 bg-white">
         <div className="h-full w-full shadow-md grid grid-cols-5 items-center justify-center align-baseline">
           <div className="pl-10 h-full flex gap-1 items-center select-none col-span-2">
             <img src={Logo.src} alt="" className=" block h-20" />
 
             <Button variant="link" className="font-bold">
               {' '}
-              Home
+              <Link href="/home">Home</Link>
+            </Button>
+            <Button variant="link" className="font-bold">
+              {' '}
+              <Link href="/home/user-library">Library</Link>
             </Button>
           </div>
 
@@ -70,7 +75,7 @@ const NavBar = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span><Link href="\Login">Log out</Link></span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
