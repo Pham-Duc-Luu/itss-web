@@ -1,5 +1,6 @@
+"use client"
 import React from 'react';
-import Logo from './quiz-logo.png';
+import Logo from '../../assets/quiz-logo.png';
 import { Input } from '@/components/ui/input';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, User } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
+
 
 const NavBar = () => {
+  const router = useRouter()
+
   return (
     <>
       <div className="w-full  fixed top-0 z-50 bg-white">
@@ -48,7 +53,7 @@ const NavBar = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <Button>Create collection</Button>
+            <Button onClick={() => router.push('/home/collection/create')} >Create collection</Button>
           </div>
 
           <div className="flex justify-start items-center">
@@ -75,7 +80,7 @@ const NavBar = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span><Link href="\Login">Log out</Link></span>
+                    <span><Link href="\auth\login">Log out</Link></span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>

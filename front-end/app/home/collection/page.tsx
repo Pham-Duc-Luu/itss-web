@@ -8,11 +8,11 @@ import FlashCard from '@/components/Svg/FlashCard';
 import Share from '@/components/Svg/Share';
 import Star from '@/components/Svg/Star';
 import Three_dot from '@/components/Svg/Three_dot';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const page = () => {
+const Page = () => {
     const collection = FakeCollectionData[0]
-    
+
   return (
         <div className="px-32 py-12 flex flex-col gap-12 w-3/4">
         <div className=''>
@@ -73,14 +73,14 @@ const page = () => {
             </div>
 
             <div className='flex gap-3'>
-                <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 text-gray-500 font-semibold flex gap-3'>
+                <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 text-gray-500 font-semibold flex gap-3 hover:bg-slate-100'>
                     <div className='mt-1'><Share /></div>
                     <p className='leading-loose'>Share</p>
                 </button>
-                <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex'>
+                <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100'>
                     <Copy />
                 </button>
-                <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex'>
+                <button className='p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100'>
                     <Three_dot />
                 </button>
             </div>  
@@ -106,6 +106,6 @@ const page = () => {
   )
 };
 
-export default page;
+export default Page;
 
 /**/
