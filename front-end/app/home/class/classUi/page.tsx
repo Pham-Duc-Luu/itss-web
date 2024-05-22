@@ -20,29 +20,39 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-// * name
-// * list of posts
-// * list of assignments
-// * list of documents
-
-// * button to add members, collections, edit className
-const page = () => {
+import { FakePostData } from "@/API/FakeData";
+import Class from "@/components/Svg/Class";
+import Plus from "@/components/Svg/Plus";
+import Three_dot from "@/components/Svg/Three_dot";
+import Addmember from "@/components/Svg/Addmember";
+import CreateCollectionInput from "@/components/Input/CreateCollectionInput";
+import Send from "@/components/Svg/Send";
+const Page = () => {
     return (
-        <>
-            <div className="flex mt-32 pl-2">
-                <Avatar>
-                    <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div className="flex text-4xl font-bold mb-4 ml-4">
-                    Class name
+        <div className="flex w-full flex-col py-10 px-16">
+            <div className="mb-5 borber-4 border-slate-200">
+                <div className="flex mb-2">
+                <Class />
+                    <div className="flex text-4xl font-bold ml-4">
+                        Class name
+                    </div>
+                </div>
+
+                <div className="flex gap-4">
+                    <button className='py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100'>
+                        <Plus />
+                    </button>
+                    <button className='py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100'>
+                        <div className="m-auto"><Addmember /></div>
+                    </button>
+                    <button className='p-2 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100'>
+                        <Three_dot />
+                    </button>
                 </div>
             </div>
-            <div>
-                <Tabs defaultValue="post" className="w-full">
+
+            <div className="mx-auto w-11/12">
+                <Tabs defaultValue="post" className="">
                     <TabsList className="grid w-full grid-cols-3">
                         <TabsTrigger value="post">Post</TabsTrigger>
                         <TabsTrigger value="assignment">Assignment</TabsTrigger>
@@ -50,7 +60,7 @@ const page = () => {
                     </TabsList>
                     {/* Post Part */}
                     <TabsContent value="post">
-                        <Card className="flex flex-col h-screen">
+                        <Card className="flex flex-col pb-5">
                             <CardHeader>
                                 <CardTitle className="text-3xl font-bold">
                                     Post
@@ -60,10 +70,11 @@ const page = () => {
                             <CardContent className="space-y-2 flex-grow overflow-auto">
                                 <div className="justify-center">
                                     {/* Card Post */}
-                                    <Card className="w-full mb-4">
-                                        <CardHeader>
+                                    {FakePostData.map((post,index) => 
+                                    <Card className="w-full mb-4 flex flex-col" key={index}>
+                                        <CardHeader className="px-6 py-4">
                                             <CardTitle>
-                                                <div className="flex">
+                                                <div className="flex gap-3">
                                                     <Avatar className="mr-2">
                                                         <AvatarImage
                                                             src="https://github.com/shadcn.png"
@@ -73,102 +84,33 @@ const page = () => {
                                                             CN
                                                         </AvatarFallback>
                                                     </Avatar>
-                                                    <Badge>User Name</Badge>
+                                                    <Badge className="bg-cyan-400 px-5 leading-none h-auto">{post.author}</Badge>
+                                                    <p className="text-xs font-medium leading-loose my-auto italic">{post.post_at.toDateString()}</p>
                                                 </div>
                                             </CardTitle>
                                         </CardHeader>
-                                        <div className="mb-4 pl-6 text-2xl font-bold">
-                                            Title
-                                        </div>
                                         <CardContent>
-                                            <form>
-                                                <div className="grid w-full items-center gap-4">
-                                                    <div className="flex flex-col space-y-1.5">
-                                                        <Label htmlFor="name">
-                                                            Description
-                                                        </Label>
-                                                    </div>
+                                                <div className="mb-1 text-xl font-bold">
+                                                    Title
                                                 </div>
-                                            </form>
+                                                <div className="w-full items-center gap-4">
+                                                        <h2>{post.content}</h2>
+                                                </div>
                                         </CardContent>
                                         <CardFooter className="flex justify-between"></CardFooter>
                                     </Card>
-
-                                    <Card className="w-full mb-4">
-                                        <CardHeader>
-                                            <CardTitle>
-                                                <div className="flex">
-                                                    <Avatar className="mr-2">
-                                                        <AvatarImage
-                                                            src="https://github.com/shadcn.png"
-                                                            alt="@shadcn"
-                                                        />
-                                                        <AvatarFallback>
-                                                            CN
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                    <Badge>User Name</Badge>
-                                                </div>
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <div className="mb-4 pl-6 text-2xl font-bold">
-                                            Title
-                                        </div>
-                                        <CardContent>
-                                            <form>
-                                                <div className="grid w-full items-center gap-4">
-                                                    <div className="flex flex-col space-y-1.5">
-                                                        <Label htmlFor="name">
-                                                            Description
-                                                        </Label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </CardContent>
-                                        <CardFooter className="flex justify-between"></CardFooter>
-                                    </Card>
-
-                                    <Card className="w-full mb-4">
-                                        <CardHeader>
-                                            <CardTitle>
-                                                <div className="flex">
-                                                    <Avatar className="mr-2">
-                                                        <AvatarImage
-                                                            src="https://github.com/shadcn.png"
-                                                            alt="@shadcn"
-                                                        />
-                                                        <AvatarFallback>
-                                                            CN
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                    <Badge>User Name</Badge>
-                                                </div>
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <div className="mb-4 pl-6 text-2xl font-bold">
-                                            Title
-                                        </div>
-                                        <CardContent>
-                                            <form>
-                                                <div className="grid w-full items-center gap-4">
-                                                    <div className="flex flex-col space-y-1.5">
-                                                        <Label htmlFor="name">
-                                                            Description
-                                                        </Label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </CardContent>
-                                        <CardFooter className="flex justify-between"></CardFooter>
-                                    </Card>
+                                
+                                )}
+                                  
                                 </div>
                             </CardContent>
-                            <div className="box pl-6 pr-10 mb-2 mr-4 flex justify-center whitespace-pre-line bottom-0 w-full bg-white">
-                                <Input
-                                    className="mr-4 whitespace-pre-line"
-                                    placeholder="Type a post"
+                            <div className="flex gap-5 w-full bg-white px-7">
+                                <CreateCollectionInput
+                                    placeholder={'Add new post'}
+                                    label={''}
+                                    name={'newPost'}
                                 />
-                                <Button>Add</Button>
+                                <button className="mt-1 px-3 py-2 bg-cyan-400 rounded-2xl font-semibold hover:bg-gray-500"><Send /></button>
                             </div>
                         </Card>
                     </TabsContent>
@@ -309,8 +251,8 @@ const page = () => {
                     </TabsContent>
                 </Tabs>
             </div>
-        </>
+        </div>
     );
 };
 
-export default page;
+export default Page;

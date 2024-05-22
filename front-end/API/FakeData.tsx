@@ -88,3 +88,21 @@ export const FakeClassData = [
     }
 
 ]
+
+export const FakePostData = [
+    {
+        author: "User",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        post_at: new Date(21-4-2024)
+    },
+    {
+        author: "Admin",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        post_at: new Date(21-5-2024)
+    },
+    {
+        author: "Lady Gaga",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        post_at: new Date()
+    },
+]
