@@ -2,7 +2,7 @@ import React from 'react'
 
 function Plus() {
   return (
-    <svg width="15" height="15" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+    <svg width="15" height="15" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" className='my-auto'>
     
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g id="Icon-Set-Filled" transform="translate(-362.000000, -1037.000000)" fill="#6B7280">

@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+
+import React, { useEffect } from 'react';
 import { FakeCollectionData, FakeClassData } from '../../API/FakeData';
 import CollectionCard from '@/components/Collection/CollectionCard';
 import ClassCard from '@/components/Class/ClassCard';
@@ -9,7 +11,11 @@ import ClassCard from '@/components/Class/ClassCard';
 // * list of public class
 // * list of collection
 
-const page = () => {
+const Page = () => {
+  useEffect(() => {
+        window.localStorage.setItem('user','1')
+  },[]) 
+
   return (
         <div className="px-16 py-12 flex flex-col gap-12">
         <div className=''>
@@ -30,6 +36,6 @@ const page = () => {
   )
 };
 
-export default page;
+export default Page;
 
 /**/

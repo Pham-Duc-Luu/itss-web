@@ -51,7 +51,7 @@ const ForgotpasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-pink-400 text-white hover:text-pink-500">Submit</Button>
+        <Button type="submit" className="bg-cyan-400 text-white hover:text-cyan-500">Submit</Button>
       </form>
     </Form>
   )

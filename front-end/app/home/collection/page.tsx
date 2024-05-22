@@ -8,11 +8,11 @@ import FlashCard from '@/components/Svg/FlashCard';
 import Share from '@/components/Svg/Share';
 import Star from '@/components/Svg/Star';
 import Three_dot from '@/components/Svg/Three_dot';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const page = () => {
+const Page = () => {
     const collection = FakeCollectionData[0]
-    
+
   return (
         <div className="px-32 py-12 flex flex-col gap-12 w-3/4">
         <div className=''>
@@ -106,6 +106,6 @@ const page = () => {
   )
 };
 
-export default page;
+export default Page;
 
 /**/

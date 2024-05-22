@@ -30,7 +30,6 @@ const ProfileForm = () => {
     })
    
     function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
     }
 
   return (
@@ -68,7 +67,7 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-pink-400 text-white hover:text-pink-500">Submit</Button>
+        <Button type="submit" className="bg-purple-400 text-white hover:text-purle-500">Submit</Button>
       </form>
     </Form>
   )
