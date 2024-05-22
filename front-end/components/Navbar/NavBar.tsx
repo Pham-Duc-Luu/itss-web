@@ -80,7 +80,7 @@ useEffect(() => {console.log(searching)
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <span onClick={() => router.push('/home/profile/profile')}>Profile</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Settings className="mr-2 h-4 w-4" />
