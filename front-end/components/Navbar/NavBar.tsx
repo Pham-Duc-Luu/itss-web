@@ -24,7 +24,7 @@ const NavBar = () => {
   return (
     <>
       <div className="w-full  fixed top-0 z-50 bg-white">
-        <div className="h-full w-full shadow-md grid grid-cols-5 items-center justify-center align-baseline">
+        <div className="h-full w-full shadow-md grid grid-cols-6 items-center justify-center align-baseline">
           <div className="pl-10 h-full flex gap-1 items-center select-none col-span-2">
             <img src={Logo.src} alt="" className=" block h-20" />
 
@@ -53,7 +53,14 @@ const NavBar = () => {
           </div>
 
           <div className="flex justify-center items-center">
-            <Button onClick={() => router.push('/home/collection/create')} >Create collection</Button>
+            <Button 
+            className="min-w-[150px]"
+            onClick={() => router.push('/home/collection/create')} >Create collection</Button>
+          </div>
+          <div className="flex justify-center items-center">
+            <Button 
+            className="min-w-[150px]"
+            onClick={() => router.push('/home/class/create-class')} >Create class</Button>
           </div>
 
           <div className="flex justify-start items-center">

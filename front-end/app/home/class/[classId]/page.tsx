@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -46,7 +46,7 @@ import { User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
 
 const Page = ({ params }: { params: { classId: string } }) => {
-    const currentClass = FakeClassData[Number(params.classId)]
+    const currentClass = FakeClassData[Number(params.classId)];
     return (
         <div className="flex w-full flex-col py-10 px-16">
             <div className="mb-5 border-b-[1px] border-slate-200 pb-5 flex justify-between">
@@ -54,7 +54,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                     <div className="flex mb-2">
                         <Class />
                         <div className="flex text-4xl font-bold ml-4">
-                        {currentClass.className}
+                            {/* {currentClass.className} */}
                         </div>
                     </div>
                     <Dialog>
@@ -74,12 +74,8 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                     <Label className="w-[120px] mb-3 text-1xl font-bold">
                                         Student code:
                                     </Label>
-                                    <Input
-                                        type="text"
-                                        placeholder="code"
-                                    />
+                                    <Input type="text" placeholder="code" />
                                 </div>
-
                             </div>
                             <DialogFooter>
                                 <Button type="submit">Add</Button>
@@ -98,6 +94,25 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             </DialogTitle>
                             <div>
                                 <form className="">
+                                    <div>
+                                        <Label className="w-[120px] mb-3 text-1xl font-bold">
+                                            Class Image:
+                                        </Label>
+                                        <div className="mb-2">
+                                            <input
+                                                className="hidden"
+                                                type="file"
+                                                id="image-upload"
+                                                name="image-upload"
+                                            />
+                                            <label
+                                                htmlFor="image-upload"
+                                                className=" mb-4 bg-cyan-300 font-bold rounded-lg text-black px-4 py-2 cursor-pointer hover:bg-blue-300 transition-colors duration-200 inline-block"
+                                            >
+                                                Choose file
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div className="mb-5">
                                         <Label className="w-[120px] mb-3 text-1xl font-bold">
                                             Class Name:
@@ -107,7 +122,15 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                             placeholder="Class Name"
                                         />
                                     </div>
-
+                                    <div className="mb-5">
+                                        <Label className="w-[120px] mb-3 text-1xl font-bold">
+                                            Class Code:
+                                        </Label>
+                                        <Input
+                                            type="text"
+                                            placeholder="Class Code"
+                                        />
+                                    </div>
                                     <div className="mb-5">
                                         <Label className="mb-3 text-1xl font-bold">
                                             Class Description:
