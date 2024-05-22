@@ -11,6 +11,13 @@ import Star from '@/components/Svg/Star';
 import Three_dot from '@/components/Svg/Three_dot';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
+
+
 
 const Page = ({params} :{params : {collectionId : string}}) => {
 
@@ -22,6 +29,16 @@ const Page = ({params} :{params : {collectionId : string}}) => {
         }
     },[]) 
     
+   const settings = {
+        dots: true, // Hiển thị dấu chấm
+        infinite: true, // Lặp lại vô hạn
+        speed: 500, // Tốc độ chuyển đổi (ms)
+        slidesToShow: 1, // Số lượng slide hiển thị cùng lúc
+        slidesToScroll: 1, // Số lượng slide cuộn khi sử dụng next/prev buttons
+        swipeToSlide: true,
+      };
+  
+
   return (
         <div className="px-32 py-12 flex flex-col gap-12 w-3/4">
         <div className=''>
@@ -34,21 +51,21 @@ const Page = ({params} :{params : {collectionId : string}}) => {
         <div className=''>
             <h1 className='text-xl font-medium mb-5'>Activities</h1>
             <div className='flex text-base gap-5'>
-                <button className='w-1/3 h-12 shadow-sm border-[1px] border-slate-200 rounded-xl text-left px-5 flex gap-3 hover:border-b-4 hover:border-b-sky-700'>
+                <button className='w-1/3 h-12 shadow-sm border-[1px] border-slate-200 rounded-xl text-left px-5 flex gap-3 hover:border-b-4 hover:border-b-sky-700 bg-white'>
                     <div className='my-auto'>
                         <FlashCard size={30}/> 
                     </div>
                     <h3 className='font-semibold my-auto'>FlashCard</h3>
                 </button>
 
-                <button className='w-1/3 h-14 shadow-sm border-[1px] border-slate-200 rounded-xl text-left px-5 flex gap-3 hover:border-b-4 hover:border-b-sky-700'>
+                <button className='w-1/3 h-14 shadow-sm border-[1px] border-slate-200 rounded-xl text-left px-5 flex gap-3 hover:border-b-4 hover:border-b-sky-700 bg-white'>
                     <div className='my-auto'>
                         <Book /> 
                     </div>
                     <h3 className='font-semibold my-auto'>Learning</h3>
                 </button>
 
-                <button className='w-1/3 h-14 shadow-sm border-[1px] border-slate-200 rounded-xl text-left px-5 flex gap-3 hover:border-b-4 hover:border-b-sky-700'>
+                <button className='w-1/3 h-14 shadow-sm border-[1px] border-slate-200 rounded-xl text-left px-5 flex gap-3 hover:border-b-4 hover:border-b-sky-700 bg-white'>
                     <div className='my-auto'>
                         <Exam /> 
                     </div>
@@ -56,22 +73,26 @@ const Page = ({params} :{params : {collectionId : string}}) => {
                 </button>
             </div>
         </div>
-
-        <div className="group h-96 [perspective:1000px] mb-20">
-            <div className="relative h-full w-full rounded-xl shadow-md transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-            <div className="absolute inset-0 bg-slate-50 rounded-xl justify-center items-center flex ">
-                <p className="text-3xl">Abcd</p>
-            </div>
-            <div className="absolute inset-0 h-full w-full rounded-xl bg-slate-50 px-12 text-cente [transform:rotateY(180deg)] [backface-visibility:hidden]">
-                <div className="flex min-h-full flex-col items-center justify-center">
-               <p className='text-3xl'>bacas</p>
-                </div>
-            </div>
-            </div>
+        <div className=''>
+            <Slider {...settings}>
+                {collection.flashcard.map((word, index) => 
+                    <div className="group h-96 [perspective:1000px] mb-8" key={index}>
+                        <div className="relative h-full w-full rounded-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                        <div className="absolute inset-0 bg-slate-50 rounded-xl justify-center items-center flex shadow-md">
+                            <p className="text-3xl">{word.word}</p>
+                        </div>
+                        <div className="absolute inset-0 h-full w-full rounded-xl bg-slate-50 px-12 text-cente [transform:rotateY(180deg)] [backface-visibility:hidden] shadow-md">
+                            <div className="flex min-h-full flex-col items-center justify-center">
+                        <p className='text-3xl'>{word.meaning}</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                )}
+            </Slider>
         </div>
 
-
-        <div className='flex justify-between'>
+        <div className='flex justify-between border-t-2 border-gray-600 pt-5'>
             <div className='flex gap-5'>
                 <div className='h-16 w-16 rounded-full bg-slate-600'></div>
                 <div className='flex flex-col'>
