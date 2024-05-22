@@ -72,16 +72,19 @@ export const FakeCollectionData = [
 
 export const FakeClassData = [
     {
+        id: 0,
         className: "Học tiếng anh cấp tốc",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
 
     },
     {
+        id: 1,
         className: "Học tiếng anh lớp 2",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
         
     },
-    {
+    {   
+        id: 2,
         className: "Học tiếng anh lớp 3",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
         
