@@ -1,5 +1,5 @@
 "use client"
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Logo from './quiz-logo.png';
 import { Input } from '@/components/ui/input';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
@@ -18,12 +18,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 
 
-const NavBar = () => {
+const NavBar_v2 = () => {
 const router = useRouter();
-const [searching, setSearching] = useState<string>();
-useEffect(() => {console.log(searching)
 
-},[searching])
 
   return (
     <>
@@ -47,9 +44,7 @@ useEffect(() => {console.log(searching)
               type="text"
               placeholder="Study sets, class"
               className="rounded-full"
-              onChange={(e) => {
-                setSearching(e.target.value)
-              }}
+        
             />
             <Button
               size="sm"
@@ -100,4 +95,4 @@ useEffect(() => {console.log(searching)
   );
 };
 
-export default NavBar;
+export default NavBar_v2;
