@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import classImg from "../../assets/portrait-young-girl-student-attending-school.jpg"
 import Image from 'next/image'

@@ -20,10 +20,20 @@ import { useRouter } from 'next/navigation'
 
 const NavBar = () => {
 const router = useRouter();
-const [searching, setSearching] = useState<string>();
-useEffect(() => {console.log(searching)
+const [searching, setSearching] = useState<string>('');
 
-},[searching])
+const onSreach = (event: React.FormEvent) => {
+  event.preventDefault()
+  const encodedSreach = encodeURI(searching)
+  router.push(`/home/Searching?q=${encodedSreach}`)
+  console.log(searching)
+}
+
+
+
+// useEffect(() => {console.log(searching)
+
+// },[searching])
 
   return (
     <>
@@ -42,7 +52,7 @@ useEffect(() => {console.log(searching)
             </Button>
           </div>
 
-          <div className="relative flex w-full max-w-[24rem]">
+          <form className="relative flex w-full max-w-[24rem]" onSubmit={(event) => onSreach(event)}>
             <Input
               type="text"
               placeholder="Study sets, class"
@@ -52,13 +62,14 @@ useEffect(() => {console.log(searching)
               }}
             />
             <Button
+              type='submit'
               size="sm"
               disabled={false}
               className="!absolute right-1 top-[3px] rounded-full flex items-center justify-center bg-gray-700"
               >
               <MagnifyingGlassIcon className=" text-lg text-white h-4 w-4 " />
             </Button>
-          </div>
+          </form>
 
 
           <div className='flex gap-10'>

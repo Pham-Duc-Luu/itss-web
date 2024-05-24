@@ -19,7 +19,6 @@ const Page = () => {
   return (
         <div className="px-16 py-12 flex flex-col gap-12">
         <div className=''>
-            <h1 className='text-lg font-bold mb-10'>Results for</h1>
             <h1 className='text-2xl font-bold mb-10'>Collections</h1>
             <div className='flex gap-10'>
                 {FakeCollectionData.map((collection, index) => <CollectionCard key={index} collection={collection}/>)}

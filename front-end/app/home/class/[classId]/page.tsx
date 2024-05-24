@@ -54,7 +54,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                     <div className="flex mb-2">
                         <Class />
                         <div className="flex text-4xl font-bold ml-4">
-                            {/* {currentClass.className} */}
+                            {currentClass.className}
                         </div>
                     </div>
                     <Dialog>

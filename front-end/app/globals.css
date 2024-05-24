@@ -58,9 +58,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-::-webkit-scrollbar {
-  background-color: transparent;
-  display: none;
-  z-index: 0;
-}
