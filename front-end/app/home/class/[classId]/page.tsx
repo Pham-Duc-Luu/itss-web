@@ -57,31 +57,102 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             {currentClass.className}
                         </div>
                     </div>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <button className="py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
-                                <div className="m-auto">
-                                    <Addmember />
+                    <div className="flex gap-2">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <button className="py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                    <div className="m-auto">
+                                        <Addmember />
+                                    </div>
+                                </button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>Add member</DialogTitle>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="mb-5">
+                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
+                                            Student code:
+                                        </Label>
+                                        <Input type="text" placeholder="code" />
+                                    </div>
                                 </div>
-                            </button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Add member</DialogTitle>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="mb-5">
-                                    <Label className="w-[120px] mb-5 text-1xl font-bold">
-                                        Student code:
-                                    </Label>
-                                    <Input type="text" placeholder="code" />
+                                <DialogFooter>
+                                    <Button type="submit">Add</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                    <div className="m-auto">
+                                        <Plus />
+                                    </div>
+                                </button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>Add Collection</DialogTitle>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="mb-5">
+                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
+                                            Collection Name:
+                                        </Label>
+                                        <Input type="text" placeholder="Name" />
+                                    </div>
                                 </div>
-                            </div>
-                            <DialogFooter>
-                                <Button type="submit">Add</Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
+                                <DialogFooter>
+                                    <Button type="submit">Add</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                    <div className="m-auto">
+                                        <Three_dot />
+                                    </div>
+                                </button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle className="text-3xl font-bold">Member list</DialogTitle>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="mb-5">
+                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
+                                           
+                                        </Label>
+                                        <div>
+                                            {FakePostData.map((post, index) => (
+                                                <div className="flex mb-2 mt-2" key={index}>
+                                                    <Avatar className="mr-2">
+                                                        <AvatarImage
+                                                            src="https://github.com/shadcn.png"
+                                                            alt="@shadcn"
+                                                        />
+                                                        <AvatarFallback>
+                                                            CN
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <Badge className="bg-cyan-400 px-5 leading-none h-auto">
+                                                        {post.author}
+                                                    </Badge>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button type="submit">Add</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 </div>
                 <Dialog>
                     <DialogTrigger>
