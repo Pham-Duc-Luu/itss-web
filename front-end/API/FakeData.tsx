@@ -67,7 +67,54 @@ export const FakeCollectionData = [
                 meaning: "Và"
             },
         ]
-    }          
+    },
+    {   
+        id: 4,
+        title: "Lesson 3",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        rate : 4.5,
+        number_of_rate: 3,
+        author: "Tung dz",
+        author_id: 3,
+        flashcard: [
+            {
+                word: "You",
+                meaning: "Bạn"
+            },
+            {
+                word: "I",
+                meaning: "Tôi"
+            },
+            {
+                word: "And",
+                meaning: "Và"
+            },
+        ]
+    },
+    {   
+        id: 5,
+        title: "Lesson 5 IELTS",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+        rate : 4.5,
+        number_of_rate: 3,
+        author: "Tung dz",
+        author_id: 3,
+        flashcard: [
+            {
+                word: "You",
+                meaning: "Bạn"
+            },
+            {
+                word: "I",
+                meaning: "Tôi"
+            },
+            {
+                word: "And",
+                meaning: "Và"
+            },
+        ]
+    }    
+    
 ]
 
 export const FakeClassData = [

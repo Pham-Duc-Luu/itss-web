@@ -53,7 +53,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                 <div>
                     <div className="flex mb-2">
                         <Class />
-                        <div className="flex text-4xl font-bold ml-4">
+                        <div className="flex text-4xl font-bold ml-4 overflow-x-scroll">
                             {currentClass.className}
                         </div>
                     </div>
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             </DialogHeader>
                             <div className="grid gap-4 py-4">
                                 <div className="mb-5">
-                                    <Label className="w-[120px] mb-3 text-1xl font-bold">
+                                    <Label className="w-[120px] mb-5 text-1xl font-bold">
                                         Student code:
                                     </Label>
                                     <Input type="text" placeholder="code" />

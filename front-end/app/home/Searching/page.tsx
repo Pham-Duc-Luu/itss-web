@@ -32,7 +32,7 @@ const Page = () => {
                     <div className=''>
                         <h1 className='text-base font-bold mb-5'>Collections</h1>
                         <div className='flex gap-10'>
-                            {FakeCollectionData.map((collection, index) => <CollectionCard key={index} collection={collection}/>)}
+                            {FakeCollectionData.slice(0,3).map((collection, index) => <CollectionCard key={index} collection={collection}/>)}
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@ const Page = () => {
             </TabsContent>
             
             <TabsContent value="Collections">
-                <div className='flex gap-10 mt-10'>
+                <div className='flex gap-20 mt-10'>
                     <div className='w-1/3 flex flex-col gap-10'>
                         <h1 className='text-2xl font-bold'>Collections</h1>
                         {FakeCollectionData.map((collection, index) => <CollectionCard key={index} collection={collection} />)}

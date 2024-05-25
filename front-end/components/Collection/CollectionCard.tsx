@@ -5,7 +5,7 @@ function CollectionCard({collection}: {collection : any}) {
   const router = useRouter()
 
   return (
-    <div className="w-96 h-48  rounded-xl px-10 py-5 shadow-md flex flex-col justify-between hover:border-b-4 hover:border-b-sky-700 bg-white" 
+    <div className="w-[450px] h-48  rounded-xl px-10 py-5 shadow-md flex flex-col justify-between hover:border-b-4 hover:border-b-sky-700 bg-white" 
     onClick={() => router.push(`/home/collection/${collection.id}`)}>
         <div>
             <h1 className="text-xl font-semibold mb-3">{collection.title}</h1>
