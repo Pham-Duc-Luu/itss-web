@@ -35,6 +35,7 @@ const Page = () => {
 
         <div className=''>
             <h1 className='text-2xl font-bold mb-10'>Classes</h1>
+            
             <div className='flex gap-10'>
                 {FakeClassData.map((c,i) => <ClassCard key={i} classes={c}/>)}
             </div>
