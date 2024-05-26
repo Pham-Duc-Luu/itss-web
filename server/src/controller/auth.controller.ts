@@ -84,6 +84,48 @@ class AuthController {
       return res.status(err.statusCode).json({ message: err.message });
     }
   }
+
+  /**
+   * * update user information
+   */
+
+  async updateUser(
+    req: Request<
+      any,
+      any,
+      { name: string; password: string; email: string; phoneNumber: string }
+    >,
+    res: Response
+  ) {
+    try {
+      const { name, password, email, phoneNumber } = req.body;
+
+      if (!password || !email) {
+        throw new MissingParameter();
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: {
+          email,
+          password,
+        },
+        data: {
+          name,
+          phoneNumber,
+        },
+      });
+
+      return res.status(200).json(updatedUser);
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
 }
 
 const authController = new AuthController();

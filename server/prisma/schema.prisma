@@ -44,7 +44,7 @@ model Collection {
 model Class {
   id          Int    @id @default(autoincrement())
 
-  name       String
+  name       String @unique
   images     String?
   hostId     Int?
   host       User?        @relation(fields: [hostId], references: [id])
@@ -68,7 +68,7 @@ model StudyAt {
 model Assignment {
   id       Int    @id @default(autoincrement())
   question String
-  due      DateTime
+  due      DateTime?
   inClass  Int
   class    Class     @relation(fields: [inClass], references: [id])
   answers  Answer[]
