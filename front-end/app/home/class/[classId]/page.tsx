@@ -187,7 +187,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                         </Label>
                                         <div>
                                             {FakePostData.map((post, index) => (
-                                                <div className="flex mb-2 mt-2" key={index}>
+                                                <div className="flex item-center mb-2 mt-2" key={index}>
                                                     <Avatar className="mr-2">
                                                         <AvatarImage
                                                             src="https://github.com/shadcn.png"
@@ -197,9 +197,9 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                             CN
                                                         </AvatarFallback>
                                                     </Avatar>
-                                                    <Badge className="bg-cyan-400 px-5 leading-none h-auto">
+                                                    <div className="px-5 flex font-bold items-center ">
                                                         {post.author}
-                                                    </Badge>
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
