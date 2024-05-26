@@ -222,6 +222,21 @@ class CollectionController {
       return res.status(err.statusCode).json(err.message);
     }
   }
+
+  async viewCollection(req: Request<any, any, any>, res: Response) {
+    try {
+      const { collectionId, userId, flashCards } = req.body;
+
+      const collections = await prisma.collection.findMany();
+
+      return res.status(200).json({ data: collections });
+    } catch (error: any) {
+      console.log(error.stack);
+      const err = new HttpErrorResponse(error.message, error.statusCode);
+
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
 }
 
 const collectionController = new CollectionController();

@@ -174,6 +174,38 @@ class ClassController {
       return res.status(err.statusCode).json(err.message);
     }
   }
+
+  async viewClass(
+    req: Request<
+      any,
+      any,
+      {
+        hostId: string;
+        classId: string;
+        images?: string;
+        collections?: string[];
+      }
+    >,
+    res: Response
+  ) {
+    try {
+      const { hostId, classId, images, collections } = req.body;
+
+      if (!hostId || !classId) {
+        throw new MissingParameter();
+      }
+
+      //   return res.status(200).json({ data: myclass });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
 }
 
 const classController = new ClassController();

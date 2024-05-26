@@ -34,6 +34,7 @@ collectionRouter.patch(
   collectionController.updateFlashCard
 );
 
+collectionRouter.get("/view-collection", collectionController.viewCollection);
 // collectionRouter.post('/forgot-password', authController.sign_up);
 
 export default collectionRouter;
