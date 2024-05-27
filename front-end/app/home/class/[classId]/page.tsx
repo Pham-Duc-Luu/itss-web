@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -45,8 +45,15 @@ import FlashCard from "@/components/Svg/FlashCard";
 import { User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
 
+
 const Page = ({ params }: { params: { classId: string } }) => {
     const currentClass = FakeClassData[Number(params.classId)];
+    const [userId, setUserId] = useState<number>()
+    useEffect(() => {
+        if(localStorage.getItem('user')) {
+            setUserId(Number(localStorage.getItem('user')))
+        }
+    },[]) 
     return (
         <div className="flex w-full flex-col py-10 px-16">
             <div className="mb-5 border-b-[1px] border-slate-200 pb-5 flex justify-between">
@@ -58,6 +65,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                         </div>
                     </div>
                     <div className="flex gap-2">
+                    {userId === currentClass.hostID &&
                         <Dialog>
                             <DialogTrigger asChild>
                                 <button className="py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
@@ -83,7 +91,9 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
-
+                        
+                    }
+                    {userId === currentClass.hostID &&
                         <Dialog>
                             <DialogTrigger asChild>
                                 <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
@@ -109,6 +119,54 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
+                        }
+                        {userId === currentClass.hostID && 
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                    <div className="m-auto">
+                                        <Three_dot />
+                                    </div>
+                                </button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle className="text-3xl font-bold">request</DialogTitle>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                    <div className="mb-5">
+                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
+                                           
+                                        </Label>
+                                        <div>
+                                            {FakePostData.map((post, index) => (
+                                                <div className="flex mb-2 mt-2 ml-auto" key={index}>
+                                                    <Avatar className="mr-2">
+                                                        <AvatarImage
+                                                            src="https://github.com/shadcn.png"
+                                                            alt="@shadcn"
+                                                        />
+                                                        <AvatarFallback>
+                                                            CN
+                                                        </AvatarFallback>
+                                                    </Avatar >
+                                                    <Badge className="bg-cyan-400 px-5 leading-none h-auto">
+                                                        {post.author}
+                                                    </Badge>
+                                                    <Button className='flex ml-auto'> accept</Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button type="submit">Close</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                        }
+
+                        {/* end */}
 
                         <Dialog>
                             <DialogTrigger asChild>
@@ -129,7 +187,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                         </Label>
                                         <div>
                                             {FakePostData.map((post, index) => (
-                                                <div className="flex mb-2 mt-2" key={index}>
+                                                <div className="flex item-center mb-2 mt-2" key={index}>
                                                     <Avatar className="mr-2">
                                                         <AvatarImage
                                                             src="https://github.com/shadcn.png"
@@ -139,9 +197,9 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                             CN
                                                         </AvatarFallback>
                                                     </Avatar>
-                                                    <Badge className="bg-cyan-400 px-5 leading-none h-auto">
+                                                    <div className="px-5 flex font-bold items-center ">
                                                         {post.author}
-                                                    </Badge>
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
@@ -481,4 +539,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
     );
 };
 
+
+
 export default Page;
+
