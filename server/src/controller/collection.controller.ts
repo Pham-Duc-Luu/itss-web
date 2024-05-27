@@ -1,16 +1,20 @@
-import { Response, Request } from 'express';
+import { Response, Request } from "express";
 import {
   BadRequest,
   HttpErrorResponse,
   InvalidParameter,
   MissingParameter,
-} from '../lib/http.reponse';
-import Logger from '../lib/logger';
-import { validateService } from '../service/validate.service';
-import UserModel from '../entity/User.model';
-import CollectionModel, { IFlashCard } from '../entity/collection.model';
+} from "../lib/http.reponse";
+import Logger from "../lib/logger";
+import { validateService } from "../service/validate.service";
+import { prisma } from "../database/postgresql/connect.postgresql";
+import { Flashcard, Prisma } from "@prisma/client";
+import collectionService from "../service/collection.service";
 
 class CollectionController {
+  /**
+   *  * create a new collection
+   */
   async createCollection(
     req: Request<
       any,
@@ -20,7 +24,7 @@ class CollectionController {
         name: string;
         summary?: string;
         description?: string;
-        flashCards: [IFlashCard];
+        flashCards?: [Flashcard];
       }
     >,
     res: Response
@@ -31,21 +35,47 @@ class CollectionController {
         throw new MissingParameter();
       }
 
-      const existUser = await UserModel.findById({ _id: userId });
-
-      if (!existUser) {
-        throw new BadRequest('user not found');
-      }
-
-      const newCollection = await CollectionModel.create({
-        name: name,
-        summary,
-        description,
-        flashCard: flashCards,
+      // * check if the user is exist or not
+      const existUser = await prisma.user.findFirst({
+        where: {
+          id: Number(userId),
+        },
       });
 
-      existUser.collectionsId?.push(newCollection.id);
-      await existUser.save();
+      if (!existUser) {
+        throw new BadRequest("user not found");
+      }
+
+      // * create a new colltion througth user
+      const newCollection = await prisma.user.update({
+        where: {
+          id: Number(existUser.id),
+        },
+        data: {
+          collections: {
+            create: {
+              name,
+              summary,
+              description,
+
+              flashcards: {
+                createMany: {
+                  data:
+                    flashCards && flashCards.length > 0 ? [...flashCards] : [],
+                },
+              },
+            },
+          },
+        },
+        include: {
+          collections: {
+            include: {
+              flashcards: true,
+            },
+          },
+        },
+      });
+
       return res.status(200).json({ collection: newCollection });
     } catch (error: any) {
       console.log(error.stack);
@@ -54,22 +84,160 @@ class CollectionController {
     }
   }
 
+  /**
+   * * add new flashcard to collection
+   */
   async addFlashCard(
     req: Request<
       any,
       any,
       {
         collectionId: string;
-        flashCards: [IFlashCard];
+        userId: string;
+        flashCards: [Flashcard];
       }
     >,
     res: Response
   ) {
     try {
+      const { flashCards, collectionId, userId } = req.body;
+
+      if (!flashCards || !(flashCards.length > 0) || !collectionId || !userId) {
+        throw new MissingParameter();
+      }
+
+      const existCollection = await prisma.collection.update({
+        where: {
+          id: Number(collectionId),
+          author: Number(userId),
+        },
+        data: {
+          flashcards: {
+            createMany: {
+              data: flashCards,
+            },
+          },
+        },
+      });
+
+      return res.status(200).json(existCollection);
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
       return res.status(err.statusCode).json({ message: err.message });
+    }
+  }
+
+  /**
+   *  *  update collection information
+   */
+
+  async updateCollection(
+    req: Request<
+      any,
+      any,
+      {
+        collectionId: string;
+        name: String;
+        description: String;
+        summary: String;
+      }
+    >,
+    res: Response
+  ) {
+    try {
+      const { name, description, summary, collectionId } = req.body;
+
+      if (!name) {
+        throw new MissingParameter("Collection need name");
+      }
+
+      const updatedCollection = await prisma.collection.update({
+        where: { id: Number(collectionId) },
+        data: {
+          name: String(name),
+          description: description ? String(description) : null,
+          summary: summary ? String(summary) : null,
+        },
+      });
+
+      return res.status(200).json({ data: updatedCollection });
+    } catch (error: any) {
+      console.log(error);
+
+      const err = new HttpErrorResponse(error.message, error.statusCode);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+
+  /**
+   *  * update flash card infomation
+   */
+
+  async updateFlashCard(
+    req: Request<
+      any,
+      any,
+      {
+        collectionId: string;
+        userId: string;
+        flashCards: [Flashcard];
+      }
+    >,
+    res: Response
+  ) {
+    try {
+      const { collectionId, userId, flashCards } = req.body;
+
+      if (!collectionId || !userId || !flashCards || !(flashCards.length > 0)) {
+        throw new MissingParameter();
+      }
+      let collection;
+      await Promise.all(
+        flashCards.map(async (flashCard, index) => {
+          collection = await prisma.collection.update({
+            where: {
+              id: Number(collectionId),
+              author: Number(userId),
+            },
+            data: {
+              flashcards: {
+                update: {
+                  where: {
+                    id: Number(flashCard.id),
+                  },
+                  data: flashCard,
+                },
+              },
+            },
+            include: {
+              flashcards: true,
+            },
+          });
+        })
+      );
+
+      return res.status(200).json(collection);
+    } catch (error: any) {
+      console.log(error.stack);
+      const err = new HttpErrorResponse(error.message, error.statusCode);
+
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+
+  async viewCollection(req: Request<any, any, any>, res: Response) {
+    try {
+      const { collectionId, userId, flashCards } = req.body;
+
+      const collections = await prisma.collection.findMany();
+
+      return res.status(200).json({ data: collections });
+    } catch (error: any) {
+      console.log(error.stack);
+      const err = new HttpErrorResponse(error.message, error.statusCode);
+
+      return res.status(err.statusCode).json(err.message);
     }
   }
 }

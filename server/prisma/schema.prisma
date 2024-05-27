@@ -1,0 +1,89 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  name        String
+  password    String
+  email       String  @unique
+  phoneNumber String?
+  collections Collection[] @relation("CollectionBelongToUser")
+  studyAt     StudyAt[]
+  hosted      Class[]
+}
+
+model Flashcard {
+  id           Int    @id @default(autoincrement())
+  front_text   String
+  front_img    String?
+  back_text    String
+  back_img     String?
+  collectionId Int
+  collection   Collection @relation(fields: [collectionId], references: [id])
+}
+
+model Collection {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String?
+  summary     String?
+  belongto    Int?
+  flashcards  Flashcard[]
+  author      Int?
+  user        User?     @relation("CollectionBelongToUser", fields: [author], references: [id])
+  class       Class?    @relation("CollectionBelongToClass", fields: [belongto], references: [id])
+}
+
+model Class {
+  id          Int    @id @default(autoincrement())
+  name       String @unique
+  images     String?
+  hostId     Int?
+  host       User?        @relation(fields: [hostId], references: [id])
+  studyAt    StudyAt[]
+  collections Collection[] @relation("CollectionBelongToClass")
+  assignments Assignment[]
+  posts      Post[]
+
+  
+}
+
+model StudyAt {
+  classId   Int
+  studentId Int
+  class     Class  @relation(fields: [classId], references: [id])
+  student   User   @relation(fields: [studentId], references: [id])
+
+  @@id([classId, studentId])
+}
+
+model Assignment {
+  id       Int    @id @default(autoincrement())
+  question String
+  due      DateTime?
+  inClass  Int
+  class    Class     @relation(fields: [inClass], references: [id])
+  answers  Answer[]
+}
+
+model Answer {
+  id           Int     @id @default(autoincrement())
+  assignmentId Int
+  student      String
+  point        Float
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+}
+
+model Post {
+  id      String   @id
+  date    DateTime
+  content String
+  inClass Int
+  class   Class    @relation(fields: [inClass], references: [id])
+}

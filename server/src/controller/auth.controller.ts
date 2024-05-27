@@ -1,13 +1,13 @@
-import { Response, Request } from 'express';
+import { Response, Request } from "express";
 import {
   BadRequest,
   HttpErrorResponse,
   InvalidParameter,
   MissingParameter,
-} from '../lib/http.reponse';
-import Logger from '../lib/logger';
-import { validateService } from '../service/validate.service';
-import UserModel from '../entity/User.model';
+} from "../lib/http.reponse";
+import Logger from "../lib/logger";
+import { validateService } from "../service/validate.service";
+import { prisma } from "../database/postgresql/connect.postgresql";
 
 class AuthController {
   async sign_up(
@@ -28,19 +28,26 @@ class AuthController {
         throw new InvalidParameter();
       }
 
-      const existUser = await UserModel.findOne({ email });
+      const existUser = await prisma.user.findFirst({ where: { email } });
 
       if (existUser) {
-        throw new BadRequest('Email is already exists');
+        throw new BadRequest("Email is already exists");
       }
 
-      const newUser = await UserModel.create({
-        email,
-        password,
-        username: name,
+      const newUser = await prisma.user.create({
+        data: {
+          email,
+          name,
+          password,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          phoneNumber: true,
+        },
       });
-
-      return res.status(200).json({ userId: newUser.id });
+      return res.status(200).json({ userId: newUser });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
@@ -66,21 +73,75 @@ class AuthController {
         throw new InvalidParameter();
       }
 
-      const existUser = await UserModel.findOne({ email });
+      const existUser = await prisma.user.findFirst({
+        where: { email },
+      });
 
       if (!existUser) {
-        throw new BadRequest('Email is not exists');
+        throw new BadRequest("Email is not exists");
       }
 
       if (existUser.password !== password) {
-        throw new BadRequest('Password is incorrect');
+        throw new BadRequest("Password is incorrect");
       }
 
-      return res.status(200).json({ userId: existUser.id });
+      return res.status(200).json({
+        data: await prisma.user.findFirst({
+          where: { email },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            phoneNumber: true,
+          },
+        }),
+      });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
       return res.status(err.statusCode).json({ message: err.message });
+    }
+  }
+
+  /**
+   * * update user information
+   */
+
+  async updateUser(
+    req: Request<
+      any,
+      any,
+      { name: string; password: string; email: string; phoneNumber: string }
+    >,
+    res: Response
+  ) {
+    try {
+      const { name, password, email, phoneNumber } = req.body;
+
+      if (!password || !email) {
+        throw new MissingParameter();
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: {
+          email,
+          password,
+        },
+        data: {
+          name,
+          phoneNumber,
+        },
+      });
+
+      return res.status(200).json(updatedUser);
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
     }
   }
 }
