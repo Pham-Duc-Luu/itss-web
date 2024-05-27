@@ -40,8 +40,14 @@ class AuthController {
           name,
           password,
         },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          phoneNumber: true,
+        },
       });
-      return res.status(200).json({ userId: newUser.id });
+      return res.status(200).json({ userId: newUser });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
@@ -67,7 +73,9 @@ class AuthController {
         throw new InvalidParameter();
       }
 
-      const existUser = await prisma.user.findFirst({ where: { email } });
+      const existUser = await prisma.user.findFirst({
+        where: { email },
+      });
 
       if (!existUser) {
         throw new BadRequest("Email is not exists");
@@ -77,11 +85,63 @@ class AuthController {
         throw new BadRequest("Password is incorrect");
       }
 
-      return res.status(200).json({ userId: existUser.id });
+      return res.status(200).json({
+        data: await prisma.user.findFirst({
+          where: { email },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            phoneNumber: true,
+          },
+        }),
+      });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
       return res.status(err.statusCode).json({ message: err.message });
+    }
+  }
+
+  /**
+   * * update user information
+   */
+
+  async updateUser(
+    req: Request<
+      any,
+      any,
+      { name: string; password: string; email: string; phoneNumber: string }
+    >,
+    res: Response
+  ) {
+    try {
+      const { name, password, email, phoneNumber } = req.body;
+
+      if (!password || !email) {
+        throw new MissingParameter();
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: {
+          email,
+          password,
+        },
+        data: {
+          name,
+          phoneNumber,
+        },
+      });
+
+      return res.status(200).json(updatedUser);
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
     }
   }
 }

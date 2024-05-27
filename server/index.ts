@@ -19,7 +19,7 @@ app.use(helmet());
 app.use(compression());
 app.use(json());
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
-
+app.use(cors());
 // * api version
 app.use(appRouter);
 
