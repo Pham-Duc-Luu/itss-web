@@ -33,6 +33,8 @@ const ProfileForm = () => {
     api
       .post("/auth/login", { email: values.email, password: values.password })
       .then((res) => {
+        // unit tests
+
         localStorage.setItem("userData", JSON.stringify(res.data?.data));
         localStorage.setItem("user", JSON.stringify(res.data?.data?.id));
         router.push("/home");

@@ -1,6 +1,7 @@
 import { HttpErrorResponse, MissingParameter } from "../lib/http.reponse";
 import { Response, Request } from "express";
 import classService from "../service/class.service";
+import { prisma } from "../database/postgresql/connect.postgresql";
 
 class ClassController {
   async createClass(
@@ -179,23 +180,53 @@ class ClassController {
     req: Request<
       any,
       any,
-      {
-        hostId: string;
-        classId: string;
-        images?: string;
-        collections?: string[];
-      }
+      any,
+      { filter?: "all"; name?: string; hostId?: string }
     >,
     res: Response
   ) {
     try {
-      const { hostId, classId, images, collections } = req.body;
+      const { filter, name, hostId } = req.query;
 
-      if (!hostId || !classId) {
-        throw new MissingParameter();
+      let data;
+
+      if (hostId) {
+        if (name) {
+          data = await prisma.class.findMany({
+            where: {
+              hostId: Number(hostId),
+              name: {
+                contains: String(name),
+              },
+            },
+            include: {
+              host: true,
+              collections: true,
+              assignments: true,
+              posts: true,
+            },
+          });
+        } else {
+          data = await prisma.class.findMany({
+            where: {
+              hostId: Number(hostId),
+            },
+          });
+        }
+      } else {
+        if (name) {
+          data = await prisma.class.findMany({
+            where: {
+              name: {
+                contains: String(name),
+              },
+            },
+          });
+        } else {
+          data = await prisma.class.findMany({});
+        }
       }
-
-      //   return res.status(200).json({ data: myclass });
+      return res.status(200).json({ data: data });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

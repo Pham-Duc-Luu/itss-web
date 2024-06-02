@@ -14,10 +14,26 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ICollection } from "../../page";
+import { api_collections } from "@/config/axios.config";
 
 const Page = ({ params }: { params: { collectionId: string } }) => {
-  const collection = FakeCollectionData[Number(params.collectionId) - 1];
+  const [collection, setCollection] = useState<ICollection>();
+  const [collections, setCollections] = useState<ICollection[]>();
+  useEffect(() => {
+    api_collections.get("/view-collection").then((response) => {
+      setCollections(response.data.data);
+      console.log(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    setCollection(
+      collections?.filter((item) => item.id === Number(params.collectionId))[0]
+    );
+  }, [collections]);
   const [userId, setUserId] = useState<number>();
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       setUserId(Number(localStorage.getItem("user")));
@@ -36,11 +52,11 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
   return (
     <div className="px-32 py-12 flex flex-col gap-12 w-3/4">
       <div className="">
-        <h1 className="text-3xl font-bold mb-5">{collection.title}</h1>
+        <h1 className="text-3xl font-bold mb-5">{collection?.name}</h1>
         <div className="flex gap-3">
           <Star size={25} />
           <h2 className="font-medium text-gray-500 text-lg">
-            {collection.rate} ({collection.number_of_rate} rate)
+            {/* {collection?.rate} ({collection?.number_of_rate} rate) */}
           </h2>
         </div>
       </div>
@@ -71,15 +87,15 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
       </div>
       <div className="">
         <Slider {...settings}>
-          {collection.flashcard.map((word, index) => (
+          {collection?.flashcards.map((word, index) => (
             <div className="group h-96 [perspective:1000px] mb-8" key={index}>
               <div className="relative h-full w-full rounded-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                 <div className="absolute inset-0 bg-slate-50 rounded-xl justify-center items-center flex shadow-md">
-                  <p className="text-3xl">{word.word}</p>
+                  <p className="text-3xl">{word.front_text}</p>
                 </div>
                 <div className="absolute inset-0 h-full w-full rounded-xl bg-slate-50 px-12 text-cente [transform:rotateY(180deg)] [backface-visibility:hidden] shadow-md">
                   <div className="flex min-h-full flex-col items-center justify-center">
-                    <p className="text-3xl">{word.meaning}</p>
+                    <p className="text-3xl">{word.back_text}</p>
                   </div>
                 </div>
               </div>
@@ -93,7 +109,7 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
           <div className="h-16 w-16 rounded-full bg-slate-600"></div>
           <div className="flex flex-col">
             <p className="text-sm text-slate-300">Created by</p>
-            <h1 className="font-semibold text-lg">{collection.author}</h1>
+            <h1 className="font-semibold text-lg">{collection?.user?.name}</h1>
             <p className="text-sm text-slate-300">3 months ago</p>
           </div>
         </div>
@@ -108,7 +124,7 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
           <button className="p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100">
             <Copy />
           </button>
-          {userId === collection.author_id && (
+          {userId === collection?.user?.id && (
             <Link
               className="p-2 border-[3px] border-gray-300 rounded-xl h-12 font-semibold flex hover:bg-slate-100"
               href={`/home/collection/${params.collectionId}/edit`}
@@ -121,11 +137,11 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
           </button>
         </div>
       </div>
-      {collection.description}
+      {collection?.description}
       <div>
         <h1 className="text-2xl font-black mb-5">Other Collections</h1>
         <div className="flex gap-10">
-          {FakeCollectionData.map((collection, index) => (
+          {collections?.map((collection, index) => (
             <CollectionCard key={index} collection={collection} />
           ))}
         </div>
@@ -134,7 +150,7 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
       <div className="">
         <h1 className="text-xl font-semibold mb-5">Words in collection</h1>
         <div className="flex flex-col gap-5">
-          {collection.flashcard.map((word, i) => (
+          {collection?.flashcards.map((word, i) => (
             <WordCard key={i} word={word} />
           ))}
         </div>

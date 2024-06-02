@@ -52,6 +52,7 @@ const formSchema = z
       path: ["password"],
     }
   );
+
 const SignUpForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,6 +60,7 @@ const SignUpForm = () => {
       email: "",
     },
   });
+
   const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
