@@ -299,7 +299,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             <TabsTrigger value="assignment">
                                 Assignment
                             </TabsTrigger>
-                            <TabsTrigger value="document">Document</TabsTrigger>
+                            <TabsTrigger value="Collection">Collection</TabsTrigger>
                         </TabsList>
                         {/* Post Part */}
                         <TabsContent value="post">
@@ -472,11 +472,11 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             </Card>
                         </TabsContent>
 
-                        {/* Document Part */}
-                        <TabsContent value="document">
+                        {/* Collection Part */}
+                        <TabsContent value="Collection">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Document</CardTitle>
+                                    <CardTitle>Collection</CardTitle>
                                     <CardDescription></CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-2">
@@ -493,60 +493,19 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                             CN
                                                         </AvatarFallback>
                                                     </Avatar>
-                                                    <Badge>User Name</Badge>
+                                                    <Badge>Collection Name</Badge>
                                                 </div>
                                             </CardTitle>
                                         </CardHeader>
-                                        <div className="mb-4 pl-6 text-2xl font-bold">
-                                            Title
-                                        </div>
-                                        <CardContent>
-                                            <form>
-                                                <div className="grid w-full items-center gap-4">
-                                                    <div className="flex flex-col space-y-1.5">
-                                                        <Label htmlFor="name">
-                                                            Description
-                                                        </Label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </CardContent>
+                                        
+                                        <button className="justify-end mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm">
+
+                                            View
+                                        </button>
+                                        
                                         <CardFooter className="flex justify-between"></CardFooter>
                                     </Card>
 
-                                    <Card className="w-full mb-4">
-                                        <CardHeader>
-                                            <CardTitle>
-                                                <div className="flex">
-                                                    <Avatar className="mr-2">
-                                                        <AvatarImage
-                                                            src="https://github.com/shadcn.png"
-                                                            alt="@shadcn"
-                                                        />
-                                                        <AvatarFallback>
-                                                            CN
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                    <Badge>User Name</Badge>
-                                                </div>
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <div className="mb-4 pl-6 text-2xl font-bold">
-                                            Title
-                                        </div>
-                                        <CardContent>
-                                            <form>
-                                                <div className="grid w-full items-center gap-4">
-                                                    <div className="flex flex-col space-y-1.5">
-                                                        <Label htmlFor="name">
-                                                            Description
-                                                        </Label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </CardContent>
-                                        <CardFooter className="flex justify-between"></CardFooter>
-                                    </Card>
                                 </CardContent>
                                 <CardFooter></CardFooter>
                             </Card>
