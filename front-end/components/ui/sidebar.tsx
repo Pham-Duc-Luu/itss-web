@@ -23,7 +23,7 @@ import {
 export default function Sidebar(){
     const router = useRouter();
 
-    return <div className='bg-white flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4'>
+    return <div className='bg-white flex flex-col w-[220px] min-w-[220px] border-r min-h-screen p-4'>
         <div className='ml-3 mb-2 font-bold text-xl'>ADMIN MENU</div>
     <div className='grow'>
         <Command style={{overflow:'visible'}}>

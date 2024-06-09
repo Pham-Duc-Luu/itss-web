@@ -50,15 +50,39 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Payment, columns } from "./columns"
+import { DataTable } from "./data-table"
 
-const page = () => {
-  return <div className='flex items-center justify-between'>
-    <Card className="flex ml-4 mt-4 w-[1100px]">
-        <div>Id</div>
-        <div>name</div>
-      
-    </Card>
-         </div>;
-};
+async function getData(): Promise<Payment[]> {
 
-export default page;
+
+                          // Fetch data from your API here.
+
+  return [
+    {
+      id: "728ed52f",
+      name: "rac",
+      password: "123467",
+      email: "m@example.com",
+      phonenumber:123456,
+    },
+    {
+      id: "728ed52f",
+      name: "ruoi",
+      password: "123467",
+      email: "m@example.com",
+      phonenumber:123456,
+    },
+    // ................................................................................
+  ]
+}
+ 
+export default async function DemoPage() {
+  const data = await getData()
+ 
+  return (
+    <div className="container mx-auto py-10">
+      <DataTable columns={columns} data={data} />
+    </div>
+  )
+}
