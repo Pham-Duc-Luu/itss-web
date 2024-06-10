@@ -93,7 +93,8 @@ export function DataTable<TData, TValue>({
                   </TableCell>
                     
                 ))}
-                {/* <button className="mt-2">edit</button> */}
+                  
+                {/* <button className="mt-2  px-3 py-1 bg-black text-white rounded-lg">edit</button> */}
               </TableRow>
               
             ))
