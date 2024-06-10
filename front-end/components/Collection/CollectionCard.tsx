@@ -13,7 +13,7 @@ function CollectionCard({ collection }: { collection: ICollection }) {
       <div>
         <h1 className="text-xl font-semibold mb-3">{collection.name}</h1>
         <h2 className="bg-slate-200 rounded-full w-auto inline-block px-2 py-1 font-semibold text-sm">
-          {collection.flashcards.length} words
+          {collection.flashcards?.length} words
         </h2>
       </div>
       <div className="flex gap-5">
