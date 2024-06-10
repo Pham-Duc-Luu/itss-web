@@ -52,6 +52,7 @@ import {
 } from "@/components/ui/table"
 import { Payment, columns } from "./columns"
 import { DataTable } from "./data-table"
+import { Edit } from 'lucide-react';
 
 async function getData(): Promise<Payment[]> {
 
@@ -72,6 +73,7 @@ async function getData(): Promise<Payment[]> {
       password: "123467",
       email: "m@example.com",
       phonenumber:123456,
+      
     },
     // ................................................................................
   ]
