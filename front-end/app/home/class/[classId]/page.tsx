@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { CldUploadButton, CldUploadWidget } from "next-cloudinary";
@@ -47,127 +47,141 @@ import FlashCard from "@/components/Svg/FlashCard";
 import { User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
 
-
 const Page = ({ params }: { params: { classId: string } }) => {
     const currentClass = FakeClassData[Number(params.classId)];
-    const [userId, setUserId] = useState<number>()
+    const [userId, setUserId] = useState<number>();
     const [classImg, setClassImg] = useState<string>();
     useEffect(() => {
-        if(localStorage.getItem('user')) {
-            setUserId(Number(localStorage.getItem('user')))
+        if (localStorage.getItem("user")) {
+            setUserId(Number(localStorage.getItem("user")));
         }
-    },[]) 
+    }, []);
     return (
         <div className="flex w-full flex-col py-10 px-16">
             <div className="mb-5 border-b-[1px] border-slate-200 pb-5 flex justify-between">
                 <div>
                     <div className="flex mb-2">
                         <Class />
-                        <div className="flex text-4xl font-bold ml-4 overflow-x-scroll">
+                        <div className="flex text-4xl font-bold ml-4 ">
                             {currentClass.className}
                         </div>
                     </div>
                     <div className="flex gap-2">
-                    {userId === currentClass.hostID &&
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <button className="py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
-                                    <div className="m-auto">
-                                        <Addmember />
-                                    </div>
-                                </button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Add member</DialogTitle>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                    <div className="mb-5">
-                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
-                                            Student code:
-                                        </Label>
-                                        <Input type="text" placeholder="code" />
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit">Add</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                        
-                    }
-                    {userId === currentClass.hostID &&
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
-                                    <div className="m-auto">
-                                        <Plus />
-                                    </div>
-                                </button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Add Collection</DialogTitle>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                    <div className="mb-5">
-                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
-                                            Collection Name:
-                                        </Label>
-                                        <Input type="text" placeholder="Name" />
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit">Add</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                        }
-                        {userId === currentClass.hostID && 
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
-                                    <div className="m-auto">
-                                        <Three_dot />
-                                    </div>
-                                </button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle className="text-3xl font-bold">request</DialogTitle>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                    <div className="mb-5">
-                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
-                                           
-                                        </Label>
-                                        <div>
-                                            {FakePostData.map((post, index) => (
-                                                <div className="flex mb-2 mt-2 ml-auto" key={index}>
-                                                    <Avatar className="mr-2">
-                                                        <AvatarImage
-                                                            src="https://github.com/shadcn.png"
-                                                            alt="@shadcn"
-                                                        />
-                                                        <AvatarFallback>
-                                                            CN
-                                                        </AvatarFallback>
-                                                    </Avatar >
-                                                    <Badge className="bg-cyan-400 px-5 leading-none h-auto">
-                                                        {post.author}
-                                                    </Badge>
-                                                    <Button className='flex ml-auto'> accept</Button>
-                                                </div>
-                                            ))}
+                        {userId === currentClass.hostID && (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <button className="py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                        <div className="m-auto">
+                                            <Addmember />
+                                        </div>
+                                    </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Add member</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="mb-5">
+                                            <Label className="w-[120px] mb-5 text-1xl font-bold">
+                                                Student code:
+                                            </Label>
+                                            <Input
+                                                type="text"
+                                                placeholder="code"
+                                            />
                                         </div>
                                     </div>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit">Close</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                        }
+                                    <DialogFooter>
+                                        <Button type="submit">Add</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        )}
+                        {userId === currentClass.hostID && (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                        <div className="m-auto">
+                                            <Plus />
+                                        </div>
+                                    </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            Add Collection
+                                        </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="mb-5">
+                                            <Label className="w-[120px] mb-5 text-1xl font-bold">
+                                                Collection Name:
+                                            </Label>
+                                            <Input
+                                                type="text"
+                                                placeholder="Name"
+                                            />
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <Button type="submit">Add</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        )}
+                        {userId === currentClass.hostID && (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <button className="py-auto border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+                                        <div className="m-auto">
+                                            <Three_dot />
+                                        </div>
+                                    </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle className="text-3xl font-bold">
+                                            request
+                                        </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="mb-5">
+                                            <Label className="w-[120px] mb-5 text-1xl font-bold"></Label>
+                                            <div>
+                                                {FakePostData.map(
+                                                    (post, index) => (
+                                                        <div
+                                                            className="flex mb-2 mt-2 ml-auto"
+                                                            key={index}
+                                                        >
+                                                            <Avatar className="mr-2">
+                                                                <AvatarImage
+                                                                    src="https://github.com/shadcn.png"
+                                                                    alt="@shadcn"
+                                                                />
+                                                                <AvatarFallback>
+                                                                    CN
+                                                                </AvatarFallback>
+                                                            </Avatar>
+                                                            <Badge className="bg-cyan-400 px-5 leading-none h-auto">
+                                                                {post.author}
+                                                            </Badge>
+                                                            <Button className="flex ml-auto">
+                                                                {" "}
+                                                                accept
+                                                            </Button>
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <Button type="submit">Close</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                        )}
 
                         {/* end */}
 
@@ -181,16 +195,19 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px]">
                                 <DialogHeader>
-                                    <DialogTitle className="text-3xl font-bold">Member list</DialogTitle>
+                                    <DialogTitle className="text-3xl font-bold">
+                                        Member list
+                                    </DialogTitle>
                                 </DialogHeader>
                                 <div className="grid gap-4 py-4">
                                     <div className="mb-5">
-                                        <Label className="w-[120px] mb-5 text-1xl font-bold">
-                                           
-                                        </Label>
+                                        <Label className="w-[120px] mb-5 text-1xl font-bold"></Label>
                                         <div>
                                             {FakePostData.map((post, index) => (
-                                                <div className="flex item-center mb-2 mt-2" key={index}>
+                                                <div
+                                                    className="flex item-center mb-2 mt-2"
+                                                    key={index}
+                                                >
                                                     <Avatar className="mr-2">
                                                         <AvatarImage
                                                             src="https://github.com/shadcn.png"
@@ -299,7 +316,9 @@ const Page = ({ params }: { params: { classId: string } }) => {
                             <TabsTrigger value="assignment">
                                 Assignment
                             </TabsTrigger>
-                            <TabsTrigger value="Collection">Collection</TabsTrigger>
+                            <TabsTrigger value="Collection">
+                                Collection
+                            </TabsTrigger>
                         </TabsList>
                         {/* Post Part */}
                         <TabsContent value="post">
@@ -405,7 +424,6 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                         Assignment X
                                                     </div>
                                                 </div>
-                                                
                                             </CardTitle>
                                         </CardHeader>
 
@@ -420,51 +438,60 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                 </div>
                                             </form>
                                         </CardContent>
-                                        <Dialog >
-                                        <DialogTrigger asChild>
-                                    <div className="ml-auto justify-end">
-                                    <button className="justify-end rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm">
-                            Turn in
-                        </button>
-                                    </div>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>turn in</DialogTitle>
-                                </DialogHeader>
-                                
-                                <DialogFooter>
-                                <div className="mb-2 w-full border-b-2 border-gray-600">
-            <input
-              className="hidden"
-              type="file"
-              id="image-upload"
-              name="image-upload"
-            />
-            <CldUploadWidget
-              uploadPreset="tniqb9sb"
-              onSuccess={(results: any) => {
-                setClassImg(results.info.public_id);
-              }}
-            >
-              {({ open }) => {
-                return (
-                  <Button
-                    className=" mb-4 bg-cyan-300 font-bold rounded-lg text-black px-4 py-2 cursor-pointer hover:bg-blue-300 transition-colors duration-200 inline-block"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      open();
-                    }}
-                  >
-                    Upload
-                  </Button>
-                );
-              }}
-            </CldUploadWidget>
-          </div>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <div className="ml-auto grid">
+                                                    <button className="justify-self-end mx-8 rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm ">
+                                                        Turn in
+                                                    </button>
+                                                </div>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[425px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        turn in
+                                                    </DialogTitle>
+                                                </DialogHeader>
+
+                                                <DialogFooter>
+                                                    <div className="mb-2 w-full border-b-2 border-gray-600">
+                                                        <input
+                                                            className="hidden"
+                                                            type="file"
+                                                            id="image-upload"
+                                                            name="image-upload"
+                                                        />
+                                                        <CldUploadWidget
+                                                            uploadPreset="tniqb9sb"
+                                                            onSuccess={(
+                                                                results: any
+                                                            ) => {
+                                                                setClassImg(
+                                                                    results.info
+                                                                        .public_id
+                                                                );
+                                                            }}
+                                                        >
+                                                            {({ open }) => {
+                                                                return (
+                                                                    <Button
+                                                                        className=" mb-4 bg-cyan-300 font-bold rounded-lg text-black px-4 py-2 cursor-pointer hover:bg-blue-300 transition-colors duration-200 inline-block"
+                                                                        onClick={(
+                                                                            e
+                                                                        ) => {
+                                                                            e.preventDefault();
+                                                                            open();
+                                                                        }}
+                                                                    >
+                                                                        Upload
+                                                                    </Button>
+                                                                );
+                                                            }}
+                                                        </CldUploadWidget>
+                                                    </div>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
                                         <CardFooter className="flex justify-between"></CardFooter>
                                     </Card>
                                 </CardContent>
@@ -493,19 +520,21 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                             CN
                                                         </AvatarFallback>
                                                     </Avatar>
-                                                    <Badge>Collection Name</Badge>
+                                                    <Badge>
+                                                        Collection Name
+                                                    </Badge>
                                                 </div>
                                             </CardTitle>
                                         </CardHeader>
-                                        
-                                        <button className="justify-end mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm">
 
+                                        <div className="grid">
+                                        <button className="justify-self-end mx-8 mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm">
                                             View
                                         </button>
-                                        
+                                        </div>
+
                                         <CardFooter className="flex justify-between"></CardFooter>
                                     </Card>
-
                                 </CardContent>
                                 <CardFooter></CardFooter>
                             </Card>
@@ -548,7 +577,4 @@ const Page = ({ params }: { params: { classId: string } }) => {
     );
 };
 
-
-
 export default Page;
-

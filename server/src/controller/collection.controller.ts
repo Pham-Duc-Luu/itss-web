@@ -71,6 +71,7 @@ class CollectionController {
           collections: {
             include: {
               flashcards: true,
+              user: true,
             },
           },
         },
@@ -212,6 +213,7 @@ class CollectionController {
             },
             include: {
               flashcards: true,
+              user: true,
             },
           });
         })
@@ -226,13 +228,68 @@ class CollectionController {
     }
   }
 
-  async viewCollection(req: Request<any, any, any>, res: Response) {
+  async viewCollection(
+    req: Request<
+      any,
+      any,
+      any,
+      { filter?: "all"; name?: string; ownerId?: string }
+    >,
+    res: Response
+  ) {
     try {
-      const { collectionId, userId, flashCards } = req.body;
+      const { filter, name, ownerId } = req.query;
 
-      const collections = await prisma.collection.findMany();
+      let data;
 
-      return res.status(200).json({ data: collections });
+      if (ownerId) {
+        if (name) {
+          data = await prisma.collection.findMany({
+            where: {
+              author: Number(ownerId),
+              name: {
+                contains: String(name),
+              },
+            },
+            include: {
+              flashcards: true,
+              user: true,
+            },
+          });
+        } else {
+          data = await prisma.collection.findMany({
+            where: {
+              author: Number(ownerId),
+            },
+            include: {
+              flashcards: true,
+              user: true,
+            },
+          });
+        }
+      } else {
+        if (name) {
+          data = await prisma.collection.findMany({
+            where: {
+              name: {
+                contains: String(name),
+              },
+            },
+            include: {
+              flashcards: true,
+              user: true,
+            },
+          });
+        } else {
+          data = await prisma.collection.findMany({
+            include: {
+              flashcards: true,
+              user: true,
+            },
+          });
+        }
+      }
+      return res.status(200).json({ data: data });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);

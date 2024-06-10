@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { FakeCollectionData, FakeClassData } from "../../API/FakeData";
@@ -17,6 +17,29 @@ import {
 } from "@/components/ui/hover-card";
 
 import { Button } from "@/components/ui/button";
+import api, { api_collections } from "@/config/axios.config";
+
+export interface ICollection {
+  id: number;
+  name: string;
+  description?: string;
+  summary?: number;
+  user: {
+    id: number;
+    name: string;
+    password: string;
+    email: string;
+    phoneNumber: string | null;
+  } | null;
+  flashcards: {
+    id: number;
+    front_text: string;
+    front_img: string | null;
+    back_text: string;
+    back_img: string | null;
+    collectionId: number;
+  }[];
+}
 
 const Page = () => {
   useEffect(() => {
@@ -31,13 +54,22 @@ const Page = () => {
     slidesToScroll: 1, // Số lượng slide cuộn khi sử dụng next/prev buttons
     swipeToSlide: true,
   };
+
+  const [collections, setCollections] = useState<ICollection[]>();
+
+  useEffect(() => {
+    api_collections.get("/view-collection").then((response) => {
+      setCollections(response.data.data);
+      console.log(response.data);
+    });
+  }, []);
   const router = useRouter();
   return (
     <div className="px-16 py-12 flex flex-col gap-12">
       <div className="">
         <h1 className="text-2xl font-bold mb-10">Collections</h1>
         <Slider {...settings}>
-          {FakeCollectionData.map((collection, index) => (
+          {collections?.map((collection, index) => (
             <CollectionCard key={index} collection={collection} />
           ))}
         </Slider>
