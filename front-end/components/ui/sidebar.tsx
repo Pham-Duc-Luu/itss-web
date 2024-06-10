@@ -29,9 +29,9 @@ export default function Sidebar(){
         <Command style={{overflow:'visible'}}>
   <CommandList style={{overflow:'visible'}}>
     <CommandGroup >
-      <CommandItem className='font-bold'><LayoutDashboard className='mr-2 mb-2'/><button onClick={() => router.push('/admin/dashboard')}>Dashboard</button></CommandItem>
-      <CommandItem className='font-bold'><UserCog className='mr-2 mb-2'/><button onClick={() => router.push('/admin/edituser')}>Edit User</button></CommandItem>
-      <CommandItem className='font-bold'><Presentation className='mr-2 mb-2'/><button onClick={() => router.push('/admin/editclass')}>Edit class</button></CommandItem>
+      <CommandItem className='font-bold'><LayoutDashboard className='mr-2 mb-2'/><button onClick={() => router.push('/admin/mainmenu/dashboard')}>Dashboard</button></CommandItem>
+      <CommandItem className='font-bold'><UserCog className='mr-2 mb-2'/><button onClick={() => router.push('/admin/mainmenu/edituser')}>Edit User</button></CommandItem>
+      <CommandItem className='font-bold'><Presentation className='mr-2 mb-2'/><button onClick={() => router.push('/admin/mainmenu/editclass')}>Edit class</button></CommandItem>
     </CommandGroup>
   </CommandList>
 </Command>
