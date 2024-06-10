@@ -54,6 +54,7 @@ import { Payment, columns } from "./columns"
 import { DataTable } from "./data-table"
 import { Edit } from 'lucide-react';
 
+
 async function getData(): Promise<Payment[]> {
 
 
@@ -61,19 +62,16 @@ async function getData(): Promise<Payment[]> {
 
   return [
     {
-      id: "728ed52f",
-      name: "rac",
-      password: "123467",
-      email: "m@example.com",
-      phonenumber:123456,
+      class_id: "728ed52f",
+      name: "rac class",
+      class_code: "123467",
+      number_of_student:123456,
     },
     {
-      id: "728ed52f",
-      name: "ruoi",
-      password: "123467",
-      email: "m@example.com",
-      phonenumber:123456,
-      
+      class_id: "728ed52f",
+      name: "ruoi class",
+      class_code: "123467",
+      number_of_student:123456,
     },
     // ................................................................................
   ]
@@ -83,8 +81,9 @@ export default async function DemoPage() {
   const data = await getData()
  
   return (
+    
     <div className="container mx-auto py-10">
-      <div className='font-extrabold text-2xl mt-6'> Edit user</div>
+      <div className='font-extrabold text-2xl mt-6'> Edit class</div>
       <DataTable columns={columns} data={data} />
     </div>
   )
