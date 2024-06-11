@@ -47,7 +47,7 @@ class AuthController {
           phoneNumber: true,
         },
       });
-      return res.status(200).json({ userId: newUser });
+      return res.status(200).json({ data: newUser });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
@@ -133,7 +133,76 @@ class AuthController {
         },
       });
 
-      return res.status(200).json(updatedUser);
+      return res.status(200).json({ data: updatedUser });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+  async requestToClass(
+    req: Request<any, any, { classId: number; userId: number }>,
+    res: Response
+  ) {
+    try {
+      const { classId, userId } = req.body;
+
+      if (!classId || !userId) {
+        throw new MissingParameter();
+      }
+
+      const request = await prisma.class.update({
+        where: {
+          id: classId,
+        },
+        data: {
+          requests: {
+            create: {
+              fromUser: {
+                connect: {
+                  id: userId,
+                },
+              },
+            },
+          },
+        },
+        include: {
+          requests: true,
+        },
+      });
+
+      return res.status(200).json({ data: request });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+  async removeRequest(
+    req: Request<any, any, { requestId: number }>,
+    res: Response
+  ) {
+    try {
+      const { requestId } = req.body;
+      if (!requestId) {
+        throw new MissingParameter();
+      }
+
+      await prisma.request.delete({
+        where: {
+          id: requestId,
+        },
+      });
+
+      return res.status(200).json({ message: "Deleted" });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

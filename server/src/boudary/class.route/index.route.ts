@@ -8,8 +8,16 @@ classRouter.post("/add-students", classController.addStudents);
 classRouter.delete("/remove-students", classController.removeStudent);
 classRouter.post("/create-assignment", classController.createAssignment);
 
-classRouter.get("/view-class");
+classRouter.get("/view-class", classController.viewClass);
+classRouter.get("/view-detail-class", classController.viewDetailClass);
 
-classRouter.patch("/update-class");
+classRouter.patch("/update-class", classController.updateClass);
+
+// TODO: create post
+classRouter.post("/create-post", classController.createPost);
+
+// TODO : Anwser assignment
+classRouter.post("/awnser-assignment", classController.AnwserAss);
+classRouter.patch("/create-post");
 
 export default classRouter;

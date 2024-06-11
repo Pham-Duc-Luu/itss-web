@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { FakeCollectionData, FakeClassData } from "../../API/FakeData";
@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/hover-card";
 
 import { Button } from "@/components/ui/button";
+import api, { api_collections } from "@/config/axios.config";
+import classApi, { IClass } from "@/lib/ClassApi";
+import collectionApi, { ICollection } from "@/lib/CollectionApi";
 
 const Page = () => {
   useEffect(() => {
@@ -31,13 +34,39 @@ const Page = () => {
     slidesToScroll: 1, // Số lượng slide cuộn khi sử dụng next/prev buttons
     swipeToSlide: true,
   };
+
+  const [collections, setCollections] = useState<ICollection[]>();
+  const [classes, setClasses] = useState<IClass[]>();
+
+  useEffect(() => {
+    classApi
+      .ViewAllClasses()
+      .then((res) => {
+        setClasses(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    collectionApi
+      .viewCollection()
+      .then((res) => {
+        setCollections(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const router = useRouter();
   return (
     <div className="px-16 py-12 flex flex-col gap-12">
       <div className="">
         <h1 className="text-2xl font-bold mb-10">Collections</h1>
         <Slider {...settings}>
-          {FakeCollectionData.map((collection, index) => (
+          {collections?.map((collection, index) => (
             <CollectionCard key={index} collection={collection} />
           ))}
         </Slider>
@@ -57,8 +86,8 @@ const Page = () => {
         </div>
 
         <div className="flex gap-10">
-          {FakeClassData.map((c, i) => (
-            <ClassCard key={i} classes={c} />
+          {classes?.slice(0, 3)?.map((item, index) => (
+            <ClassCard key={index} class={item} />
           ))}
         </div>
       </div>

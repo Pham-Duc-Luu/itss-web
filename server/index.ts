@@ -8,6 +8,7 @@ import appRouter from "./src/boudary/index.router";
 import { connectDB } from "./src/database/mongodb/connect.mongo";
 import Logger from "./src/lib/logger";
 import { PrismaClient } from "@prisma/client";
+import morgan from "morgan";
 
 config();
 // * innitialization
@@ -17,6 +18,7 @@ const PORT = process.env.PORT || 5001;
 // * middleware
 app.use(helmet());
 app.use(compression());
+app.use(morgan("dev"));
 app.use(json());
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors());

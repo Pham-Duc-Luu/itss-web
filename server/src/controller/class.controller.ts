@@ -1,6 +1,7 @@
 import { HttpErrorResponse, MissingParameter } from "../lib/http.reponse";
 import { Response, Request } from "express";
 import classService from "../service/class.service";
+import { prisma } from "../database/postgresql/connect.postgresql";
 
 class ClassController {
   async createClass(
@@ -148,22 +149,32 @@ class ClassController {
       any,
       any,
       {
-        hostId: string;
-        classId: string;
+        hostId: number;
+        classId: number;
         images?: string;
-        collections?: string[];
+        name?: string;
       }
     >,
     res: Response
   ) {
     try {
-      const { hostId, classId, images, collections } = req.body;
-
-      if (!hostId || !classId) {
+      const { images, name, hostId, classId } = req.body;
+      if (!hostId || !classId || !images || !name) {
         throw new MissingParameter();
       }
 
-      //   return res.status(200).json({ data: myclass });
+      const data = await prisma.class.update({
+        where: {
+          hostId: hostId,
+          id: classId,
+        },
+        data: {
+          name: name,
+          images: images,
+        },
+      });
+
+      return res.status(200).json({ data: data });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),
@@ -179,23 +190,195 @@ class ClassController {
     req: Request<
       any,
       any,
+      any,
+      { filter?: "all"; name?: string; hostId?: string }
+    >,
+    res: Response
+  ) {
+    try {
+      const { filter, name, hostId } = req.query;
+
+      let data;
+      console.log(name);
+
+      if (hostId) {
+        if (name) {
+          data = await prisma.class.findMany({
+            where: {
+              hostId: Number(hostId),
+              name: {
+                contains: String(name),
+              },
+            },
+            include: {
+              host: true,
+              collections: true,
+              assignments: true,
+              posts: true,
+            },
+          });
+        } else {
+          data = await prisma.class.findMany({
+            where: {
+              hostId: Number(hostId),
+            },
+          });
+        }
+      } else {
+        if (name) {
+          data = await prisma.class.findMany({
+            where: {
+              name: {
+                contains: String(name),
+              },
+            },
+          });
+        } else {
+          data = await prisma.class.findMany({});
+        }
+      }
+      return res.status(200).json({ data: data });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+  async createPost(
+    req: Request<
+      any,
+      any,
       {
-        hostId: string;
-        classId: string;
-        images?: string;
-        collections?: string[];
+        hostId: number;
+        classId: number;
+        content: string;
       }
     >,
     res: Response
   ) {
     try {
-      const { hostId, classId, images, collections } = req.body;
+      const { hostId, classId, content } = req.body;
 
-      if (!hostId || !classId) {
+      if (!hostId || !classId || !content) {
         throw new MissingParameter();
       }
 
-      //   return res.status(200).json({ data: myclass });
+      const newPost = await prisma.class.update({
+        where: {
+          hostId: hostId,
+          id: classId,
+        },
+        data: {
+          posts: {
+            create: {
+              content: content,
+              date: new Date(),
+            },
+          },
+        },
+        include: {
+          posts: true,
+        },
+      });
+
+      return res.status(200).json({ data: newPost });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+
+  async AnwserAss(
+    req: Request<
+      any,
+      any,
+      {
+        hostId: number;
+        classId: number;
+        assignmentId: number;
+        answer: string;
+        student: string;
+      }
+    >,
+    res: Response
+  ) {
+    try {
+      const { hostId, classId, assignmentId, answer, student } = req.body;
+      if (!hostId || !classId || !assignmentId || !answer || !student) {
+        throw new MissingParameter();
+      }
+
+      const newAns = await prisma.class.update({
+        where: {
+          id: classId,
+          hostId: hostId,
+        },
+        data: {
+          assignments: {
+            update: {
+              where: { id: assignmentId },
+              data: {
+                answers: {
+                  create: {
+                    answer: answer,
+                    student: student,
+                  },
+                },
+              },
+            },
+          },
+        },
+        include: {
+          assignments: {
+            include: { answers: true },
+          },
+        },
+      });
+
+      return res.status(200).json({ data: newAns });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+  async viewDetailClass(
+    req: Request<any, any, any, { id: string }>,
+    res: Response
+  ) {
+    try {
+      const { id } = req.query;
+      if (!id) {
+        throw new MissingParameter();
+      }
+      const classInfo = await prisma.class.findFirst({
+        where: { id: Number(id) },
+        include: {
+          studyAt: {
+            include: {
+              student: true,
+            },
+          },
+          collections: true,
+          assignments: true,
+          posts: true,
+          requests: true,
+        },
+      });
+      return res.status(200).json({ data: classInfo });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

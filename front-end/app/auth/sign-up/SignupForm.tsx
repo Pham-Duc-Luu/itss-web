@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import api from "@/config/axios.config";
 import { useRouter } from "next/navigation";
+import authApi from "@/lib/authApi";
 
 const formSchema = z
   .object({
@@ -52,6 +53,7 @@ const formSchema = z
       path: ["password"],
     }
   );
+
 const SignUpForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,15 +61,27 @@ const SignUpForm = () => {
       email: "",
     },
   });
+
   const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    api
-      .post("/auth/sign-up", {
-        email: values.email,
-        password: values.password,
-        name: values.usename,
-      })
+    // api
+    //   .post("/auth/sign-up", {
+    //     email: values.email,
+    //     password: values.password,
+    //     name: values.usename,
+    //   })
+    //   .then((res) => {
+    //     localStorage.setItem("userData", JSON.stringify(res.data?.data));
+    //     localStorage.setItem("user", JSON.stringify(res.data?.data?.id));
+    //     router.push("/home");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    authApi
+      .SignUp(values.usename, values.password, values.email)
       .then((res) => {
         localStorage.setItem("userData", JSON.stringify(res.data?.data));
         localStorage.setItem("user", JSON.stringify(res.data?.data?.id));
