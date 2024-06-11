@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useId } from "react";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -29,6 +29,7 @@ import Plus from "@/components/Svg/Plus";
 import WordEditCard from "@/components/Collection/WordEditCard";
 import { Label } from "@/components/ui/label";
 import { api_collections } from "@/config/axios.config";
+import { useRouter } from "next/navigation";
 // * name field
 // * description field
 // * summary field
@@ -57,6 +58,8 @@ const WordsList = () => {
   const [wordList, setWordList] = useState<IWordList[]>();
 
   const [userId, setUserId] = useState(localStorage.getItem("user"));
+
+  const route = useRouter();
 
   useEffect(() => {
     setUserId(localStorage.getItem("user"));
@@ -113,7 +116,7 @@ const WordsList = () => {
         console.log(err);
       });
   };
-  return (
+  return userId ? (
     <form className="px-16 py-10">
       <h1 className="font-black text-2xl mb-10">Create new collection</h1>
       <div className="w-1/2 flex flex-col gap-7 mb-10">
@@ -242,6 +245,16 @@ const WordsList = () => {
         </div>
       </div>
     </form>
+  ) : (
+    <div className=" p-20">
+      <Button
+        onClick={() => {
+          route.push("/auth/login");
+        }}
+      >
+        Please login
+      </Button>
+    </div>
   );
 };
 

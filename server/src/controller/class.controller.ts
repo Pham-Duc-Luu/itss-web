@@ -199,6 +199,7 @@ class ClassController {
       const { filter, name, hostId } = req.query;
 
       let data;
+      console.log(name);
 
       if (hostId) {
         if (name) {
@@ -344,6 +345,40 @@ class ClassController {
       });
 
       return res.status(200).json({ data: newAns });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+  async viewDetailClass(
+    req: Request<any, any, any, { id: string }>,
+    res: Response
+  ) {
+    try {
+      const { id } = req.query;
+      if (!id) {
+        throw new MissingParameter();
+      }
+      const classInfo = await prisma.class.findFirst({
+        where: { id: Number(id) },
+        include: {
+          studyAt: {
+            include: {
+              student: true,
+            },
+          },
+          collections: true,
+          assignments: true,
+          posts: true,
+          requests: true,
+        },
+      });
+      return res.status(200).json({ data: classInfo });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

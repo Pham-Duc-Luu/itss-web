@@ -10,8 +10,8 @@ import Share from "@/components/Svg/Share";
 import Star from "@/components/Svg/Star";
 import Three_dot from "@/components/Svg/Three_dot";
 import { api_collections } from "@/config/axios.config";
+import { ICollection } from "@/lib/CollectionApi";
 import React, { useEffect, useState } from "react";
-import { ICollection } from "../page";
 
 const Page = () => {
   const [collection, setCollection] = useState<ICollection>();

@@ -9,6 +9,7 @@ classRouter.delete("/remove-students", classController.removeStudent);
 classRouter.post("/create-assignment", classController.createAssignment);
 
 classRouter.get("/view-class", classController.viewClass);
+classRouter.get("/view-detail-class", classController.viewDetailClass);
 
 classRouter.patch("/update-class", classController.updateClass);
 

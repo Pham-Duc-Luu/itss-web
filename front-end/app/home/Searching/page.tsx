@@ -9,15 +9,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import Class from "@/components/Svg/Class";
 import { api_collections } from "@/config/axios.config";
-import { ICollection } from "../page";
+import { ICollection } from "@/lib/CollectionApi";
+import classApi from "@/lib/ClassApi";
+
 const Page = () => {
   const [collections, setCollections] = useState<ICollection[]>();
-  useEffect(() => {
-    api_collections.get("/view-collection").then((response) => {
-      setCollections(response.data.data);
-      console.log(response.data);
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   //   const [classes, setClasses] = useState<ICollection[]>();
   //   useEffect(() => {

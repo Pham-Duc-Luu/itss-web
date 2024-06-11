@@ -14,8 +14,8 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ICollection } from "../../page";
 import { api_collections } from "@/config/axios.config";
+import { ICollection } from "@/lib/CollectionApi";
 
 const Page = ({ params }: { params: { collectionId: string } }) => {
   const [collection, setCollection] = useState<ICollection>();

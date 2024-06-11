@@ -47,7 +47,7 @@ class AuthController {
           phoneNumber: true,
         },
       });
-      return res.status(200).json({ userId: newUser });
+      return res.status(200).json({ data: newUser });
     } catch (error: any) {
       console.log(error.stack);
       const err = new HttpErrorResponse(error.message, error.statusCode);
@@ -133,7 +133,7 @@ class AuthController {
         },
       });
 
-      return res.status(200).json(updatedUser);
+      return res.status(200).json({ data: updatedUser });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

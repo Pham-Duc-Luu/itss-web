@@ -14,7 +14,6 @@ import {
 import { Input } from "@/components/ui/input";
 import api from "@/config/axios.config";
 import { useRouter } from "next/navigation";
-import authApi from "@/lib/authApi";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -31,25 +30,14 @@ const ProfileForm = () => {
 
   const router = useRouter();
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // api
-    //   .post("/auth/login", { email: values.email, password: values.password })
-    //   .then((res) => {
-    //     // unit tests
+    api
+      .post("/auth/login", { email: values.email, password: values.password })
+      .then((res) => {
+        // unit tests
 
-    //     localStorage.setItem("userData", JSON.stringify(res.data?.data));
-    //     localStorage.setItem("user", JSON.stringify(res.data?.data?.id));
-    //     router.push("/home");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    authApi
-      .Login(values.password, values.email)
-      .then((response) => {
-        localStorage.setItem("userData", JSON.stringify(response.data?.data));
-        localStorage.setItem("user", JSON.stringify(response.data?.data?.id));
-        router.push("/home");
+        localStorage.setItem("userData", JSON.stringify(res.data?.data));
+        localStorage.setItem("user", JSON.stringify(res.data?.data?.id));
+        router.push("/admin/mainmenu/dashboard");
       })
       .catch((err) => {
         console.log(err);

@@ -46,6 +46,7 @@ model Class {
   name       String @unique
   images     String?
   hostId     Int?
+  description String?
   host       User?        @relation(fields: [hostId], references: [id])
   studyAt    StudyAt[]
   collections Collection[] @relation("CollectionBelongToClass")
@@ -67,7 +68,8 @@ model StudyAt {
 model Assignment {
   id       Int    @id @default(autoincrement())
   question String
-  due      DateTime?
+  description String?
+  due      DateTime? @default(now())
   inClass  Int
   class    Class     @relation(fields: [inClass], references: [id])
   answers  Answer[]
@@ -84,7 +86,7 @@ model Answer {
 
 model Post {
   id      Int   @id @default(autoincrement())
-  date    DateTime
+  date    DateTime? @default(now())
   content String
   inClass Int
   class   Class    @relation(fields: [inClass], references: [id])

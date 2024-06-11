@@ -18,28 +18,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import api, { api_collections } from "@/config/axios.config";
-
-export interface ICollection {
-  id: number;
-  name: string;
-  description?: string;
-  summary?: number;
-  user: {
-    id: number;
-    name: string;
-    password: string;
-    email: string;
-    phoneNumber: string | null;
-  } | null;
-  flashcards: {
-    id: number;
-    front_text: string;
-    front_img: string | null;
-    back_text: string;
-    back_img: string | null;
-    collectionId: number;
-  }[];
-}
+import classApi, { IClass } from "@/lib/ClassApi";
+import collectionApi, { ICollection } from "@/lib/CollectionApi";
 
 const Page = () => {
   useEffect(() => {
@@ -56,19 +36,29 @@ const Page = () => {
   };
 
   const [collections, setCollections] = useState<ICollection[]>();
+  const [classes, setClasses] = useState<IClass[]>();
 
   useEffect(() => {
-    api_collections.get("/view-collection").then((response) => {
-      setCollections(response.data.data);
-      console.log(response.data);
-    });
+    classApi
+      .ViewAllClasses()
+      .then((res) => {
+        setClasses(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
-    api_collections.get("/view-class").then((response) => {
-      setCollections(response.data.data);
-      console.log(response.data);
-    });
+    collectionApi
+      .viewCollection()
+      .then((res) => {
+        setCollections(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   const router = useRouter();
   return (
@@ -96,8 +86,8 @@ const Page = () => {
         </div>
 
         <div className="flex gap-10">
-          {FakeClassData.map((c, i) => (
-            <ClassCard key={i} classes={c} />
+          {classes?.slice(0, 3)?.map((item, index) => (
+            <ClassCard key={index} class={item} />
           ))}
         </div>
       </div>
