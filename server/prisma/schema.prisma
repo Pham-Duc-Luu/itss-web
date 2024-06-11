@@ -16,6 +16,7 @@ model User {
   collections Collection[] @relation("CollectionBelongToUser")
   studyAt     StudyAt[]
   hosted      Class[]
+  my_requests Request[]
 }
 
 model Flashcard {
@@ -50,7 +51,7 @@ model Class {
   collections Collection[] @relation("CollectionBelongToClass")
   assignments Assignment[]
   posts      Post[]
-
+  requests Request[]
   
 }
 
@@ -75,15 +76,24 @@ model Assignment {
 model Answer {
   id           Int     @id @default(autoincrement())
   assignmentId Int
-  student      String
-  point        Float
+  student      String 
+  point        Float?
+  answer        String
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
 }
 
 model Post {
-  id      String   @id
+  id      Int   @id @default(autoincrement())
   date    DateTime
   content String
   inClass Int
   class   Class    @relation(fields: [inClass], references: [id])
+}
+
+model Request {
+  id      Int   @id @default(autoincrement())
+  inClass Int
+  class   Class    @relation(fields: [inClass], references: [id])
+  fromUserId Int
+  fromUser User @relation(fields: [fromUserId], references: [id])
 }

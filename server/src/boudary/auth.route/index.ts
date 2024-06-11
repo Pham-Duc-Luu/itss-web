@@ -20,4 +20,8 @@ authRouter.post("/login", authController.login);
 
 authRouter.patch("/user/update-user", authController.updateUser);
 
+
+authRouter.post("/user/request-to-class", authController.requestToClass);
+authRouter.delete("/user/remove-requets", authController.removeRequest)
+
 export default authRouter;

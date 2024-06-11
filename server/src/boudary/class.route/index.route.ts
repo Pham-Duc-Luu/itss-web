@@ -10,6 +10,13 @@ classRouter.post("/create-assignment", classController.createAssignment);
 
 classRouter.get("/view-class", classController.viewClass);
 
-classRouter.patch("/update-class");
+classRouter.patch("/update-class", classController.updateClass);
+
+// TODO: create post
+classRouter.post("/create-post", classController.createPost);
+
+// TODO : Anwser assignment
+classRouter.post("/awnser-assignment", classController.AnwserAss);
+classRouter.patch("/create-post");
 
 export default classRouter;

@@ -24,6 +24,7 @@ class CollectionApi extends Api {
   }
 
   createCollection(data: ICreateCollectionRequest): Promise<any> {
+    
     return this.api.post("/create", {
       name,
       userId,

@@ -63,6 +63,13 @@ const Page = () => {
       console.log(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    api_collections.get("/view-class").then((response) => {
+      setCollections(response.data.data);
+      console.log(response.data);
+    });
+  }, []);
   const router = useRouter();
   return (
     <div className="px-16 py-12 flex flex-col gap-12">
