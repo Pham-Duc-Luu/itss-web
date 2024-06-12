@@ -25,6 +25,12 @@ class AdminApi extends Api {
         super();
         this.connect(route);
     }
+    Login(password: string, email: string) {
+        return this.api.post<{ data: IUser | null }>("/login", {
+          password,
+          email,
+        });
+      }
 
     getUserData() {
         return this.api.get<{ data: IUserData[] }>("/view-users");
@@ -33,9 +39,9 @@ class AdminApi extends Api {
     deleteUser(userId: number): Promise<any> {
         return this.api.delete(`/delete-user?userId=${userId}`);
     }
-    editUser(data: IUser, userId: number): Promise<any> {
-        return this.api.patch(`/update-user/${userId}`, {
-            data,
+    editUser(data: IUser): Promise<any> {
+        return this.api.post(`/update-user`, {
+            ...data
         });
     }
     getCollectionData(data: ICollection) {

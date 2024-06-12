@@ -56,10 +56,25 @@ import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Edit } from "lucide-react";
 import adminApi from "@/lib/AdminApi";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { set } from "react-hook-form";
 
 export default function DemoPage() {
     const [data, setData] = useState<Payment[]>([]);
+    const [reset, setReset] = useState(false);
+    const [deleteId, setDeleteId] = useState<number>();
+    const handleDelete = async (id: number) => {
+        const handle = await adminApi.deleteUser(Number(id))
+        setDeleteId(id);
+        
+    };
 
     useEffect(() => {
         adminApi.getClassData().then((res) => {
@@ -76,21 +91,21 @@ export default function DemoPage() {
                 })
             );
         });
-    }, []);
+    }, [deleteId]);
+
 
     return (
         <div className="container mx-auto py-10">
             <div className="font-extrabold text-2xl mt-6"> Edit class</div>
             {/* <DataTable columns={columns} data={data} /> */}
             <Table>
-                
                 <TableHeader>
                     <TableRow>
                         <TableHead>Id</TableHead>
-                        <TableHead>name</TableHead>
-                        <TableHead>images</TableHead>
-                        <TableHead>host Id</TableHead>
-                        <TableHead>description</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Images</TableHead>
+                        <TableHead>Host Id</TableHead>
+                        <TableHead>Description</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -109,57 +124,81 @@ export default function DemoPage() {
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
-                                    <DialogTitle>Edit </DialogTitle>
+                                        <DialogTitle>Edit </DialogTitle>
                                     </DialogHeader>
                                     <div className="grid gap-4 py-4">
-                                    
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="name" className="text-right">
-                                        Name
-                                        </Label>
-                                        <Input id="name" className="col-span-3" defaultValue={item.name} />
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="images" className="text-right">
-                                        images
-                                        </Label>
-                                        <Input id="images" className="col-span-3" defaultValue={item.images} />
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="hostId" className="text-right">
-                                        hostId
-                                        </Label>
-                                        <Input id="hostId" className="col-span-3" defaultValue={item.hostId} />
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="description" className="text-right">
-                                        description
-                                        </Label>
-                                        <Input id="description" className="col-span-3" defaultValue={item.description} />
-                                    </div>
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label
+                                                htmlFor="name"
+                                                className="text-right"
+                                            >
+                                                Name
+                                            </Label>
+                                            <Input
+                                                id="name"
+                                                className="col-span-3"
+                                                defaultValue={item.name}
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label
+                                                htmlFor="images"
+                                                className="text-right"
+                                            >
+                                                images
+                                            </Label>
+                                            <Input
+                                                id="images"
+                                                className="col-span-3"
+                                                defaultValue={item.images}
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label
+                                                htmlFor="hostId"
+                                                className="text-right"
+                                            >
+                                                hostId
+                                            </Label>
+                                            <Input
+                                                id="hostId"
+                                                className="col-span-3"
+                                                defaultValue={item.hostId}
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-4 items-center gap-4">
+                                            <Label
+                                                htmlFor="description"
+                                                className="text-right"
+                                            >
+                                                description
+                                            </Label>
+                                            <Input
+                                                id="description"
+                                                className="col-span-3"
+                                                defaultValue={item.description}
+                                            />
+                                        </div>
                                     </div>
                                     <DialogFooter>
-                                    <Button type="submit">Save changes</Button>
+                                        <Button type="submit">
+                                            Save changes
+                                        </Button>
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>
 
-                            <Button className="ml-4 mt-4"
-                                    onClick={() => {
-                                        adminApi
-                                            .deleteUser(Number(item.id))
-                                            .then(() => {
-                                                setReset(!reset);
-                                            });
-                                    }}
-                                >
-                                    Delete
-                                </Button>
-
+                            <Button
+                                className="ml-4 mt-4"
+                                onClick={() => {
+                                    handleDelete(item.id);
+                                }}
+                            >
+                                Delete
+                            </Button>
                         </TableRow>
                     ))}
                 </TableBody>
-                
             </Table>
         </div>
     );
