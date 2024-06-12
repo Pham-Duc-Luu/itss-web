@@ -24,7 +24,7 @@ adminRouter.get("/view-class", adminController.viewClassList);
 // xoa user
 adminRouter.delete("/delete-user", adminController.removeUser);
 // sua tt user
-adminRouter.patch("/update-user", adminController.updateUser);
+adminRouter.post("/update-user", adminController.updateUser);
 // xoa class
 adminRouter.post("/remove-class", adminController.removeClass);
 // sua class

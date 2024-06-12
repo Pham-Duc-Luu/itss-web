@@ -60,6 +60,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 
 export default function DemoPage() {
     const [data, setData] = useState<Payment[]>([]);
+    const [reset, setReset] = useState(false);
 
     useEffect(() => {
         adminApi.getClassData().then((res) => {
@@ -76,7 +77,7 @@ export default function DemoPage() {
                 })
             );
         });
-    }, []);
+    }, [reset]);
 
     return (
         <div className="container mx-auto py-10">
