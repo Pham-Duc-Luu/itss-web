@@ -1,5 +1,5 @@
 'use client' ;
-import React, { Children } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import Sidebar from '@/components/ui/sidebar';
 import {Button} from "@/components/ui/button"
 import {
@@ -53,37 +53,31 @@ import {
 import { Payment, columns } from "./columns"
 import { DataTable } from "./data-table"
 import { Edit } from 'lucide-react';
+import adminApi from '@/lib/AdminApi';
 
 
-async function getData(): Promise<Payment[]> {
-
-
-                          // Fetch data from your API here.
-
-  return [
-    {
-      class_id: "728ed52f",
-      name: "rac class",
-      class_code: "123467",
-      number_of_student:123456,
-    },
-    {
-      class_id: "728ed52f",
-      name: "ruoi class",
-      class_code: "123467",
-      number_of_student:123456,
-    },
-    // ................................................................................
-  ]
-}
  
-export default async function DemoPage() {
-  const data = await getData()
+export default  function DemoPage() {
+  const [data,setData] = useState<Payment[]>([])
  
+  useEffect(() => {
+   adminApi.getClassData().then((res)=> {
+    const dataClass = res.data.data;
+    setData(dataClass.map((rac)=>{
+      return {
+        id: rac.id,
+        name: rac.name,
+        images: rac.images,
+        hostId: rac.hostId,
+        description: rac.description
+      }
+    }))
+   })
+  }, [])
+
   return (
-    
     <div className="container mx-auto py-10">
-      <div className='font-extrabold text-2xl mt-6'> Edit class</div>
+      <div className='font-extrabold text-2xl mt-6'> Edit user</div>
       <DataTable columns={columns} data={data} />
     </div>
   )

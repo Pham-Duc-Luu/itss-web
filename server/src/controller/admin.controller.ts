@@ -28,8 +28,22 @@ class AdminController {
       return res.status(err.statusCode).json({ message: err.message });
     };
   }
-  async viewClassList() {    
-    return 'Admin';
+  async viewClassList(
+    req: Request,
+    res: Response
+  ) {    
+    {
+      try {
+          const classes = await prisma.class.findMany();
+          return res.status(200).json({ data: classes });
+          
+      }
+      catch (error: any) {
+         console.log(error.stack);
+        const err = new HttpErrorResponse(error.message, error.statusCode);
+        return res.status(err.statusCode).json({ message: err.message });
+      };
+    };
   }
   async addUser() {
     return 'Admin';
