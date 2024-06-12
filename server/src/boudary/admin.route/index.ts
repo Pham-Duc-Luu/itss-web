@@ -15,7 +15,7 @@ adminRouter.post("/admin", adminController.login);
  * * View user list
  */
 // xem ds ng dung
-adminRouter.post("/view-users", adminController.viewUserList);
+adminRouter.get("/view-users", adminController.viewUserList);
 
 // xem ds class  
 adminRouter.post("/view-class-list", adminController.viewClassList);

@@ -11,7 +11,9 @@ export interface IUser {
   id: number;
   email: string;
   phoneNumber: string | null;
+  password: string;
 }
+
 
 export interface IRequest {
   id: number;

@@ -21,8 +21,7 @@ export type Payment = {
   name: string
   password: string
   email: string
-  phonenumber: number
-  
+  phoneNumber: number
 }
 
 export const columns: ColumnDef<Payment>[] = [

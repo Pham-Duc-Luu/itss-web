@@ -1,53 +1,61 @@
-import {Api} from "./api";
+import { Api } from "./api";
 import { IUser } from "./authApi";
 import { ICollection } from "./CollectionApi";
 import { IClass } from "./ClassApi";
+import exp from "constants";
+
+interface IUserData {
+  id: number;
+    name: string;
+    password: string;
+    email: string;
+    phoneNumber: string | null;
+}
 
 class AdminApi extends Api {
     constructor(route: string = "/admin") {
         super();
         this.connect(route);
-      }
+    }
 
-      getUserData (data : IUser) {
-        return this.api.get("/view-users");
+    getUserData() {
+        return this.api.get<{data: IUserData[]}>("/view-users");
+    }
 
-      }
- 
-      deleteUser(userId: number): Promise<any>{
+    deleteUser(userId: number): Promise<any> {
         return this.api.delete(`/delete-user/${userId}`);
-      }
-      editUser(data: IUser, userId : number) :Promise<any> {
+    }
+    editUser(data: IUser, userId: number): Promise<any> {
         return this.api.patch(`/update-user/${userId}`, {
-      data,
-    });
-}
-    getCollectionData (data : ICollection) {
+            data,
+        });
+    }
+    getCollectionData(data: ICollection) {
         return this.api.get("/view-collections");
     }
-    editCollection(data: ICollection, collectionId : number) :Promise<any> {
+    editCollection(data: ICollection, collectionId: number): Promise<any> {
         return this.api.patch(`/update-collection/${collectionId}`, {
-      data,
-    });
-}
+            data,
+        });
+    }
 
-    deleteCollection(collectionId: number): Promise<any>{
+    deleteCollection(collectionId: number): Promise<any> {
         return this.api.delete(`/delete-user/${collectionId}`);
     }
 
-    getClassData(data : IClass){
+    getClassData(data: IClass) {
         return this.api.get("/view-class");
     }
 
-    deleteClass(classId : number): Promise<any>{
+    deleteClass(classId: number): Promise<any> {
         return this.api.delete(`/delete-class/${classId}`);
     }
-    editClass(data: IClass, classId : number) :Promise<any> {
+    editClass(data: IClass, classId: number): Promise<any> {
         return this.api.patch(`/update-class/${classId}`, {
-      data,
-    });
+            data,
+        });
+    }
 }
 
-      
-
-}
+const adminApi = new AdminApi();
+export default adminApi;
