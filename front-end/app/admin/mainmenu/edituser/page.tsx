@@ -120,30 +120,30 @@ export default function DemoPage() {
                                     <DialogTitle>Edit </DialogTitle>
                                     </DialogHeader>
                                     <div className="grid gap-4 py-4">
-                          
+                                    
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="name" className="text-right">
                                         Name
                                         </Label>
-                                        <Input id="name" className="col-span-3" defaultValue={item.name}/>
+                                        <Input id="name" className="col-span-3"defaultValue={item.name} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="name" className="text-right">
+                                        <Label htmlFor="password" className="text-right">
                                         password
                                         </Label>
-                                        <Input id="name" className="col-span-3" />
+                                        <Input id="password" className="col-span-3" defaultValue={item.password} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="username" className="text-right">
+                                        <Label htmlFor="Email" className="text-right">
                                         Email
                                         </Label>
-                                        <Input id="username" className="col-span-3" />
+                                        <Input id="Email" className="col-span-3"defaultValue={item.email} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="username" className="text-right">
+                                        <Label htmlFor="phoneNumber" className="text-right">
                                         phoneNumber
                                         </Label>
-                                        <Input id="username" className="col-span-3" />
+                                        <Input id="phoneNumber" className="col-span-3"defaultValue={item.phoneNumber} />
                                     </div>
                                     </div>
                                     <DialogFooter>

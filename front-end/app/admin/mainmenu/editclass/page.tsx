@@ -112,35 +112,30 @@ export default function DemoPage() {
                                     <DialogTitle>Edit </DialogTitle>
                                     </DialogHeader>
                                     <div className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="name" className="text-right">
-                                        id
-                                        </Label>
-                                        <Input id="name" className="col-span-3" />
-                                    </div>
+                                    
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="name" className="text-right">
                                         Name
                                         </Label>
-                                        <Input id="name" className="col-span-3" />
+                                        <Input id="name" className="col-span-3" defaultValue={item.name} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="name" className="text-right">
+                                        <Label htmlFor="images" className="text-right">
                                         images
                                         </Label>
-                                        <Input id="name" className="col-span-3" />
+                                        <Input id="images" className="col-span-3" defaultValue={item.images} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="username" className="text-right">
+                                        <Label htmlFor="hostId" className="text-right">
                                         hostId
                                         </Label>
-                                        <Input id="username" className="col-span-3" />
+                                        <Input id="hostId" className="col-span-3" defaultValue={item.hostId} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="username" className="text-right">
+                                        <Label htmlFor="description" className="text-right">
                                         description
                                         </Label>
-                                        <Input id="username" className="col-span-3" />
+                                        <Input id="description" className="col-span-3" defaultValue={item.description} />
                                     </div>
                                     </div>
                                     <DialogFooter>
