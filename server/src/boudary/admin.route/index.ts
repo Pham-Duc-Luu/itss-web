@@ -18,7 +18,7 @@ adminRouter.post("/admin", adminController.login);
 adminRouter.get("/view-users", adminController.viewUserList);
 
 // xem ds class  
-adminRouter.post("/view-class-list", adminController.viewClassList);
+adminRouter.get("/view-class", adminController.viewClassList);
 
 // xoa user 
 adminRouter.post("/remove-user", adminController.removeUser);

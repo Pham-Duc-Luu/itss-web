@@ -12,6 +12,14 @@ interface IUserData {
     phoneNumber: string | null;
 }
 
+interface IClassData {
+    id: number
+    name: string
+    images: string
+    hostId: number
+    description: string
+  }
+
 class AdminApi extends Api {
     constructor(route: string = "/admin") {
         super();
@@ -43,8 +51,8 @@ class AdminApi extends Api {
         return this.api.delete(`/delete-user/${collectionId}`);
     }
 
-    getClassData(data: IClass) {
-        return this.api.get("/view-class");
+    getClassData() {
+        return this.api.get<{data: IClassData[]}>("/view-class");
     }
 
     deleteClass(classId: number): Promise<any> {

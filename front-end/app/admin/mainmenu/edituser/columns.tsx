@@ -5,6 +5,20 @@ import { LinkProps } from "next/link"
 import { MoreHorizontal } from "lucide-react"
  
 import { Button } from "@/components/ui/button"
+
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,24 +63,55 @@ export const columns: ColumnDef<Payment>[] = [
       const payment = row.original
  
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="">
-              edit
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              Change password
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Change name</DropdownMenuItem>
-            <DropdownMenuItem>Remove user</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-self-center">
+        <div className="mr-4">
+          <Dialog>
+      <DialogTrigger asChild>
+        <Button >Edit</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit </DialogTitle>
+          <DialogDescription>
+         
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+        <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="id" className="text-right">
+              Id
+            </Label>
+            <Input id="id" value="id" className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input id="name" className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="email" className="text-right">
+              Email
+            </Label>
+            <Input id="email" className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="password" className="text-right">
+              Password
+            </Label>
+            <Input id="password" className="col-span-3" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+        </div>
+        <div><Button>Delete</Button></div>
+        </div>
+        
       )
     },
   },
-
 ]
