@@ -64,13 +64,11 @@ const Page = ({params} :{params : {collectionId : string}}) => {
       flashCard: wordList,
     }).then(() => {
       collectionApi.deleteConllection(Number(params.collectionId)).finally(() => {
-        collectionApi.viewCollection().then((response) => {
-          router.push(`/home/collection/${response.data.data.pop()?.id}`)
         })  
-      }) 
+    }) 
+    collectionApi.viewCollection().then((response) => {
+    router.push(`/home/collection/${response.data.data.pop()?.id}`)
     })
-
-    
   }
 
 
