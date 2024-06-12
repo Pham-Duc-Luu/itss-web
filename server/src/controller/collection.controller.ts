@@ -309,6 +309,26 @@ class CollectionController {
             return res.status(err.statusCode).json(err.message);
         }
     }
+    async deleteCollection(
+        req: Request<any, any, any, { collectionId: string }>,
+        res: Response
+    ) {
+        try {
+            const { collectionId } = req.query;
+            console.log(collectionId)
+            const deletedFlashCard = await prisma.flashcard.deleteMany({
+                where: {collectionId: Number(collectionId)}
+            })
+            const deletedCollection = await prisma.collection.delete({
+                where: { id: Number(collectionId) },
+            });
+            return res.status(200);
+        } catch (error: any) {
+            console.log(error.stack);
+            const err = new HttpErrorResponse(error.message, error.statusCode);
+            return res.status(err.statusCode).json({ message: err.message });
+        }
+    }
 }
 
 const collectionController = new CollectionController();
