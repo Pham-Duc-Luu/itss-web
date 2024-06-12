@@ -32,6 +32,7 @@ collectionRouter.patch(
 );
 
 collectionRouter.get("/view-collection", collectionController.viewCollection);
+collectionRouter.delete("/delete",collectionController.deleteCollection)
 // collectionRouter.post('/forgot-password', authController.sign_up);
 
 export default collectionRouter;

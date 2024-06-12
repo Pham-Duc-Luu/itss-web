@@ -18,6 +18,7 @@ import Plus from '@/components/Svg/Plus';
 import WordEditCard from '@/components/Collection/WordEditCard';
 import { FakeCollectionData } from '@/API/FakeData';
 import collectionApi, { ICollection, IFlashCardRequest } from '@/lib/CollectionApi';
+import { useRouter } from 'next/navigation';
 // * name field
 // * description field
 // * summary field
@@ -28,6 +29,7 @@ import collectionApi, { ICollection, IFlashCardRequest } from '@/lib/CollectionA
 
 
 const Page = ({params} :{params : {collectionId : string}}) => {
+    const router = useRouter()
     const [collection, setCollection] = useState<ICollection>()
  useEffect(() => {
     collectionApi.viewCollection().then((res) => {
@@ -36,7 +38,6 @@ const Page = ({params} :{params : {collectionId : string}}) => {
  },[])
 
   useEffect(() => {
-    console.log(collection)
     if(collection) {
       setWordList(collection?.flashcards) 
     }
@@ -51,11 +52,32 @@ const Page = ({params} :{params : {collectionId : string}}) => {
     setWord('')
     setMean('')
     }
+  
+  const handleSave = () => {
+    collection?.name &&
+    collection?.user &&
+    collection?.description &&
+    collectionApi.createCollection({
+      name: collection?.name,
+      userId: collection?.user.id,
+      description: collection?.description,
+      flashCard: wordList,
+    }).then(() => {
+      collectionApi.deleteConllection(Number(params.collectionId)).finally(() => {
+        collectionApi.viewCollection().then((response) => {
+          router.push(`/home/collection/${response.data.data.pop()?.id}`)
+        })  
+      }) 
+    })
+
+    
+  }
+
 
 
   return (
-    <form className='px-16 py-10'>
-      <h1 className='font-black text-2xl mb-10'>Create new collection</h1>
+    <div className='px-16 py-10'>
+      <h1 className='font-black text-2xl mb-10'>Edit collection</h1>
       <div className='w-1/2 flex flex-col gap-7 mb-10'>
         <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'} defaultValue={collection?.name}/>
         <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}  defaultValue={collection?.description}/>
@@ -74,16 +96,16 @@ const Page = ({params} :{params : {collectionId : string}}) => {
       <div className='flex flex-col gap-5'>
           { wordList && (wordList.map( (word, index) => <WordEditCard key={index} word={word} index={index+1}/>))}
           <div className='w-full h-32 rounded-lg bg-white flex items-center'>
-              <button className='mx-auto flex gap-2 uppercase font-bold text-lg pb-2 border-b-4 border-cyan-400 hover:border-yellow-400' onClick={() => setWordList([...wordList,{word: '', meaning: ''}])}>
+              <button className='mx-auto flex gap-2 uppercase font-bold text-lg pb-2 border-b-4 border-cyan-400 hover:border-yellow-400' onClick={() => addWord()}>
                 <div className='my-auto'><Plus /></div>
                 Add word
                 </button>
           </div>
           <div className='flex justify-end w-full'>
-              <button className='px-5 py-3 bg-cyan-300 rounded-lg font-bold hover:bg-cyan-400' type='submit'>Create</button>
+              <button className='px-5 py-3 bg-cyan-300 rounded-lg font-bold hover:bg-cyan-400' onClick={() => handleSave()}>Save</button>
           </div>
       </div>
-    </form>
+    </div>
   );
 };
 

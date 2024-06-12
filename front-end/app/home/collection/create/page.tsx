@@ -50,8 +50,8 @@ interface ICollection {
 }
 
 interface IWordList {
-  word: string;
-  meaning: string;
+  front_text: string;
+  back_text: string;
 }
 const WordsList = () => {
   const [collection, setCollection] = useState<ICollection>();
@@ -75,8 +75,8 @@ const WordsList = () => {
     if (word && word !== "" && meaning && meaning !== "") {
       setWordList(
         wordList
-          ? [...wordList, { word: word, meaning: meaning }]
-          : [{ word: word, meaning: meaning }]
+          ? [...wordList, { front_text: word, back_text: meaning }]
+          : [{ front_text: word, back_text: meaning }]
       );
       setWord("");
       setMean("");
@@ -100,9 +100,9 @@ const WordsList = () => {
       name: title,
       flashCards: list.map((item) => {
         return {
-          front_text: item.word,
+          front_text: item.front_text,
           front_img: null,
-          back_text: item.meaning,
+          back_text: item.back_text,
           back_img: null,
         };
       }),
