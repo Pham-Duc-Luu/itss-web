@@ -1,11 +1,11 @@
 import { Api } from "./api";
 
 export interface IFlashCardRequest {
-  id: number;
+  id?: number;
   front_text: string;
-  front_img: string | null;
+  front_img?: string | null;
   back_text: string;
-  back_img: string | null;
+  back_img?: string | null;
 }
 
 interface ICollectionRequest {
@@ -29,7 +29,7 @@ export interface ICollection {
     phoneNumber: string | null;
   } | null;
   flashcards: {
-    id: number;
+    id?: number;
     front_text: string;
     front_img: string | null;
     back_text: string;

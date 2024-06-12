@@ -156,6 +156,7 @@ export default function DemoPage() {
                                         adminApi
                                             .deleteUser(Number(item.id))
                                             .then(() => {
+                                                console.log("abc");
                                                 setReset(!reset);
                                             });
                                     }}

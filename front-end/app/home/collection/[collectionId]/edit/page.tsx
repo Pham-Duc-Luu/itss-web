@@ -31,11 +31,12 @@ const Page = ({params} :{params : {collectionId : string}}) => {
     const [collection, setCollection] = useState<ICollection>()
  useEffect(() => {
     collectionApi.viewCollection().then((res) => {
-      setCollection(res.data.data.find((item) => {item.id == Number(params.collectionId)}))
+      setCollection(res.data.data.find((item) => {return item.id == Number(params.collectionId)}))
     })
  },[])
 
   useEffect(() => {
+    console.log(collection)
     if(collection) {
       setWordList(collection?.flashcards) 
     }
@@ -46,10 +47,11 @@ const Page = ({params} :{params : {collectionId : string}}) => {
   const [mean, setMean] = useState<string>()
 
   const addWord = () => {
-    wordList && word && mean && setWordList([...wordList])
+    wordList && word && mean && setWordList([...wordList,{back_text: mean, front_text: word}])
     setWord('')
     setMean('')
-  }
+    }
+
 
   return (
     <form className='px-16 py-10'>
@@ -70,7 +72,7 @@ const Page = ({params} :{params : {collectionId : string}}) => {
       </div>
 
       <div className='flex flex-col gap-5'>
-          {wordList.map( (word, index) => <WordEditCard key={index} word={word} index={index+1}/>)}
+          { wordList && (wordList.map( (word, index) => <WordEditCard key={index} word={word} index={index+1}/>))}
           <div className='w-full h-32 rounded-lg bg-white flex items-center'>
               <button className='mx-auto flex gap-2 uppercase font-bold text-lg pb-2 border-b-4 border-cyan-400 hover:border-yellow-400' onClick={() => setWordList([...wordList,{word: '', meaning: ''}])}>
                 <div className='my-auto'><Plus /></div>
