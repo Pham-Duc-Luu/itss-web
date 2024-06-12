@@ -70,29 +70,32 @@ export default function DemoPage() {
     const [data, setData] = useState<Payment[]>([]);
     const [reset, setReset] = useState(false);
     const [deleteId, setDeleteId] = useState<number>();
-    const handleDelete = async (id: number) => {
-        const handle = await adminApi.deleteUser(Number(id))
-        setDeleteId(id);
-        
-    };
+    const [hostId, setHostId] = useState<number>();
+    const [name, setName] = useState<string>("");
+    const [images, setImages] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    // const handleDelete = async (id: number) => {
+    //     const handle = await adminApi.deleteUser(Number(id))
+    //     setDeleteId(id);
+
+    // };
 
     useEffect(() => {
         adminApi.getClassData().then((res) => {
             const dataClass = res.data.data;
             setData(
-                dataClass.map((rac) => {
+                dataClass.map((classes) => {
                     return {
-                        id: rac.id,
-                        name: rac.name,
-                        images: rac.images,
-                        hostId: rac.hostId,
-                        description: rac.description,
+                        id: classes.id,
+                        name: classes.name,
+                        images: classes.images,
+                        hostId: classes.hostId,
+                        description: classes.description,
                     };
                 })
             );
         });
-    }, [deleteId]);
-
+    }, [reset]);
 
     return (
         <div className="container mx-auto py-10">
@@ -120,7 +123,16 @@ export default function DemoPage() {
 
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button>Edit </Button>
+                                    <Button
+                                        onClick={() => {
+                                            setName(item.name);
+                                            setImages(item.images);
+                                            setHostId(item.hostId);
+                                            setDescription(item.description);
+                                        }}
+                                    >
+                                        Edit{" "}
+                                    </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
@@ -135,9 +147,12 @@ export default function DemoPage() {
                                                 Name
                                             </Label>
                                             <Input
+                                                onChange={(e) => {
+                                                    setName(e.target.value);
+                                                }}
                                                 id="name"
                                                 className="col-span-3"
-                                                defaultValue={item.name}
+                                                value={name}
                                             />
                                         </div>
                                         <div className="grid grid-cols-4 items-center gap-4">
@@ -148,24 +163,15 @@ export default function DemoPage() {
                                                 images
                                             </Label>
                                             <Input
+                                                onChange={(e) => {
+                                                    setImages(e.target.value);
+                                                }}
                                                 id="images"
                                                 className="col-span-3"
-                                                defaultValue={item.images}
+                                                value={images}
                                             />
                                         </div>
-                                        <div className="grid grid-cols-4 items-center gap-4">
-                                            <Label
-                                                htmlFor="hostId"
-                                                className="text-right"
-                                            >
-                                                hostId
-                                            </Label>
-                                            <Input
-                                                id="hostId"
-                                                className="col-span-3"
-                                                defaultValue={item.hostId}
-                                            />
-                                        </div>
+                                        
                                         <div className="grid grid-cols-4 items-center gap-4">
                                             <Label
                                                 htmlFor="description"
@@ -174,28 +180,40 @@ export default function DemoPage() {
                                                 description
                                             </Label>
                                             <Input
+                                                onChange={(e) => {
+                                                    setDescription(
+                                                        e.target.value
+                                                    );
+                                                }}
                                                 id="description"
                                                 className="col-span-3"
-                                                defaultValue={item.description}
+                                                value={description}
                                             />
                                         </div>
                                     </div>
                                     <DialogFooter>
-                                        <Button type="submit">
+                                        <Button
+                                            type="submit"
+                                            onClick={() => {
+                                                adminApi
+                                                    .editClass({
+                                                        id: Number(item.id),
+                                                        name: name,
+                                                        images: images,
+                                                        hostId: Number(hostId),
+                                                        description:
+                                                            description,
+                                                    })
+                                                    .then(() => {
+                                                        setReset(!reset);
+                                                    });
+                                            }}
+                                        >
                                             Save changes
                                         </Button>
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>
-
-                            <Button
-                                className="ml-4 mt-4"
-                                onClick={() => {
-                                    handleDelete(item.id);
-                                }}
-                            >
-                                Delete
-                            </Button>
                         </TableRow>
                     ))}
                 </TableBody>

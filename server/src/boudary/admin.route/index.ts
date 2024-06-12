@@ -21,13 +21,13 @@ adminRouter.get("/view-users", adminController.viewUserList);
 // xem ds class
 adminRouter.get("/view-class", adminController.viewClassList);
 
-// xoa user
-adminRouter.delete("/delete-user", adminController.removeUser);
+// // xoa user
+// adminRouter.delete("/delete-user", adminController.removeUser);
 // sua tt user
 adminRouter.post("/update-user", adminController.updateUser);
-// xoa class
-adminRouter.post("/remove-class", adminController.removeClass);
+// // xoa class
+// adminRouter.post("/delete-class", adminController.removeClass);
 // sua class
-adminRouter.patch("/update-class", adminController.updateClass);
+adminRouter.post("/update-class", adminController.updateClass);
 
 export default adminRouter;
