@@ -36,37 +36,38 @@ class AdminApi extends Api {
         return this.api.get<{ data: IUserData[] }>("/view-users");
     }
 
-    deleteUser(userId: number): Promise<any> {
-        return this.api.delete(`/delete-user?userId=${userId}`);
-    }
+    // deleteUser(userId: number): Promise<any> {
+    //     return this.api.delete(`/delete-user?userId=${userId}`);
+    // }
     editUser(data: IUser): Promise<any> {
         return this.api.post(`/update-user`, {
             ...data
         });
     }
-    getCollectionData(data: ICollection) {
-        return this.api.get("/view-collections");
-    }
-    editCollection(data: ICollection, collectionId: number): Promise<any> {
-        return this.api.patch(`/update-collection/${collectionId}`, {
-            data,
-        });
-    }
+    // getCollectionData(data: ICollection) {
+    //     return this.api.get("/view-collections");
+    // }
+    // editCollection(data: ICollection, collectionId: number): Promise<any> {
+    //     return this.api.patch(`/update-collection/${collectionId}`, {
+    //         data,
+    //     });
+    // }
 
-    deleteCollection(collectionId: number): Promise<any> {
-        return this.api.delete(`/delete-user/${collectionId}`);
-    }
+    // deleteCollection(collectionId: number): Promise<any> {
+    //     return this.api.delete(`/delete-user/${collectionId}`);
+    // }
 
     getClassData() {
         return this.api.get<{ data: IClassData[] }>("/view-class");
     }
 
-    deleteClass(classId: number): Promise<any> {
-        return this.api.delete(`/delete-class/${classId}`);
-    }
-    editClass(data: IClass, classId: number): Promise<any> {
-        return this.api.patch(`/update-class/${classId}`, {
-            data,
+    // deleteClass(classId: number): Promise<any> {
+    //     return this.api.delete(`/delete-class?classId=${classId}`);
+    // }
+
+    editClass(data: IClass): Promise<any> {
+        return this.api.post(`/update-class`, {
+            ...data,
         });
     }
 }

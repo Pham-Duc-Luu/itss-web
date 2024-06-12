@@ -55,68 +55,68 @@ class AdminController {
     }
   }
 
-  async removeUser(
-    req: Request<any, any, any, { userId: string }>,
-    res: Response
-  ) {
-    try {
-      const { userId } = req.query;
+    async removeUser(
+        req: Request<any, any, any, { userId: string }>,
+        res: Response
+    ) {
+        try {
+            const { userId } = req.query;
 
-      const foundUser = await prisma.user.delete({
-        where: { id: Number(userId) },
-      });
-      return res.status(200);
-    } catch (error: any) {
-      console.log(error.stack);
-      const err = new HttpErrorResponse(error.message, error.statusCode);
-      return res.status(err.statusCode).json({ message: err.message });
+            const foundUser = await prisma.user.delete({
+                where: { id: Number(userId) },
+            });
+            return res.status(200);
+        } catch (error: any) {
+            console.log(error.stack);
+            const err = new HttpErrorResponse(error.message, error.statusCode);
+            return res.status(err.statusCode).json({ message: err.message });
+        }
     }
-  }
-  async updateUser(
-    req: Request<
-      any,
-      any,
-      {
-        name: string;
-        id: number;
-        email: string;
-        phoneNumber: string | null;
-        password: string;
-      }
-    >,
-    res: Response
-  ) {
-    const { email, name, password, phoneNumber, id } = req.body;
-    console.log(req.body);
+    async updateUser(
+        req: Request<
+            any,
+            any,
+            {
+                name: string;
+                id: number;
+                email: string;
+                phoneNumber: string | null;
+                password: string;
+            }
+        >,
+        res: Response
+    ) {
+        const { email, name, password, phoneNumber,id } = req.body;
+        console.log(req.body);
 
-    try {
-      if (!password || !email || !name || !phoneNumber || !id) {
-        throw new MissingParameter();
-      }
+        try {
+            if (!password || !email || !name || !phoneNumber || !id) {
+                throw new MissingParameter();
+              }
+           
+            const updatedUser = await prisma.user.update({
+                where: { id: id },
+                data: {
+                    email: email,
+                    name: name,
+                    password: password, // Lưu ý: Trong thực tế, password nên được mã hóa trước khi lưu
+                    phoneNumber: phoneNumber,
+                },
+            });
 
-      const updatedUser = await prisma.user.update({
-        where: { id: id },
-        data: {
-          email: email,
-          name: name,
-          password: password, // Lưu ý: Trong thực tế, password nên được mã hóa trước khi lưu
-          phoneNumber: phoneNumber,
-        },
-      });
-
-      return res.json(updatedUser);
-    } catch (error: any) {
-      console.log(error.stack);
-      const err = new HttpErrorResponse(error.message, error.statusCode);
-      return res.status(err.statusCode).json({ message: err.message });
+            return res.json(updatedUser);
+        } catch (error: any) {
+            console.log(error.stack);
+            const err = new HttpErrorResponse(error.message, error.statusCode);
+            return res.status(err.statusCode).json({ message: err.message });
+        }
     }
-  }
-  async removeClass() {
-    return "Admin";
-  }
-  async updateClass() {
-    return "Admin";
-  }
+    async removeClass() {
+        return "Admin";
+    }
+    async updateClass() {
+        return "Admin";
+    }
 }
 
 const adminController = new AdminController();

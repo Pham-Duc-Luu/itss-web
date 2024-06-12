@@ -21,11 +21,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import adminApi from "@/lib/AdminApi";
 import { Payment } from "../edituser/columns";
+import { Payment as Paymentclass } from "../editclass/columns";
 
 const Page = () => {
   const [numberUsers, setNumberUsers] = useState(0)
-  const [numberClasses, setnumberClasses] = useState(0)
+  const [numberClasses, setNumberClasses] = useState(0)
  const [usersData, setUsersData] = useState<Payment[]>([])
+  const [classesData, setClassesData] = useState<Paymentclass[]>([]);
   useEffect(() => {
     adminApi.getUserData().then((res) => {
         const numberOfUsers = res.data.data.length;
@@ -44,17 +46,36 @@ const Page = () => {
         );
     })
 
+    
+}, [numberUsers]);
+
+useEffect(() => {
     adminApi.getClassData().then((res) => {
-      setnumberClasses(numberClasses)
-    })     
-}, [numberUsers,numberClasses]);
+        const numberOfClasses = res.data.data.length;
+        setNumberClasses(numberOfClasses)
+        const dataClass = res.data.data;
+        setClassesData(
+          dataClass.map((classes) => {
+            return {
+              id: Number(classes.id),
+              name: classes.name,
+              hostId: Number(classes.hostId),
+              images: classes.images,
+              description: classes.description,
+            };
+          })
+        );
+    })
+  }, [numberClasses]);
 
   return (
     <div className="">
+
       <Card className=" pl-4 pr-4 pt-4 pb-8 ml-4 mr-4 mt-4 mb-4 grid grid-rows-1 gap-0 ">
         <div className="font-extrabold text-2xl mt-6"> Dashboard</div>
         <div className=" grid grid-cols-4 ">
-          <Card className="h-[100px] ml-2 mr-1">
+
+          <Card className="h-[100px] ml-2 mr-1 col-span-2">
             <CardHeader>
               <CardTitle className=" text-xl">Number of user</CardTitle>
               <CardDescription className="text-lg font-bold">
@@ -63,14 +84,7 @@ const Page = () => {
             </CardHeader>
           </Card>
 
-          <Card className=" h-[100px] ml-2 mr-1">
-            <CardHeader>
-              <CardTitle className=" text-xl">Active user</CardTitle>
-              <CardDescription className="text-lg font-bold">
-                1
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          
 
           <Card className=" h-[100px] ml-2 mr-1 col-span-2">
             <CardHeader>
@@ -82,17 +96,10 @@ const Page = () => {
           </Card>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 ">
-          <Card className=" min-h-[500px] ml-2 mr-1">
-            <CardHeader>
-              <CardTitle className=" text-xl">graph</CardTitle>
-              <CardDescription className="text-lg font-bold">
-                gr
-              </CardDescription>
-            </CardHeader>
-          </Card>
+        <div className="mt-4">
+          
 
-          <Card className=" min-h-[100px] ml-2 mr-1">
+          <Card className=" min-h-[500px] ml-2 mr-1">
             <CardHeader>
               <CardTitle className=" text-xl">Newest user</CardTitle>
             </CardHeader>
