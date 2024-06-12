@@ -108,7 +108,7 @@ export const columns: ColumnDef<Payment>[] = [
       </DialogContent>
     </Dialog>
         </div>
-        <div><Button>Delete</Button></div>
+        <div><Button >Delete</Button></div>
         </div>
         
       )

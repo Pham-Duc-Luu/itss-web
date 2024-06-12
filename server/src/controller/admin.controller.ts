@@ -1,18 +1,32 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
 import {
-  BadRequest,
-  HttpErrorResponse,
-  InvalidParameter,
-  MissingParameter,
+    BadRequest,
+    HttpErrorResponse,
+    InvalidParameter,
+    MissingParameter,
 } from "../lib/http.reponse";
 import Logger from "../lib/logger";
 import { validateService } from "../service/validate.service";
 import { prisma } from "../database/postgresql/connect.postgresql";
-
+import { config } from "dotenv";
+config();
 class AdminController {
-  async login() {
-    return 'Admin';
-  }
+    async login(
+        req: Request<any, any, { email: string; password: string }>,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            if (
+                req.body.email === process.env.ADMIN_EMAIL &&
+                req.body.password === process.env.ADMIN_PASSWORD
+            ) {
+                next();
+            }
+
+            return res.status(401).json({ message: "Unathorite" });
+        } catch (error) {}
+    }
   async viewUserList(
     req: Request,
     res: Response

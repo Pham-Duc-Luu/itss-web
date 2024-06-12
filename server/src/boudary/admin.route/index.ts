@@ -5,11 +5,11 @@ import { auth } from "google-auth-library";
 
 const adminRouter = Router();
 
-
 /**
  * * login with email and password
  */
-adminRouter.post("/admin", adminController.login);
+
+adminRouter.use(adminController.login);
 
 /**
  * * View user list
@@ -20,9 +20,10 @@ adminRouter.get("/view-users", adminController.viewUserList);
 // xem ds class  
 adminRouter.get("/view-class", adminController.viewClassList);
 
-// xoa user 
+
+// xoa user
 adminRouter.post("/remove-user", adminController.removeUser);
-// sua tt user 
+// sua tt user
 adminRouter.patch("/update-user", adminController.updateUser);
 // xoa class
 adminRouter.post("/remove-class", adminController.removeClass);
