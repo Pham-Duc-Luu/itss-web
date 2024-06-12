@@ -78,6 +78,7 @@ export default function DemoPage() {
         });
     }, []);
 
+
     return (
         <div className="container mx-auto py-10">
             <div className="font-extrabold text-2xl mt-6"> Edit class</div>
@@ -87,10 +88,10 @@ export default function DemoPage() {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Id</TableHead>
-                        <TableHead>name</TableHead>
-                        <TableHead>images</TableHead>
-                        <TableHead>host Id</TableHead>
-                        <TableHead>description</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Images</TableHead>
+                        <TableHead>Host Id</TableHead>
+                        <TableHead>Description</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

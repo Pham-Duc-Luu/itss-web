@@ -56,7 +56,7 @@ const Page = () => {
         <div className=" grid grid-cols-4 ">
           <Card className="h-[100px] ml-2 mr-1">
             <CardHeader>
-              <CardTitle className=" text-sm">Number of user</CardTitle>
+              <CardTitle className=" text-xl">Number of user</CardTitle>
               <CardDescription className="text-lg font-bold">
                 {numberUsers}
               </CardDescription>
@@ -65,7 +65,7 @@ const Page = () => {
 
           <Card className=" h-[100px] ml-2 mr-1">
             <CardHeader>
-              <CardTitle className=" text-sm">Active user</CardTitle>
+              <CardTitle className=" text-xl">Active user</CardTitle>
               <CardDescription className="text-lg font-bold">
                 1
               </CardDescription>
@@ -74,7 +74,7 @@ const Page = () => {
 
           <Card className=" h-[100px] ml-2 mr-1 col-span-2">
             <CardHeader>
-              <CardTitle className=" text-sm">Number of class</CardTitle>
+              <CardTitle className=" text-xl">Number of class</CardTitle>
               <CardDescription className="text-lg font-bold">
                 {numberClasses}
               </CardDescription>
@@ -85,7 +85,7 @@ const Page = () => {
         <div className="mt-4 grid grid-cols-2 ">
           <Card className=" min-h-[500px] ml-2 mr-1">
             <CardHeader>
-              <CardTitle className=" text-sm">graph</CardTitle>
+              <CardTitle className=" text-xl">graph</CardTitle>
               <CardDescription className="text-lg font-bold">
                 gr
               </CardDescription>
@@ -94,7 +94,7 @@ const Page = () => {
 
           <Card className=" min-h-[100px] ml-2 mr-1">
             <CardHeader>
-              <CardTitle className=" text-sm">Newest user</CardTitle>
+              <CardTitle className=" text-xl">Newest user</CardTitle>
             </CardHeader>
             <CardContent>
               <table className="w-full">

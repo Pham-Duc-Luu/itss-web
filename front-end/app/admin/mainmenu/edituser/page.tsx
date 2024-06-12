@@ -94,11 +94,11 @@ export default function DemoPage() {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead >id</TableHead>
-                        <TableHead>name</TableHead>
-                        <TableHead>password</TableHead>
-                        <TableHead>email</TableHead>
-                        <TableHead>phoneNumber</TableHead>
+                        <TableHead >Id</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Password</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>PhoneNumber</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
