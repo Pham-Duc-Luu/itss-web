@@ -13,7 +13,7 @@ interface ICollectionRequest {
   userId: number;
   description: string;
   summary?: String;
-  flashCard?: [IFlashCardRequest];
+  flashCard?: IFlashCardRequest[];
 }
 
 export interface ICollection {
@@ -46,7 +46,7 @@ class CollectionApi extends Api {
 
   createCollection(data: ICollectionRequest): Promise<any> {
     return this.api.post("/create-collection", {
-      data,
+      ...data,
     });
   }
 
@@ -62,7 +62,7 @@ class CollectionApi extends Api {
     });
   }
   deleteConllection(collectionid: Number): Promise<any> {
-    return this.api.delete(`/delete/${collectionid}`);
+    return this.api.delete(`/delete?collectionId=${collectionid}`);
   }
 
   editCollection(data: ICollectionRequest, collectionid: Number): Promise<any> {
