@@ -55,23 +55,23 @@ class AdminController {
     }
   }
 
-    async removeUser(
-        req: Request<any, any, any, { userId: string }>,
-        res: Response
-    ) {
-        try {
-            const { userId } = req.query;
+    // async removeUser(
+    //     req: Request<any, any, any, { userId: string }>,
+    //     res: Response
+    // ) {
+    //     try {
+    //         const { userId } = req.query;
 
-            const foundUser = await prisma.user.delete({
-                where: { id: Number(userId) },
-            });
-            return res.status(200);
-        } catch (error: any) {
-            console.log(error.stack);
-            const err = new HttpErrorResponse(error.message, error.statusCode);
-            return res.status(err.statusCode).json({ message: err.message });
-        }
-    }
+    //         const foundUser = await prisma.user.delete({
+    //             where: { id: Number(userId) },
+    //         });
+    //         return res.status(200);
+    //     } catch (error: any) {
+    //         console.log(error.stack);
+    //         const err = new HttpErrorResponse(error.message, error.statusCode);
+    //         return res.status(err.statusCode).json({ message: err.message });
+    //     }
+    // }
     async updateUser(
         req: Request<
             any,
@@ -99,7 +99,7 @@ class AdminController {
                 data: {
                     email: email,
                     name: name,
-                    password: password, // Lưu ý: Trong thực tế, password nên được mã hóa trước khi lưu
+                    password: password, 
                     phoneNumber: phoneNumber,
                 },
             });
@@ -111,11 +111,61 @@ class AdminController {
             return res.status(err.statusCode).json({ message: err.message });
         }
     }
-    async removeClass() {
-        return "Admin";
-    }
-    async updateClass() {
-        return "Admin";
+    // async removeClass(
+    //     req: Request<any, any, any, { userId: string }>,
+    //     res: Response
+    // ) {
+    //     try {
+    //         const { userId } = req.query;
+
+    //         const foundUser = await prisma.user.delete({
+    //             where: { id: Number(userId) },
+    //         });
+    //         return res.status(200);
+    //     } catch (error: any) {
+    //         console.log(error.stack);
+    //         const err = new HttpErrorResponse(error.message, error.statusCode);
+    //         return res.status(err.statusCode).json({ message: err.message });
+    //     };
+    // }
+    async updateClass(
+        req: Request<
+            any,
+            any,
+            {
+                id: number;
+                name: string;
+                images: string | null;
+                hostId: number | null;
+                description: string | null;
+            }
+        >,
+        res: Response
+    ) {
+        const { id, name, images, hostId, description } = req.body;
+        console.log(req.body);
+
+        try {
+            if (!id || !name || !images || !hostId || !description) {
+                throw new MissingParameter();
+              }
+           
+            const updatedClass = await prisma.class.update({
+                where: { id: id },
+                data: {
+                    name: name,
+                    images: images,
+                    hostId: hostId, 
+                    description: description,
+                },
+            });
+
+            return res.json(updatedClass);
+        } catch (error: any) {
+            console.log(error.stack);
+            const err = new HttpErrorResponse(error.message, error.statusCode);
+            return res.status(err.statusCode).json({ message: err.message });
+        };
     }
 }
 

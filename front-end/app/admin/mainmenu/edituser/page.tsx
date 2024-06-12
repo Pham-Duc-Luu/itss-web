@@ -174,7 +174,7 @@ export default function DemoPage() {
                                         <Label htmlFor="phoneNumber" className="text-right">
                                         phoneNumber
                                         </Label>
-                                        <Input id="phoneNumber" onChange={(e)=>{e.target.value}} className="col-span-3"value={phoneNumber} />
+                                        <Input id="phoneNumber" onChange={(e)=>setPhoneNumber(e.target.value)} className="col-span-3"value={phoneNumber} />
                                     </div>
                                     </div>
                                     <DialogFooter>
