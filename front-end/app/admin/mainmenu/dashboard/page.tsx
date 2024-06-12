@@ -1,5 +1,5 @@
 "use client";
-import React, { Children } from "react";
+import React, { Children, useEffect, useState } from "react";
 import Sidebar from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,36 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import adminApi from "@/lib/AdminApi";
+import { Payment } from "../edituser/columns";
 
-const page = () => {
+const Page = () => {
+  const [numberUsers, setNumberUsers] = useState(0)
+  const [numberClasses, setnumberClasses] = useState(0)
+ const [usersData, setUsersData] = useState<Payment[]>([])
+  useEffect(() => {
+    adminApi.getUserData().then((res) => {
+        const numberOfUsers = res.data.data.length;
+        setNumberUsers(numberOfUsers)
+        const dataUser = res.data.data;
+        setUsersData(
+            dataUser.map((user) => {
+                return {
+                    id: user.id.toString(),
+                    name: user.name,
+                    email: user.email,
+                    password: user?.password,
+                    phoneNumber: Number(user.phoneNumber),
+                };
+            })
+        );
+    })
+
+    adminApi.getClassData().then((res) => {
+      setnumberClasses(numberClasses)
+    })     
+}, [numberUsers,numberClasses]);
+
   return (
     <div className="">
       <Card className=" pl-4 pr-4 pt-4 pb-8 ml-4 mr-4 mt-4 mb-4 grid grid-rows-1 gap-0 ">
@@ -30,7 +58,7 @@ const page = () => {
             <CardHeader>
               <CardTitle className=" text-sm">Number of user</CardTitle>
               <CardDescription className="text-lg font-bold">
-                9999999
+                {numberUsers}
               </CardDescription>
             </CardHeader>
           </Card>
@@ -39,25 +67,16 @@ const page = () => {
             <CardHeader>
               <CardTitle className=" text-sm">Active user</CardTitle>
               <CardDescription className="text-lg font-bold">
-                9999999
+                1
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className=" h-[100px] ml-2 mr-1">
+          <Card className=" h-[100px] ml-2 mr-1 col-span-2">
             <CardHeader>
               <CardTitle className=" text-sm">Number of class</CardTitle>
               <CardDescription className="text-lg font-bold">
-                9999999
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className=" h-[100px] ml-2 mr-1">
-            <CardHeader>
-              <CardTitle className=" text-sm">Number of card</CardTitle>
-              <CardDescription className="text-lg font-bold">
-                9999999
+                {numberClasses}
               </CardDescription>
             </CardHeader>
           </Card>
@@ -75,11 +94,30 @@ const page = () => {
 
           <Card className=" min-h-[100px] ml-2 mr-1">
             <CardHeader>
-              <CardTitle className=" text-sm">top user</CardTitle>
-              <CardDescription className="text-lg font-bold">
-                username
-              </CardDescription>
+              <CardTitle className=" text-sm">Newest user</CardTitle>
             </CardHeader>
+            <CardContent>
+              <table className="w-full">
+
+                <thead className="mb-3">
+                  <tr>
+                    <th className="text-left">ID</th>
+                    <th className="text-left">Name</th>
+                    <th className="text-left">Email</th>
+                  </tr>
+                </thead>
+
+                <tbody className="">
+                  {usersData.map((user,i) => 
+                  <tr key={i} className="odd:bg-gray-100 py-3">
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                  </tr>
+                  )}
+                </tbody>  
+              </table>
+            </CardContent>
           </Card>
         </div>
       </Card>
@@ -87,4 +125,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
