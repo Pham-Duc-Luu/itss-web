@@ -25,6 +25,12 @@ class AdminApi extends Api {
         super();
         this.connect(route);
     }
+    Login(password: string, email: string) {
+        return this.api.post<{ data: IUser | null }>("/login", {
+          password,
+          email,
+        });
+      }
 
     getUserData() {
         return this.api.get<{ data: IUserData[] }>("/view-users");

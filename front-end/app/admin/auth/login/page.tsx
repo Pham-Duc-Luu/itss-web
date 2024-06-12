@@ -27,10 +27,6 @@ const page: FC = () => {
             <ProfileForm />
           </CardContent>
 
-          <CardFooter className='max-w-md w-full flex flex-col gap-3'>
-            <Link href="\admin\auth\signup" className='bg-white font-semibold shadow rounded-full px-16 py-2 border-cyan-500 border-2 hover:bg-cyan-500 hover:text-white'>Đăng ký</Link>
-            <Link href="\admin\auth\forgotpassword" className='underline underline-offset-2'>Quên mật khẩu ?</Link>
-          </CardFooter>
       </Card>
     </div>
   </div>;
