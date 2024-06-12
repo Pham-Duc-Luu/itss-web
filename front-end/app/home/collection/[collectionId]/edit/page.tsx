@@ -64,7 +64,7 @@ const Page = ({params} :{params : {collectionId : string}}) => {
       name: title,
       userId: collection?.user.id,
       description: description,
-      flashCard: wordList,
+      flashCards: wordList,
     });
 
     const collections = await collectionApi.viewCollection();

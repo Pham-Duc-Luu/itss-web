@@ -13,7 +13,7 @@ interface ICollectionRequest {
   userId: number;
   description: string;
   summary?: String;
-  flashCard?: IFlashCardRequest[];
+  flashCards?: IFlashCardRequest[];
 }
 
 export interface ICollection {

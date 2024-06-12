@@ -24,13 +24,14 @@ class CollectionController {
                 name: string;
                 summary?: string;
                 description?: string;
-                flashCards?: [Flashcard];
+                flashCards: [Flashcard];
             }
         >,
         res: Response
     ) {
         try {
             const { userId, name, summary, description, flashCards } = req.body;
+            console.log(flashCards)
             if (!userId || !name) {
                 throw new MissingParameter();
             }
