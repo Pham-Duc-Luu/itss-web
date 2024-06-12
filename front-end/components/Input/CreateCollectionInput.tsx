@@ -5,7 +5,7 @@ function CreateCollectionInput({
   placeholder,
   defaultValue,
   ...inputParams
-}: {name: string, label: string, placeholder: string, defaultValue: string}) {
+}: {name: string, label: string, placeholder: string, defaultValue: string | null}) {
 
   return  (
   <div className='w-full'>
