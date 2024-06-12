@@ -100,16 +100,16 @@ export default function DemoPage() {
       });
   }, [reset]);
 
-    const handleDelete = (id: number) => {
-        adminApi
-            .deleteUser(id)
-            .then(() => {
-                window.location.reload()
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    // const handleDelete = (id: number) => {
+    //     adminApi
+    //         .deleteUser(id)
+    //         .then(() => {
+    //             window.location.reload()
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // };
 
     return (
 
@@ -195,13 +195,13 @@ export default function DemoPage() {
                                 
                             </Dialog>
                                 <Button className="ml-4"
-                                    onClick={() => {
-                                        adminApi
-                                            .deleteUser(Number(item.id))
-                                            .then(() => {
-                                                setReset(!reset);
-                                            });
-                                    }}
+                                    // onClick={() => {
+                                    //     adminApi
+                                    //         .deleteUser(Number(item.id))
+                                    //         .then(() => {
+                                    //             setReset(!reset);
+                                    //         });
+                                    // }}
                                 >
                                     Delete
                                 </Button>
