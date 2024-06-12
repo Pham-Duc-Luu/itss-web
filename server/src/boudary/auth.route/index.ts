@@ -22,5 +22,6 @@ authRouter.patch("/user/update-user", authController.updateUser);
 
 authRouter.post("/user/request-to-class", authController.requestToClass);
 authRouter.delete("/user/remove-requets", authController.removeRequest);
+authRouter.post("/user/add_student", authController.addStudent);
 
 export default authRouter;

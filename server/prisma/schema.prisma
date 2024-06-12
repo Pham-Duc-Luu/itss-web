@@ -98,6 +98,8 @@ model Request {
   id         Int   @id @default(autoincrement())
   inClass    Int
   fromUserId Int
+
   fromUser   User  @relation(fields: [fromUserId], references: [id])
   class      Class @relation(fields: [inClass], references: [id])
+  @@unique([inClass, fromUserId])
 }

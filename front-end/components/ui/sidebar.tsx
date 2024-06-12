@@ -17,22 +17,34 @@ import {
     CommandShortcut,
   } from "@/components/ui/command"
   import Link from 'next/link';
-  import { useRouter } from 'next/navigation'
+  import { usePathname, useRouter } from 'next/navigation'
   
   
 export default function Sidebar(){
     const router = useRouter();
+    const pathname = usePathname()
+    console.log(pathname)
+
 
     return <div className='bg-white flex flex-col w-[240px] min-w-[240px] border-r min-h-screen p-4'>
         <div className='ml-3 mb-4 font-bold text-xl'>ADMIN MENU</div>
     <div className='grow'>
         <Command style={{overflow:'visible'}}>
   <CommandList style={{overflow:'visible'}}>
-    <CommandGroup >
-      <CommandItem className='font-bold'><LayoutDashboard className='mr-2 mb-2'/><button onClick={() => router.push('/admin/mainmenu/dashboard')}>Dashboard</button></CommandItem>
-      <CommandItem className='font-bold'><UserCog className='mr-2 mb-2'/><button onClick={() => router.push('/admin/mainmenu/edituser')}>Edit User</button></CommandItem>
-      <CommandItem className='font-bold'><Presentation className='mr-2 mb-2'/><button onClick={() => router.push('/admin/mainmenu/editclass')}>Edit class</button></CommandItem>
-    </CommandGroup>
+    <div className='flex flex-col gap-2'>
+      <div className={pathname=="/admin/mainmenu/dashboard"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300 cursor-pointer':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100 cursor-pointer"}
+      onClick={() => router.push('/admin/mainmenu/dashboard')}>
+        <LayoutDashboard className='mr-2 my-auto'/>Dashboard
+      </div>
+      <div className={pathname=="/admin/mainmenu/edituser"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300 cursor-pointer':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100 cursor-pointer"}
+      onClick={() => router.push('/admin/mainmenu/edituser')}>
+        <UserCog className='mr-2 my-auto'/>Edit User
+      </div>
+      <div className={pathname=="/admin/mainmenu/editclass"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300 cursor-pointer':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100 cursor-pointer"}
+      onClick={() => router.push('/admin/mainmenu/editclass')}>
+        <Presentation className='mr-2 my-auto'/>Edit class
+      </div>
+    </div>
   </CommandList>
 </Command>
 </div>

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import {
@@ -17,6 +17,7 @@ import CreateCollectionInput from '@/components/Input/CreateCollectionInput';
 import Plus from '@/components/Svg/Plus';
 import WordEditCard from '@/components/Collection/WordEditCard';
 import { FakeCollectionData } from '@/API/FakeData';
+import collectionApi, { ICollection, IFlashCardRequest } from '@/lib/CollectionApi';
 // * name field
 // * description field
 // * summary field
@@ -27,14 +28,25 @@ import { FakeCollectionData } from '@/API/FakeData';
 
 
 const Page = ({params} :{params : {collectionId : string}}) => {
-const collection = FakeCollectionData[Number(params.collectionId)]
+    const [collection, setCollection] = useState<ICollection>()
+ useEffect(() => {
+    collectionApi.viewCollection().then((res) => {
+      setCollection(res.data.data.find((item) => {item.id == Number(params.collectionId)}))
+    })
+ },[])
 
-  const [wordList, setWordList] = useState<any[]>(collection.flashcard)
+  useEffect(() => {
+    if(collection) {
+      setWordList(collection?.flashcards) 
+    }
+  },[collection])
+
+  const [wordList, setWordList] = useState<IFlashCardRequest[]>()
   const [word, setWord] = useState<string>()
   const [mean, setMean] = useState<string>()
 
   const addWord = () => {
-    setWordList([...wordList,{word: word, meaning: mean}])
+    wordList && word && mean && setWordList([...wordList])
     setWord('')
     setMean('')
   }
@@ -43,8 +55,8 @@ const collection = FakeCollectionData[Number(params.collectionId)]
     <form className='px-16 py-10'>
       <h1 className='font-black text-2xl mb-10'>Create new collection</h1>
       <div className='w-1/2 flex flex-col gap-7 mb-10'>
-        <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'} defaultValue={collection.title}/>
-        <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}  defaultValue={collection.description}/>
+        <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'} defaultValue={collection?.name}/>
+        <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}  defaultValue={collection?.description}/>
         </div>
       <div className="flex justify-center gap-10 mb-10">
         <input type="text" name="" id="" value={word} onChange={ (e) => setWord(e.target.value)} placeholder='Word' className='px-3 border-2 rounded-lg border-gray-300'/>

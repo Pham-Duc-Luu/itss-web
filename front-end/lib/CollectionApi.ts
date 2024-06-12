@@ -1,10 +1,11 @@
 import { Api } from "./api";
 
-interface IFlashCardRequest {
+export interface IFlashCardRequest {
+  id: number;
   front_text: string;
-  front_img: string;
+  front_img: string | null;
   back_text: string;
-  back_img: string;
+  back_img: string | null;
 }
 
 interface ICollectionRequest {
@@ -75,7 +76,13 @@ class CollectionApi extends Api {
     });
   }
 
-  addFlashCard(data: IFlashCardRequest, collectionid: Number): Promise<any> {
+  editFlashCard(data: {flashcard: IFlashCardRequest, collectionid: String, userId: String }): Promise<any> {
+    return this.api.post(`/update-flash-card/`, {
+      data,
+    });
+  }
+
+  addFlashCard(data: IFlashCardRequest, collectionid: Number ): Promise<any> {
     return this.api.post(`/${collectionid}/add-flash-card/`, {
       data,
     });

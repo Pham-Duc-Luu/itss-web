@@ -7,10 +7,7 @@ const collectionRouter = Router();
 /**
  * create a new collection
  */
-collectionRouter.post(
-  "/create-collection",
-  collectionController.createCollection
-);
+collectionRouter.post("/create-collection",collectionController.createCollection);
 
 /**
  * update collection infomations

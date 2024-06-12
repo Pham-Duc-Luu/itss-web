@@ -29,7 +29,8 @@ import Plus from "@/components/Svg/Plus";
 import WordEditCard from "@/components/Collection/WordEditCard";
 import { Label } from "@/components/ui/label";
 import { api_collections } from "@/config/axios.config";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import collectionApi from "@/lib/CollectionApi";
 // * name field
 // * description field
 // * summary field
@@ -110,7 +111,9 @@ const WordsList = () => {
     api_collections
       .post("/create-collection", collection)
       .then((res) => {
-        console.log(res);
+        collectionApi.viewCollection().then((response) => {
+          route.push(`/home/collection/${response.data.data.pop()?.id}`)
+        })
       })
       .catch((err) => {
         console.log(err);

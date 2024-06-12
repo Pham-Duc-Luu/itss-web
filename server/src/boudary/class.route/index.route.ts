@@ -20,4 +20,6 @@ classRouter.post("/create-post", classController.createPost);
 // TODO : Anwser assignment
 classRouter.post("/awnser-assignment", classController.AnwserAss);
 
+classRouter.get("/");
+
 export default classRouter;

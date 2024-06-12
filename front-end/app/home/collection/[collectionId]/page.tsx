@@ -141,7 +141,7 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
       <div>
         <h1 className="text-2xl font-black mb-5">Other Collections</h1>
         <div className="flex gap-10">
-          {collections?.map((collection, index) => (
+          {collections?.slice(0,3).map((collection, index) => (
             <CollectionCard key={index} collection={collection} />
           ))}
         </div>

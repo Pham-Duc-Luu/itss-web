@@ -182,7 +182,7 @@ class CollectionController {
       {
         collectionId: string;
         userId: string;
-        flashCards: Flashcard[];
+        flashCards: [Flashcard];
       }
     >,
     res: Response
@@ -241,7 +241,6 @@ class CollectionController {
       const { filter, name, ownerId } = req.query;
 
       let data;
-      console.log("collect " + name);
 
       if (ownerId) {
         if (name) {

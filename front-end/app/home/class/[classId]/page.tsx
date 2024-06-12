@@ -58,6 +58,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
     description: string;
   }>(FakeClassData[Number(params.classId)]);
 
+  const [requested, setRequested] = useState<boolean>(false);
   const [classDetails, setclassDetails] = useState<IClassDetails>();
   const [classes, setClasses] = useState<IClass[]>();
   const [userId, setUserId] = useState<number>();
@@ -79,11 +80,9 @@ const Page = ({ params }: { params: { classId: string } }) => {
     if (classDetails?.studyAt.find((item) => item.studentId === userId)) {
       setisInClass(true);
     }
-    console.log(classDetails?.hostId, userId);
+    console.log(classDetails?.hostId === userId);
 
-    if (!(classDetails?.hostId === userId)) {
-      setisInClass(true);
-    }
+    setisInClass(classDetails?.hostId === userId);
   }, [classDetails, userId]);
 
   const [createPost_content, setcreatePost_content] = useState<string>();
@@ -146,7 +145,16 @@ const Page = ({ params }: { params: { classId: string } }) => {
   if (!isInClass && classDetails) {
     return (
       <>
-        <Button>Join class</Button>;
+        <Button
+          onClick={() => {
+            authApi.requestToClass(Number(params.classId), userId).then(() => {
+              setRequested(true);
+            });
+          }}
+        >
+          {requested ? "Your request have be make" : "Join class"}
+        </Button>
+        ;
         <ClassCard
           class={{
             ...classDetails,
@@ -240,7 +248,16 @@ const Page = ({ params }: { params: { classId: string } }) => {
                       <Label className="w-[120px] mb-5 text-1xl font-bold"></Label>
                       <div>
                         {classDetails?.requests?.map((request, index) => (
-                          <div className="flex mb-2 mt-2 ml-auto" key={index}>
+                          <div
+                            className="flex mb-2 mt-2 ml-auto"
+                            key={index}
+                            onClick={() => {
+                              authApi.addStundet(
+                                classDetails.id,
+                                request.fromUserId
+                              );
+                            }}
+                          >
                             <Avatar className="mr-2">
                               <AvatarImage
                                 src="https://github.com/shadcn.png"

@@ -11,6 +11,7 @@ export interface IUser {
   id: number;
   email: string;
   phoneNumber: string | null;
+  password: string;
 }
 
 export interface IRequest {
@@ -76,6 +77,15 @@ class AuthenticateApi extends Api {
       data: {
         requestId,
       },
+    });
+  }
+
+  addStundet(classId: number, userId: number) {
+    return this.api.post<{
+      message: "Deleted";
+    }>("/user/add_student", {
+      classId,
+      userId,
     });
   }
 }
