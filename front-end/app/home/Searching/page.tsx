@@ -9,23 +9,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import Class from "@/components/Svg/Class";
 import { api_collections } from "@/config/axios.config";
-import { ICollection } from "@/lib/CollectionApi";
-import classApi from "@/lib/ClassApi";
+import collectionApi, { ICollection } from "@/lib/CollectionApi";
+import classApi, { IClass } from "@/lib/ClassApi";
 
 const Page = () => {
-  const [collections, setCollections] = useState<ICollection[]>();
-  useEffect(() => {}, []);
-
-  //   const [classes, setClasses] = useState<ICollection[]>();
-  //   useEffect(() => {
-  //     api_collections.get("/view-collection").then((response) => {
-  //       setCollections(response.data.data);
-  //       console.log(response.data);
-  //     });
-  //   }, []);
+  const [collections, setcollections] = useState<ICollection[]>();
+  const [classes, setClasses] = useState<IClass[]>();
   const sreach = useSearchParams();
   const sreachQuery = sreach?.get("q");
 
+  useEffect(() => {
+    setTimeout(() => {
+      sreachQuery &&
+        Promise.all([
+          collectionApi.viewCollection("all", sreachQuery, undefined),
+          classApi.ViewAllClasses("all", sreachQuery, undefined),
+        ]).then((result) => {
+          console.log(result[0].data.data);
+
+          setcollections(result[0].data.data);
+          setClasses(result[1].data.data);
+        });
+    }, 1000);
+  }, [sreachQuery]);
+
+  useEffect(() => {
+    console.log(collections);
+  }, collections);
   return (
     <div className="px-16 py-12 flex flex-col gap-12 w-5/6 mx-auto">
       <h1 className="text-xl font-bold">
@@ -53,8 +63,8 @@ const Page = () => {
             <div className="">
               <h1 className="text-base font-bold mb-5">Classes</h1>
               <div className="flex gap-10">
-                {FakeClassData.map((c, i) => (
-                  <ClassCard key={i} classes={c} />
+                {classes?.map((c, i) => (
+                  <ClassCard key={i} class={c} />
                 ))}
               </div>
             </div>
@@ -75,7 +85,7 @@ const Page = () => {
               <div className="min-h-96 bg-white shadow-lg rounded-lg w-full px-9 py-7 flex flex-col gap-5">
                 <div className="flex justify-between">
                   <h2 className="font-black text-lg">
-                    {collections && collections[0].title}
+                    {collections && collections[0]?.name}
                   </h2>
                   <Link
                     href={`/home/collection/1`}
@@ -85,7 +95,7 @@ const Page = () => {
                   </Link>
                 </div>
                 {collections &&
-                  collections[0].flashcards.map((word, index) => (
+                  collections[0]?.flashcards.map((word, index) => (
                     <div key={index}>
                       <h2 className="font-bold text-lg text-gray-600">
                         {word.front_text}

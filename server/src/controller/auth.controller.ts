@@ -55,8 +55,10 @@ class AuthController {
     }
   }
 
-  async login(req: Request<any, any, { password: string; email: string }>,
-    res: Response) {
+  async login(
+    req: Request<any, any, { password: string; email: string }>,
+    res: Response
+  ) {
     try {
       const { email, password } = req.body;
 
@@ -201,6 +203,56 @@ class AuthController {
       });
 
       return res.status(200).json({ message: "Deleted" });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+  async addStudent(
+    req: Request<any, any, { classId: number; userId: number }>,
+    res: Response
+  ) {
+    try {
+      const { classId, userId } = req.body;
+
+      if (!classId || !userId) {
+        throw new MissingParameter();
+      }
+
+      const newStudent = await prisma.class.update({
+        where: {
+          id: classId,
+        },
+        data: {
+          studyAt: {
+            create: {
+              studentId: userId,
+            },
+          },
+        },
+      });
+
+      const request = await prisma.request.findFirst({
+        where: {
+          inClass: classId,
+          fromUserId: userId,
+        },
+      });
+
+      if (request) {
+        await prisma.request.delete({
+          where: {
+            id: request.id,
+          },
+        });
+      }
+
+      return res.status(200);
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

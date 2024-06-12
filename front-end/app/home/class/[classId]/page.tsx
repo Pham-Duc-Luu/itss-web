@@ -47,6 +47,8 @@ import FlashCard from "@/components/Svg/FlashCard";
 import { User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
 import classApi, { IClass, IClassDetails } from "@/lib/ClassApi";
+import ClassCard from "@/components/Class/ClassCard";
+import authApi from "@/lib/authApi";
 
 const Page = ({ params }: { params: { classId: string } }) => {
   const [currentClass, setcurrentClass] = useState<{
@@ -56,10 +58,13 @@ const Page = ({ params }: { params: { classId: string } }) => {
     description: string;
   }>(FakeClassData[Number(params.classId)]);
 
+  const [requested, setRequested] = useState<boolean>(false);
   const [classDetails, setclassDetails] = useState<IClassDetails>();
   const [classes, setClasses] = useState<IClass[]>();
   const [userId, setUserId] = useState<number>();
   const [classImg, setClassImg] = useState<string>();
+
+  const [isInClass, setisInClass] = useState<boolean>(false);
   useEffect(() => {
     classApi
       .viewDetailClass(Number(params.classId))
@@ -71,6 +76,16 @@ const Page = ({ params }: { params: { classId: string } }) => {
       });
   }, []);
 
+  useEffect(() => {
+    if (classDetails?.studyAt.find((item) => item.studentId === userId)) {
+      setisInClass(true);
+    }
+    console.log(classDetails?.hostId === userId);
+
+    setisInClass(classDetails?.hostId === userId);
+  }, [classDetails, userId]);
+
+  const [createPost_content, setcreatePost_content] = useState<string>();
   useEffect(() => {
     let a = classes?.find((e) => e.id === Number(params.classId));
     if (a) {
@@ -88,6 +103,66 @@ const Page = ({ params }: { params: { classId: string } }) => {
       setUserId(Number(localStorage.getItem("user")));
     }
   }, []);
+
+  const createPost = () => {
+    console.log({
+      hostId: currentClass.hostID,
+      classId: currentClass.id,
+      content: createPost_content,
+      createrId: userId,
+    });
+
+    userId &&
+      createPost_content &&
+      classApi
+        .createPost({
+          hostId: currentClass.hostID,
+          classId: currentClass.id,
+          content: createPost_content,
+          createrId: userId,
+        })
+        .then((res) => {
+          classApi
+            .viewDetailClass(Number(params.classId))
+            .then((res) => {
+              setclassDetails(res.data.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          setcreatePost_content("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  };
+
+  if (!userId) {
+    return <Button>Please Login</Button>;
+  }
+
+  if (!isInClass && classDetails) {
+    return (
+      <>
+        <Button
+          onClick={() => {
+            authApi.requestToClass(Number(params.classId), userId).then(() => {
+              setRequested(true);
+            });
+          }}
+        >
+          {requested ? "Your request have be make" : "Join class"}
+        </Button>
+        ;
+        <ClassCard
+          class={{
+            ...classDetails,
+          }}
+        ></ClassCard>
+      </>
+    );
+  }
   return (
     <div className="flex w-full flex-col py-10 px-16">
       <div className="mb-5 border-b-[1px] border-slate-200 pb-5 flex justify-between">
@@ -173,7 +248,16 @@ const Page = ({ params }: { params: { classId: string } }) => {
                       <Label className="w-[120px] mb-5 text-1xl font-bold"></Label>
                       <div>
                         {classDetails?.requests?.map((request, index) => (
-                          <div className="flex mb-2 mt-2 ml-auto" key={index}>
+                          <div
+                            className="flex mb-2 mt-2 ml-auto"
+                            key={index}
+                            onClick={() => {
+                              authApi.addStundet(
+                                classDetails.id,
+                                request.fromUserId
+                              );
+                            }}
+                          >
                             <Avatar className="mr-2">
                               <AvatarImage
                                 src="https://github.com/shadcn.png"
@@ -362,12 +446,30 @@ const Page = ({ params }: { params: { classId: string } }) => {
                   </div>
                 </CardContent>
                 <div className="flex gap-5 w-full bg-white px-7">
-                  <CreateCollectionInput
-                    placeholder={"Add new post"}
-                    label={""}
-                    name={"newPost"}
-                  />
-                  <button className="mt-1 px-3 py-2 bg-cyan-400 rounded-2xl font-semibold hover:bg-gray-500">
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      name={"name"}
+                      value={createPost_content}
+                      onChange={(e) => {
+                        setcreatePost_content(e.target.value);
+                      }}
+                      id=""
+                      placeholder={"any"}
+                      className="bg-transparent w-full border-b-2 border-gray-600 focus:outline-0 mb-2 placeholder:text-slate-300 py-3 focus:border-b-4 focus:border-cyan-500"
+                    />
+                    <label
+                      htmlFor={"name"}
+                      className="block text-xs text-gray-400 font-medium uppercase tracking-wider"
+                    ></label>
+                  </div>
+
+                  <button
+                    className="mt-1 px-3 py-2 bg-cyan-400 rounded-2xl font-semibold hover:bg-gray-500"
+                    onClick={() => {
+                      createPost();
+                    }}
+                  >
                     <Send />
                   </button>
                 </div>
