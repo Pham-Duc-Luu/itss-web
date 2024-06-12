@@ -5,7 +5,7 @@ import { IClass } from "./ClassApi";
 import exp from "constants";
 
 interface IUserData {
-  id: number;
+    id: number;
     name: string;
     password: string;
     email: string;
@@ -13,12 +13,12 @@ interface IUserData {
 }
 
 interface IClassData {
-    id: number
-    name: string
-    images: string
-    hostId: number
-    description: string
-  }
+    id: number;
+    name: string;
+    images: string;
+    hostId: number;
+    description: string;
+}
 
 class AdminApi extends Api {
     constructor(route: string = "/admin") {
@@ -27,11 +27,11 @@ class AdminApi extends Api {
     }
 
     getUserData() {
-        return this.api.get<{data: IUserData[]}>("/view-users");
+        return this.api.get<{ data: IUserData[] }>("/view-users");
     }
 
     deleteUser(userId: number): Promise<any> {
-        return this.api.delete(`/delete-user/${userId}`);
+        return this.api.delete(`/delete-user?userId=${userId}`);
     }
     editUser(data: IUser, userId: number): Promise<any> {
         return this.api.patch(`/update-user/${userId}`, {
@@ -52,7 +52,7 @@ class AdminApi extends Api {
     }
 
     getClassData() {
-        return this.api.get<{data: IClassData[]}>("/view-class");
+        return this.api.get<{ data: IClassData[] }>("/view-class");
     }
 
     deleteClass(classId: number): Promise<any> {
