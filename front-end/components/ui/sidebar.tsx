@@ -23,7 +23,6 @@ import {
 export default function Sidebar(){
     const router = useRouter();
     const pathname = usePathname()
-    console.log(pathname)
 
 
     return <div className='bg-white flex flex-col w-[240px] min-w-[240px] border-r min-h-screen p-4'>

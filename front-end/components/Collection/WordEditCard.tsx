@@ -11,16 +11,16 @@ function WordEditCard({ word, index }: { word: any; index: number }) {
           <CreateCollectionInput
             label="Word"
             placeholder="Word"
-            name={word.word}
-            defaultValue={word.word}
+            name={word.front_text}
+            defaultValue={word.front_text}
           />
         </div>
         <div className="w-1/2">
           <CreateCollectionInput
             label="Definition"
             placeholder="Definition"
-            name={word.meaning}
-            defaultValue={word.meaning}
+            name={word.back_text}
+            defaultValue={word.back_text}
           />
         </div>
       </div>
