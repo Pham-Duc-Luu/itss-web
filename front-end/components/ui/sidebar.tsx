@@ -32,14 +32,17 @@ export default function Sidebar(){
         <Command style={{overflow:'visible'}}>
   <CommandList style={{overflow:'visible'}}>
     <div className='flex flex-col gap-2'>
-      <div className={pathname=="/admin/mainmenu/dashboard"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100"}>
-        <LayoutDashboard className='mr-2 my-auto'/><button onClick={() => router.push('/admin/mainmenu/dashboard')}>Dashboard</button>
+      <div className={pathname=="/admin/mainmenu/dashboard"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300 cursor-pointer':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100 cursor-pointer"}
+      onClick={() => router.push('/admin/mainmenu/dashboard')}>
+        <LayoutDashboard className='mr-2 my-auto'/>Dashboard
       </div>
-      <div className={pathname=="/admin/mainmenu/edituser"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100"}>
-        <UserCog className='mr-2 my-auto'/><button onClick={() => router.push('/admin/mainmenu/edituser')}>Edit User</button>
+      <div className={pathname=="/admin/mainmenu/edituser"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300 cursor-pointer':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100 cursor-pointer"}
+      onClick={() => router.push('/admin/mainmenu/edituser')}>
+        <UserCog className='mr-2 my-auto'/>Edit User
       </div>
-      <div className={pathname=="/admin/mainmenu/editclass"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100"}>
-        <Presentation className='mr-2 my-auto'/><button onClick={() => router.push('/admin/mainmenu/editclass')}>Edit class</button>
+      <div className={pathname=="/admin/mainmenu/editclass"?'flex gap-2 font-bold py-2 px-4 rounded-lg bg-slate-300 cursor-pointer':"flex gap-2 font-bold py-2 px-4 rounded-lg hover:bg-slate-100 cursor-pointer"}
+      onClick={() => router.push('/admin/mainmenu/editclass')}>
+        <Presentation className='mr-2 my-auto'/>Edit class
       </div>
     </div>
   </CommandList>
