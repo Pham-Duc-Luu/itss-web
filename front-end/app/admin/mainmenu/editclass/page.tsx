@@ -56,6 +56,7 @@ import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Edit } from "lucide-react";
 import adminApi from "@/lib/AdminApi";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function DemoPage() {
     const [data, setData] = useState<Payment[]>([]);
@@ -79,36 +80,91 @@ export default function DemoPage() {
 
     return (
         <div className="container mx-auto py-10">
-            <div className="font-extrabold text-2xl mt-6"> Edit user</div>
+            <div className="font-extrabold text-2xl mt-6"> Edit class</div>
             {/* <DataTable columns={columns} data={data} /> */}
             <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
+                
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">Invoice</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Method</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
+                        <TableHead>Id</TableHead>
+                        <TableHead>name</TableHead>
+                        <TableHead>images</TableHead>
+                        <TableHead>host Id</TableHead>
+                        <TableHead>description</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data?.map((item) => (
                         <TableRow key={item.id}>
-                            <TableCell className="font-medium">
-                                {item.name}
-                            </TableCell>
+                            <TableCell>{item.id} </TableCell>
+                            <TableCell>{item.name}</TableCell>
+                            <TableCell>{item.images}</TableCell>
                             <TableCell>{item.hostId}</TableCell>
                             <TableCell>{item.description}</TableCell>
                             <TableCell className="text-right"></TableCell>
+
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button>Edit </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                    <DialogTitle>Edit </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                        id
+                                        </Label>
+                                        <Input id="name" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                        Name
+                                        </Label>
+                                        <Input id="name" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                        images
+                                        </Label>
+                                        <Input id="name" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="username" className="text-right">
+                                        hostId
+                                        </Label>
+                                        <Input id="username" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="username" className="text-right">
+                                        description
+                                        </Label>
+                                        <Input id="username" className="col-span-3" />
+                                    </div>
+                                    </div>
+                                    <DialogFooter>
+                                    <Button type="submit">Save changes</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+
+                            <Button className="ml-4 mt-4"
+                                    onClick={() => {
+                                        adminApi
+                                            .deleteUser(Number(item.id))
+                                            .then(() => {
+                                                setReset(!reset);
+                                            });
+                                    }}
+                                >
+                                    Delete
+                                </Button>
+
                         </TableRow>
                     ))}
                 </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={3}>Total</TableCell>
-                        <TableCell className="text-right">$2,500.00</TableCell>
-                    </TableRow>
-                </TableFooter>
+                
             </Table>
         </div>
     );

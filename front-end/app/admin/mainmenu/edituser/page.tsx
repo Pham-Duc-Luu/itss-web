@@ -59,6 +59,7 @@ import adminApi from "@/lib/AdminApi";
 import { set } from "react-hook-form";
 import { IUser } from "@/lib/authApi";
 import { useRouter } from "next/navigation";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function DemoPage() {
     const [data, setData] = useState<Payment[]>([]);
@@ -89,32 +90,73 @@ export default function DemoPage() {
 
     return (
         <div className="container mx-auto py-10">
-            <div className="font-extrabold text-2xl mt-6"> Edit user</div>
+            <div className="font-extrabold text-2xl mt-6 "> Edit user</div>
             <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">email</TableHead>
+                        <TableHead >id</TableHead>
                         <TableHead>name</TableHead>
                         <TableHead>password</TableHead>
+                        <TableHead>email</TableHead>
                         <TableHead>phoneNumber</TableHead>
-                        <TableHead>options</TableHead>
-
-                        <TableHead className="text-right">Amount</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data?.map((item) => (
                         <TableRow key={item.id}>
-                            <TableCell className="font-medium">
-                                {item.email}
-                            </TableCell>
+                            <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.password}</TableCell>
+                            <TableCell>{item.email}</TableCell>
                             <TableCell>{item.phoneNumber}</TableCell>
-
                             <TableCell className="text-right">
-                                <Button
+
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button>Edit </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                    <DialogTitle>Edit </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                        Id
+                                        </Label>
+                                        <Input id="name" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                        Name
+                                        </Label>
+                                        <Input id="name" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="name" className="text-right">
+                                        password
+                                        </Label>
+                                        <Input id="name" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="username" className="text-right">
+                                        Email
+                                        </Label>
+                                        <Input id="username" className="col-span-3" />
+                                    </div>
+                                    <div className="grid grid-cols-4 items-center gap-4">
+                                        <Label htmlFor="username" className="text-right">
+                                        phoneNumber
+                                        </Label>
+                                        <Input id="username" className="col-span-3" />
+                                    </div>
+                                    </div>
+                                    <DialogFooter>
+                                    <Button type="submit">Save changes</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                                <Button className="ml-4"
                                     onClick={() => {
                                         adminApi
                                             .deleteUser(Number(item.id))
@@ -129,12 +171,7 @@ export default function DemoPage() {
                         </TableRow>
                     ))}
                 </TableBody>
-                {/* <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={3}>Total</TableCell>
-                        <TableCell className="text-right">$2,500.00</TableCell>
-                    </TableRow>
-                </TableFooter> */}
+                
             </Table>
         </div>
     );

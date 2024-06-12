@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { LinkProps } from "next/link"
 import { MoreHorizontal } from "lucide-react"
- 
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 
 
@@ -109,7 +109,9 @@ export const columns: ColumnDef<Payment>[] = [
       </DialogContent>
     </Dialog>
         </div>
-        <div><Button>Delete</Button></div>
+        <div>
+          <Button onClick={() => router.push('/admin/mainmenu/editclass')}>Delete</Button>
+        </div>
         </div>
         
       )
