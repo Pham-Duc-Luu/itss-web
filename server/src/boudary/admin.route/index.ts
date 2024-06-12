@@ -9,7 +9,8 @@ const adminRouter = Router();
  * * login with email and password
  */
 
-adminRouter.use(adminController.login);
+// adminRouter.use(adminController.login);
+adminRouter.post("/login", adminController.login);
 
 /**
  * * View user list
@@ -17,12 +18,11 @@ adminRouter.use(adminController.login);
 // xem ds ng dung
 adminRouter.get("/view-users", adminController.viewUserList);
 
-// xem ds class  
+// xem ds class
 adminRouter.get("/view-class", adminController.viewClassList);
 
-
 // xoa user
-adminRouter.post("/remove-user", adminController.removeUser);
+adminRouter.delete("/delete-user", adminController.removeUser);
 // sua tt user
 adminRouter.patch("/update-user", adminController.updateUser);
 // xoa class
