@@ -47,7 +47,7 @@ export default function Sidebar(){
   </CommandList>
 </Command>
 </div>
-    <div className='flex'> <LogOut className='mr-2'/><button>Log out</button></div>
+    <div className='flex'> <LogOut className='mr-2'/><button onClick={() => router.push('/admin/auth/loginn')}>Log out</button></div>
     </div>
     ;
 }

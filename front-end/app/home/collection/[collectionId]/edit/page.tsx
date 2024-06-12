@@ -40,35 +40,42 @@ const Page = ({params} :{params : {collectionId : string}}) => {
   useEffect(() => {
     if(collection) {
       setWordList(collection?.flashcards) 
+      setTitle(collection?.name)
+      setDescription(collection?.description)
     }
   },[collection])
 
   const [wordList, setWordList] = useState<IFlashCardRequest[]>()
   const [word, setWord] = useState<string>()
   const [mean, setMean] = useState<string>()
-
+  const [title, setTitle] = useState<string>()
+  const [description, setDescription] = useState<string>()
   const addWord = () => {
     wordList && word && mean && setWordList([...wordList,{back_text: mean, front_text: word}])
     setWord('')
     setMean('')
     }
   
-  const handleSave = () => {
-    collection?.name &&
+  const handleSave = async  () => {
+    title &&
     collection?.user &&
-    collection?.description &&
-    collectionApi.createCollection({
-      name: collection?.name,
+    description &&
+    await collectionApi.createCollection({
+      name: title,
       userId: collection?.user.id,
-      description: collection?.description,
+      description: description,
       flashCard: wordList,
-    }).then(() => {
-      collectionApi.deleteConllection(Number(params.collectionId)).finally(() => {
-        })  
-    }) 
-    collectionApi.viewCollection().then((response) => {
-    router.push(`/home/collection/${response.data.data.pop()?.id}`)
-    })
+    });
+
+    const collections = await collectionApi.viewCollection();
+    const latestCollectionId = collections.data.data.pop()?.id;
+    router.push(`/home/collection/${latestCollectionId}`);
+    await collectionApi.deleteConllection(Number(params.collectionId));
+
+
+
+    
+    
   }
 
 
@@ -77,8 +84,20 @@ const Page = ({params} :{params : {collectionId : string}}) => {
     <div className='px-16 py-10'>
       <h1 className='font-black text-2xl mb-10'>Edit collection</h1>
       <div className='w-1/2 flex flex-col gap-7 mb-10'>
-        <CreateCollectionInput name={'Title'} label={'Title'} placeholder={'Enter title, example: Unit 11...'} defaultValue={collection?.name}/>
-        <CreateCollectionInput name={'Description'} label={'Description'} placeholder={'Enter description...'}  defaultValue={collection?.description}/>
+        <div className='w-full'>
+          <input type="text" name='Title' placeholder='Enter title, example: Unit 11...' className='bg-transparent w-full border-b-2 border-gray-600 focus:outline-0 mb-2 placeholder:text-slate-300 py-3 focus:border-b-4 focus:border-sky-700' 
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}/>
+          <label htmlFor='Title' className='block text-xs text-gray-400 font-medium uppercase tracking-wider'>Title</label>
+        </div>
+
+        <div className='w-full'>
+          <input type="text" name='Description' placeholder='Enter description...' className='bg-transparent w-full border-b-2 border-gray-600 focus:outline-0 mb-2 placeholder:text-slate-300 py-3 focus:border-b-4 focus:border-sky-700' 
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}/>
+          <label htmlFor='Description' className='block text-xs text-gray-400 font-medium uppercase tracking-wider'>Description</label>
+        </div>
+
         </div>
       <div className="flex justify-center gap-10 mb-10">
         <input type="text" name="" id="" value={word} onChange={ (e) => setWord(e.target.value)} placeholder='Word' className='px-3 border-2 rounded-lg border-gray-300'/>

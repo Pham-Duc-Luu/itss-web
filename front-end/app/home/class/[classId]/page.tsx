@@ -144,8 +144,8 @@ const Page = ({ params }: { params: { classId: string } }) => {
 
   if (!isInClass && classDetails) {
     return (
-      <>
-        <Button
+      <div className="px-7 py-5 flex flex-col gap-7">
+        <Button className="w-28 ml-3"
           onClick={() => {
             authApi.requestToClass(Number(params.classId), userId).then(() => {
               setRequested(true);
@@ -154,13 +154,12 @@ const Page = ({ params }: { params: { classId: string } }) => {
         >
           {requested ? "Your request have be make" : "Join class"}
         </Button>
-        ;
         <ClassCard
           class={{
             ...classDetails,
           }}
         ></ClassCard>
-      </>
+      </div>
     );
   }
   return (
@@ -490,8 +489,8 @@ const Page = ({ params }: { params: { classId: string } }) => {
                       <TabsTrigger value="completed">Completed</TabsTrigger>
                     </TabsList>
                   </Tabs>
-                  {classDetails?.assignments?.map((item) => (
-                    <Card className="w-full mb-4">
+                  {classDetails?.assignments?.map((item,i) => (
+                    <Card className="w-full mb-4" key={i}>
                       <CardHeader>
                         <CardTitle>
                           <div className="flex items-center">
@@ -594,7 +593,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                     </CardHeader>
 
                     <div className="grid">
-                      <button className="justify-self-end mx-8 mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm">
+                      <button className="justify-self-end mx-8 mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300">
                         View
                       </button>
                     </div>

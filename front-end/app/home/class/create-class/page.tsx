@@ -30,7 +30,7 @@ interface ICreateClassRequest {
   classInfo: IClassInfo;
 }
 
-const page = () => {
+const Page = () => {
   const [userId, setUserId] = useState<string>();
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -97,7 +97,7 @@ const page = () => {
             }}
           ></Input>
           <Label className="block text-xs text-gray-400 font-medium uppercase mt-4 tracking-wider">
-            Class's name
+            Class&apos;s name
           </Label>
         </div>
         {/* <div>
@@ -141,4 +141,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

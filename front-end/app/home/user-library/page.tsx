@@ -12,7 +12,7 @@ import collectionApi, { ICollection } from "@/lib/CollectionApi";
 import classApi, { IClass } from "@/lib/ClassApi";
 // * list of collections user have
 // * list of class user have
-const page = () => {
+const Page = () => {
   const [userInfo, setUserInfo] = useState<IUser>(
     JSON.parse(localStorage.getItem("userData") as string)
   );
@@ -121,4 +121,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
