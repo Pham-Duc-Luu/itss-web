@@ -77,21 +77,30 @@ class AdminController {
             return res.status(err.statusCode).json({ message: err.message });
         }
     }
-    async updateUser(req: Request, res: Response) {
-        const userId = Number(req.params.id);
-        const { email, name, password, phoneNumber } = req.body;
+    async updateUser(
+        req: Request<
+            any,
+            any,
+            {
+                name: string;
+                id: number;
+                email: string;
+                phoneNumber: string | null;
+                password: string;
+            }
+        >,
+        res: Response
+    ) {
+        const { email, name, password, phoneNumber,id } = req.body;
+        console.log(req.body);
 
         try {
-            const userToUpdate = await prisma.user.findUnique({
-                where: { id: userId },
-            });
-
-            if (!userToUpdate) {
-                return res.status(404).json({ message: "User not found" });
-            }
-
+            if (!password || !email || !name || !phoneNumber || !id) {
+                throw new MissingParameter();
+              }
+           
             const updatedUser = await prisma.user.update({
-                where: { id: userId },
+                where: { id: id },
                 data: {
                     email: email,
                     name: name,

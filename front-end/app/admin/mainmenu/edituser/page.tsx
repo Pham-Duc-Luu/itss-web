@@ -65,6 +65,10 @@ export default function DemoPage() {
     const [data, setData] = useState<Payment[]>([]);
     const [reset, setReset] = useState<boolean>(false);
     const route = useRouter();
+    const [name,setName] = useState<string>("");
+    const [password,setPassword] = useState<string>("");
+    const [email,setEmail] = useState<string>("");
+    const [phoneNumber,setPhoneNumber] = useState<string>("");
 
     useEffect(() => {
         adminApi
@@ -100,6 +104,7 @@ export default function DemoPage() {
     };
 
     return (
+
         <div className="container mx-auto py-10">
             <div className="font-extrabold text-2xl mt-6 "> Edit user</div>
             <Table>
@@ -124,43 +129,62 @@ export default function DemoPage() {
 
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button>Edit </Button>
+                                    <Button onClick={()=>{
+                                        setName(item.name);
+                                        setPassword(item.password);
+                                        setEmail(item.email);
+                                        setPhoneNumber(item.phoneNumber.toString());
+                                    }}>Edit </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
+                                    
                                     <DialogHeader>
                                     <DialogTitle>Edit </DialogTitle>
                                     </DialogHeader>
+                                    
                                     <div className="grid gap-4 py-4">
                                     
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="name" className="text-right">
                                         Name
                                         </Label>
-                                        <Input id="name" className="col-span-3"defaultValue={item.name} />
+                                        <Input id="name" onChange={(e)=>{setName(e.target.value)}} className="col-span-3"value={name} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="password" className="text-right">
                                         password
                                         </Label>
-                                        <Input id="password" className="col-span-3" defaultValue={item.password} />
+                                        <Input id="password" onChange={(e)=>{setPassword(e.target.value)}} className="col-span-3" value={password} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="Email" className="text-right">
                                         Email
                                         </Label>
-                                        <Input id="Email" className="col-span-3"defaultValue={item.email} />
+                                        <Input id="Email" onChange={(e)=>{setEmail(e.target.value)}} className="col-span-3" value={email} />
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="phoneNumber" className="text-right">
                                         phoneNumber
                                         </Label>
-                                        <Input id="phoneNumber" className="col-span-3"defaultValue={item.phoneNumber} />
+                                        <Input id="phoneNumber" onChange={(e)=>{e.target.value}} className="col-span-3"value={phoneNumber} />
                                     </div>
                                     </div>
                                     <DialogFooter>
-                                    <Button type="submit">Save changes</Button>
+                                    <Button type="submit" onClick={()=>{
+                                        adminApi.editUser({
+                                            id: Number(item.id),
+                                            name: name,
+                                            password: password,
+                                            email: email,
+                                            phoneNumber: phoneNumber.toString()
+                                        }).then(()=>{
+                                            setReset(!reset);
+                                        });
+                                    }}>Save changes</Button>
                                     </DialogFooter>
+                                   
                                 </DialogContent>
+                                
                             </Dialog>
                                 <Button className="ml-4"
                                     onClick={() => {

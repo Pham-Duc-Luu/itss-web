@@ -39,9 +39,9 @@ class AdminApi extends Api {
     deleteUser(userId: number): Promise<any> {
         return this.api.delete(`/delete-user?userId=${userId}`);
     }
-    editUser(data: IUser, userId: number): Promise<any> {
-        return this.api.post(`/update-user/${userId}`, {
-            data,
+    editUser(data: IUser): Promise<any> {
+        return this.api.post(`/update-user`, {
+            ...data
         });
     }
     getCollectionData(data: ICollection) {
