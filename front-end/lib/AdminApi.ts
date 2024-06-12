@@ -40,7 +40,7 @@ class AdminApi extends Api {
         return this.api.delete(`/delete-user?userId=${userId}`);
     }
     editUser(data: IUser, userId: number): Promise<any> {
-        return this.api.patch(`/update-user/${userId}`, {
+        return this.api.post(`/update-user/${userId}`, {
             data,
         });
     }

@@ -77,8 +77,35 @@ class AdminController {
             return res.status(err.statusCode).json({ message: err.message });
         }
     }
-    async updateUser() {
-        return "Admin";
+    async updateUser(req: Request, res: Response) {
+        const userId = Number(req.params.id);
+        const { email, name, password, phoneNumber } = req.body;
+
+        try {
+            const userToUpdate = await prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (!userToUpdate) {
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            const updatedUser = await prisma.user.update({
+                where: { id: userId },
+                data: {
+                    email: email,
+                    name: name,
+                    password: password, // Lưu ý: Trong thực tế, password nên được mã hóa trước khi lưu
+                    phoneNumber: phoneNumber,
+                },
+            });
+
+            return res.json(updatedUser);
+        } catch (error: any) {
+            console.log(error.stack);
+            const err = new HttpErrorResponse(error.message, error.statusCode);
+            return res.status(err.statusCode).json({ message: err.message });
+        }
     }
     async removeClass() {
         return "Admin";

@@ -88,6 +88,17 @@ export default function DemoPage() {
             });
     }, [reset]);
 
+    const handleDelete = (id: number) => {
+        adminApi
+            .deleteUser(id)
+            .then(() => {
+                window.location.reload()
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return (
         <div className="container mx-auto py-10">
             <div className="font-extrabold text-2xl mt-6 "> Edit user</div>
