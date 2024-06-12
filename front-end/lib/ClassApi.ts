@@ -12,7 +12,7 @@ interface IClassRequest {
 export interface IClass {
   id: number;
   name: string;
-  images: string | null;
+  images?: string | null;
   hostId: number | null;
   description: string | null;
 }
@@ -80,14 +80,30 @@ class ClassApi extends Api {
   }
 
   ViewAllClasses(filter?: "all", name?: string, hostId?: string) {
+    const params = new URLSearchParams();
+
+    if (filter) {
+      params.append("filter", filter);
+    }
+    if (name) {
+      params.append("name", name);
+    }
+    if (hostId) {
+      params.append("ownerId", hostId);
+    }
     return this.api.get<{
       data: IClass[];
-    }>(`/view-class`, {
-      data: {
-        filter,
-        name,
-        hostId,
-      },
+    }>(`/view-class?${params.toString()}`);
+  }
+
+  createPost(data: {
+    hostId: number;
+    classId: number;
+    content: string;
+    createrId: number;
+  }) {
+    return this.api.post("/create-post", {
+      ...data,
     });
   }
 

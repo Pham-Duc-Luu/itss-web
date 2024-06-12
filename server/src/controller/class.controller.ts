@@ -256,14 +256,16 @@ class ClassController {
         hostId: number;
         classId: number;
         content: string;
+        createrId: number;
       }
     >,
     res: Response
   ) {
     try {
-      const { hostId, classId, content } = req.body;
+      const { hostId, classId, content, createrId } = req.body;
 
-      if (!hostId || !classId || !content) {
+      console.log(req.body);
+      if (!hostId || !classId || !content || !createrId) {
         throw new MissingParameter();
       }
 
@@ -277,6 +279,7 @@ class ClassController {
             create: {
               content: content,
               date: new Date(),
+              byMemberId: createrId,
             },
           },
         },

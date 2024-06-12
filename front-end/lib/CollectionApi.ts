@@ -49,16 +49,21 @@ class CollectionApi extends Api {
     });
   }
 
-  viewCollection(filter?: "all", name?: string, hostId?: string) {
+  viewCollection(filter?: "all", name?: string, ownerId?: string) {
+    const params = new URLSearchParams();
+
+    if (filter !== undefined) {
+      params.append("filter", filter);
+    }
+    if (name) {
+      params.append("name", name);
+    }
+    if (ownerId) {
+      params.append("ownerId", ownerId);
+    }
     return this.api.get<{
       data: ICollection[];
-    }>(`/view-collection`, {
-      data: {
-        filter,
-        name,
-        hostId,
-      },
-    });
+    }>(`/view-collection?${params.toString()}`);
   }
   deleteConllection(collectionid: Number): Promise<any> {
     return this.api.delete(`/delete/${collectionid}`);

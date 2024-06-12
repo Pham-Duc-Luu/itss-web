@@ -16,8 +16,8 @@ classRouter.patch("/update-class", classController.updateClass);
 // TODO: create post
 classRouter.post("/create-post", classController.createPost);
 
+// * find my class
 // TODO : Anwser assignment
 classRouter.post("/awnser-assignment", classController.AnwserAss);
-classRouter.patch("/create-post");
 
 export default classRouter;

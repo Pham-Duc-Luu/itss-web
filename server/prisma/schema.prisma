@@ -1,101 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model User {
-  id          Int     @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   password    String
-  email       String  @unique
+  email       String       @unique
   phoneNumber String?
-  collections Collection[] @relation("CollectionBelongToUser")
-  studyAt     StudyAt[]
   hosted      Class[]
+  collections Collection[] @relation("CollectionBelongToUser")
   my_requests Request[]
+  posts Post[]
+  studyAt     StudyAt[]
 }
 
 model Flashcard {
-  id           Int    @id @default(autoincrement())
   front_text   String
   front_img    String?
   back_text    String
   back_img     String?
   collectionId Int
+  id           Int        @id @default(autoincrement())
   collection   Collection @relation(fields: [collectionId], references: [id])
 }
 
 model Collection {
-  id          Int    @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String?
   summary     String?
   belongto    Int?
-  flashcards  Flashcard[]
   author      Int?
-  user        User?     @relation("CollectionBelongToUser", fields: [author], references: [id])
-  class       Class?    @relation("CollectionBelongToClass", fields: [belongto], references: [id])
+  user        User?       @relation("CollectionBelongToUser", fields: [author], references: [id])
+  class       Class?      @relation("CollectionBelongToClass", fields: [belongto], references: [id])
+  flashcards  Flashcard[]
 }
 
 model Class {
-  id          Int    @id @default(autoincrement())
-  name       String @unique
-  images     String?
-  hostId     Int?
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  images      String?
+  hostId      Int?
   description String?
-  host       User?        @relation(fields: [hostId], references: [id])
-  studyAt    StudyAt[]
-  collections Collection[] @relation("CollectionBelongToClass")
   assignments Assignment[]
-  posts      Post[]
-  requests Request[]
-  
+  host        User?        @relation(fields: [hostId], references: [id])
+  collections Collection[] @relation("CollectionBelongToClass")
+  posts       Post[]
+  requests    Request[]
+  studyAt     StudyAt[]
 }
 
 model StudyAt {
   classId   Int
   studentId Int
-  class     Class  @relation(fields: [classId], references: [id])
-  student   User   @relation(fields: [studentId], references: [id])
+  class     Class @relation(fields: [classId], references: [id])
+  student   User  @relation(fields: [studentId], references: [id])
 
   @@id([classId, studentId])
 }
 
 model Assignment {
-  id       Int    @id @default(autoincrement())
-  question String
+  id          Int       @id @default(autoincrement())
+  question    String
+  due         DateTime? @default(now())
+  inClass     Int
   description String?
-  due      DateTime? @default(now())
-  inClass  Int
-  class    Class     @relation(fields: [inClass], references: [id])
-  answers  Answer[]
+  answers     Answer[]
+  class       Class     @relation(fields: [inClass], references: [id])
 }
 
 model Answer {
-  id           Int     @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   assignmentId Int
-  student      String 
+  student      String
   point        Float?
-  answer        String
+  answer       String
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
 }
 
 model Post {
-  id      Int   @id @default(autoincrement())
   date    DateTime? @default(now())
   content String
   inClass Int
-  class   Class    @relation(fields: [inClass], references: [id])
+  byMemberId Int
+  byMember User @relation(fields: [byMemberId], references: [id])
+  id      Int       @id @default(autoincrement())
+  class   Class     @relation(fields: [inClass], references: [id])
 }
 
 model Request {
-  id      Int   @id @default(autoincrement())
-  inClass Int
-  class   Class    @relation(fields: [inClass], references: [id])
+  id         Int   @id @default(autoincrement())
+  inClass    Int
   fromUserId Int
-  fromUser User @relation(fields: [fromUserId], references: [id])
+  fromUser   User  @relation(fields: [fromUserId], references: [id])
+  class      Class @relation(fields: [inClass], references: [id])
 }
