@@ -112,6 +112,11 @@ class ClassApi extends Api {
       data: IClassDetails;
     }>(`/view-detail-class?id=${id}`);
   }
+  viewStudyAt(id: number) {
+    return this.api.get<{
+      data: IClass[];
+    }>(`/view-study-at?id=${id}`);
+  }
 }
 
 const classApi = new ClassApi();

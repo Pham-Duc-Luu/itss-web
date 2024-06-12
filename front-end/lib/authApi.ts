@@ -1,3 +1,4 @@
+import { IClass } from "./ClassApi";
 import { Api } from "./api";
 
 interface ICreateAccountRequest {}
@@ -88,6 +89,8 @@ class AuthenticateApi extends Api {
       userId,
     });
   }
+
+  
 }
 const authApi = new AuthenticateApi();
 export default authApi;

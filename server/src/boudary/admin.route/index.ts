@@ -30,4 +30,5 @@ adminRouter.post("/update-user", adminController.updateUser);
 // sua class
 adminRouter.post("/update-class", adminController.updateClass);
 
+
 export default adminRouter;

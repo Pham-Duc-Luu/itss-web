@@ -2,6 +2,7 @@ import { HttpErrorResponse, MissingParameter } from "../lib/http.reponse";
 import { Response, Request } from "express";
 import classService from "../service/class.service";
 import { prisma } from "../database/postgresql/connect.postgresql";
+import { boolean } from "zod";
 
 class ClassController {
   async createClass(
@@ -382,6 +383,30 @@ class ClassController {
         },
       });
       return res.status(200).json({ data: classInfo });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+
+  async viewStudyAt(
+    req: Request<any, any>,
+    res: Response
+  ) {
+    try {
+      const { id } = req.query;
+      const studyAtInfo = await prisma.studyAt.findMany({
+        where: { studentId: Number(id) },
+      });
+      const classInfo = classes.map(item => item.class);
+      
+      console.log(studyAtInfo);
+      return res.status(200).json({ data: studyAtInfo });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),
