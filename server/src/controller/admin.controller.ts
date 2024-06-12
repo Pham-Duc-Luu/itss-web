@@ -34,8 +34,23 @@ class AdminController {
   async addUser() {
     return 'Admin';
   }
-  async removeUser() {
-    return 'Admin';
+  async removeUser(
+    req: Request<any,any, {userId: number}>,
+    res: Response
+  ) {
+    try {
+        const {userId} = req.body;
+
+        const foundUser = await prisma.user.delete(
+          {where:{id: userId}}
+        )
+        return res.status(200);
+    }
+    catch (error: any) {
+      console.log(error.stack);
+     const err = new HttpErrorResponse(error.message, error.statusCode);
+     return res.status(err.statusCode).json({ message: err.message });
+   }; 
   }
   async updateUser() {  
     return 'Admin';

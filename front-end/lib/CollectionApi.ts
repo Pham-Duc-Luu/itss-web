@@ -77,7 +77,7 @@ class CollectionApi extends Api {
     });
   }
 
-  addFlashCard(data: IFlashCardRequest, collectionid: Number): Promise<any> {
+  addFlashCard(data: IFlashCardRequest, collectionid: Number ): Promise<any> {
     return this.api.post(`/${collectionid}/add-flash-card/`, {
       data,
     });
