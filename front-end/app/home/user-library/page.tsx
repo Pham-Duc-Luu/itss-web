@@ -10,13 +10,15 @@ import { Button } from "@/components/ui/button";
 import { IUser } from "@/lib/authApi";
 import collectionApi, { ICollection } from "@/lib/CollectionApi";
 import classApi, { IClass } from "@/lib/ClassApi";
+import { useRouter } from "next/navigation";
+
 // * list of collections user have
 // * list of class user have
-const page = () => {
+const Page = () => {
   const [userInfo, setUserInfo] = useState<IUser>(
     JSON.parse(localStorage.getItem("userData") as string)
   );
-
+    const route = useRouter()
     const [collections, setcollections] = useState<ICollection[]>();
     const [classes, setClasses] = useState<IClass[]>();
     const [currentUserId, setCurrentUserId] = useState<string>(
@@ -37,7 +39,7 @@ const page = () => {
     }, []);
 
     if (!localStorage.getItem("userData") && !localStorage.getItem("user")) {
-        return <Button>Please login</Button>;
+        return <Button onClick={() => route.push(`/auth/login`)}>Please login</Button>;
     }
 
     return (
@@ -121,7 +123,7 @@ const page = () => {
           <ClassCard key={i} class={c} />
         ))} */}
                 {classes
-                    ?.filter((c) => c.hostId === currentUserId)
+                    ?.filter((c) => c.hostId?.toString() === currentUserId)
                     .map((c, i) => (
                         <ClassCard key={i} class={c} />
                     ))}
@@ -131,7 +133,7 @@ const page = () => {
                 {classes
                     ?.filter(
                         (c) =>      
-                            c.hostId !== currentUserId.toString() 
+                            c.hostId?.toString() !== currentUserId.toString() 
                     )
                     .map((c, i) => (
                         <ClassCard key={i} class={c} />

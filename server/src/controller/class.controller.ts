@@ -403,7 +403,7 @@ class ClassController {
       const studyAtInfo = await prisma.studyAt.findMany({
         where: { studentId: Number(id) },
       });
-      const classInfo = classes.map(item => item.class);
+      // const classInfo = classes.map(item => item.class);
       
       console.log(studyAtInfo);
       return res.status(200).json({ data: studyAtInfo });

@@ -49,7 +49,8 @@ import { FakeClassData } from "@/API/FakeData";
 import classApi, { IClass, IClassDetails } from "@/lib/ClassApi";
 import ClassCard from "@/components/Class/ClassCard";
 import authApi from "@/lib/authApi";
-
+import Image from "next/image";
+import errorImg from "../../../../assets/404.png"
 const Page = ({ params }: { params: { classId: string } }) => {
   const [currentClass, setcurrentClass] = useState<{
     hostID: number;
@@ -139,7 +140,14 @@ const Page = ({ params }: { params: { classId: string } }) => {
   };
 
   if (!userId) {
-    return <Button>Please Login</Button>;
+    return (
+      <div className="w-full flex flex-col p-20 items-center gap-5">
+        <h1 className="text-lg text-center">You can&apos;t join class if you don&apos;t have an account yet.<br></br> 
+        Do you want to login ?</h1>
+        <Image src={errorImg.src} alt="Not found" width={400} height={300}/>
+        <Button className="w-32 bg-yellow-400 font-semibold text-black hover:bg-yellow-300">Please Login</Button>
+      </div>
+    )
   }
 
   if (!isInClass && classDetails) {

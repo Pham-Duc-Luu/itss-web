@@ -8,9 +8,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  useEffect(() => {
-    !localStorage.getItem("user") && router.push("/auth/login");
-  }, []);
   return <>{children}</>;
 }
