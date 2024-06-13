@@ -2,7 +2,7 @@
 import NavBar from "@/components/Navbar/NavBar";
 import Sidebar from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import type { Metadata } from 'next';
 
 import { Inter as FontSans } from 'next/font/google';
@@ -20,9 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  
+  useEffect(() => {
+    if(!localStorage.getItem("admin")) {
+      router.push("/admin/auth/loginn")
+      
+    }
+  },[])
+
   return <>
-  
+
     <div className="flex items-start justify-between">
         <Sidebar/>
         <div className="w-full h-full">

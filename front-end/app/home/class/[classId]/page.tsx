@@ -44,14 +44,17 @@ import CreateCollectionInput from "@/components/Input/CreateCollectionInput";
 import Send from "@/components/Svg/Send";
 import School from "@/components/Svg/School";
 import FlashCard from "@/components/Svg/FlashCard";
-import { User } from "lucide-react";
+import { Route, User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
 import classApi, { IClass, IClassDetails } from "@/lib/ClassApi";
 import ClassCard from "@/components/Class/ClassCard";
 import authApi from "@/lib/authApi";
 import Image from "next/image";
 import errorImg from "../../../../assets/404.png"
+import { useRouter } from "next/navigation";
+import classImage from "../../../../assets/class.png"
 const Page = ({ params }: { params: { classId: string } }) => {
+  const route = useRouter()
   const [currentClass, setcurrentClass] = useState<{
     hostID: number;
     id: number;
@@ -145,31 +148,13 @@ const Page = ({ params }: { params: { classId: string } }) => {
         <h1 className="text-lg text-center">You can&apos;t join class if you don&apos;t have an account yet.<br></br> 
         Do you want to login ?</h1>
         <Image src={errorImg.src} alt="Not found" width={400} height={300}/>
-        <Button className="w-32 bg-yellow-400 font-semibold text-black hover:bg-yellow-300">Please Login</Button>
+        <Button className="w-32 bg-yellow-400 font-semibold text-black hover:bg-yellow-300"
+        onClick={() => route.push('/auth/login')}
+        >Please Login</Button>
       </div>
     )
   }
 
-  if (!isInClass && classDetails) {
-    return (
-      <div className="px-7 py-5 flex flex-col gap-7">
-        <Button className="w-28 ml-3"
-          onClick={() => {
-            authApi.requestToClass(Number(params.classId), userId).then(() => {
-              setRequested(true);
-            });
-          }}
-        >
-          {requested ? "Your request have be make" : "Join class"}
-        </Button>
-        <ClassCard
-          class={{
-            ...classDetails,
-          }}
-        ></ClassCard>
-      </div>
-    );
-  }
   return (
     <div className="flex w-full flex-col py-10 px-16">
       <div className="mb-5 border-b-[1px] border-slate-200 pb-5 flex justify-between">
@@ -332,6 +317,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
             </Dialog>
           </div>
         </div>
+        {userId === classDetails?.hostId &&
         <Dialog>
           <DialogTrigger>
             <Button variant="outline">Edit Class Profile</Button>
@@ -401,9 +387,25 @@ const Page = ({ params }: { params: { classId: string } }) => {
             <DialogFooter></DialogFooter>
           </DialogContent>
         </Dialog>
+      }
       </div>
       <div className="flex gap-10">
-        <div className="w-4/5">
+        
+      <div className="w-4/5">
+          {(!isInClass && classDetails) ?
+          <div className="px-7 py-5 flex flex-col items-center">
+            <Image src={classImage.src} width={300} height={300} alt="join class"/>
+            <h1 className="mb-7 font-semibold font-lg">Join class to view class&apos;information</h1>
+            <Button className="w-28 ml-3 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 hover:scale-110 transition-all ease-in-out" 
+              onClick={() => {
+                authApi.requestToClass(Number(params.classId), userId).then(() => {
+                  setRequested(true);
+                });
+              }}
+            >
+              {requested ? "Your request have be make" : "Join class"}
+            </Button>
+      </div>:            
           <Tabs defaultValue="post" className="">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="post">Post</TabsTrigger>
@@ -613,8 +615,8 @@ const Page = ({ params }: { params: { classId: string } }) => {
               </Card>
             </TabsContent>
           </Tabs>
-        </div>
-
+      }
+              </div>
         <div className="w-1/5 flex flex-col gap-5">
           <h1 className="tracking-wide uppercase text-gray-500 font-bold text-sm">
             Invite class id
@@ -632,7 +634,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
               Class detail
             </h1>
             <div className="flex gap-5 font-semibold leading-loose">
-              <School /> Class name
+              <School /> {classDetails?.name}
             </div>
             <div className="flex gap-5 font-semibold leading-loose">
               <FlashCard size={25} /> {classDetails?.collections.length}{" "}

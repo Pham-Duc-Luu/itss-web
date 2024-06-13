@@ -23,6 +23,7 @@ const Page: FC = () => {
     // Check if the entered username and password are correct
     if (username === "admin" && password === "123") {
       // Redirect to a different page after successful login
+      localStorage.setItem("admin","accessed");
       router.push("/admin/mainmenu/dashboard");
     } else {
       alert("Invalid username or password. Please try again.");

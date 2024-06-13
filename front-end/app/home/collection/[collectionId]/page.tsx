@@ -52,13 +52,13 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
   return (
     <div className="px-32 py-12 flex flex-col gap-12 w-3/4">
       <div className="">
-        <h1 className="text-3xl font-bold mb-5">{collection?.name}</h1>
-        <div className="flex gap-3">
-          <Star size={25} />
+        <h1 className="text-3xl font-bold flex gap-1">{collection?.name}<Star size={15} /></h1>
+        {/* <div className="flex gap-3">
+          <Star size={15} />
           <h2 className="font-medium text-gray-500 text-lg">
-            {/* {collection?.rate} ({collection?.number_of_rate} rate) */}
+            {collection?.rate} ({collection?.number_of_rate} rate) 
           </h2>
-        </div>
+        </div> */}
       </div>
       <div className="">
         <h1 className="text-xl font-medium mb-5">Activities</h1>
@@ -108,9 +108,9 @@ const Page = ({ params }: { params: { collectionId: string } }) => {
         <div className="flex gap-5">
           <div className="h-16 w-16 rounded-full bg-slate-600"></div>
           <div className="flex flex-col">
-            <p className="text-sm text-slate-300">Created by</p>
+            <p className="text-sm text-slate-400">Created by</p>
             <h1 className="font-semibold text-lg">{collection?.user?.name}</h1>
-            <p className="text-sm text-slate-300">3 months ago</p>
+            <p className="text-sm text-slate-400">3 months ago</p>
           </div>
         </div>
 
