@@ -31,7 +31,6 @@ class CollectionController {
     ) {
         try {
             const { userId, name, summary, description, flashCards } = req.body;
-            console.log(flashCards)
             if (!userId || !name) {
                 throw new MissingParameter();
             }
@@ -63,7 +62,10 @@ class CollectionController {
                                 createMany: {
                                     data:
                                         flashCards && flashCards.length > 0
-                                            ? [...flashCards]
+                                            ? flashCards.map((flashcard,index) => { return {
+                                                front_text: flashcard.front_text,
+                                                back_text: flashcard.back_text
+                                            }})
                                             : [],
                                 },
                             },
