@@ -2,6 +2,7 @@ import axios from "axios";
 import { Api } from "./api";
 import { IUser } from "./authApi";
 import { ICollection } from "./CollectionApi";
+import { ICreateClassRequest } from "@/app/home/class/create-class/page";
 
 interface IClassRequest {
   _id: string;
@@ -63,9 +64,9 @@ class ClassApi extends Api {
     this.connect(route);
   }
 
-  createClass(data: IClassRequest): Promise<any> {
-    return this.api.post("/create-class", {
-      data,
+  createClass(data: ICreateClassRequest): Promise<any> {
+    return this.api.post<{data: IClass}>("/create-class", {
+      ...data
     });
   }
 

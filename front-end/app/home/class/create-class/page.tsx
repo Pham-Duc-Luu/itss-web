@@ -19,18 +19,20 @@ import Plus from "@/components/Svg/Plus";
 import WordEditCard from "@/components/Collection/WordEditCard";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { api_class } from "@/config/axios.config";
-
+import { useRouter } from "next/navigation";
+import classApi from "@/lib/ClassApi";
 interface IClassInfo {
   name: string;
   images: string;
 }
 
-interface ICreateClassRequest {
+export interface ICreateClassRequest {
   userId: string;
   classInfo: IClassInfo;
 }
 
 const Page = () => {
+  const route = useRouter()
   const [userId, setUserId] = useState<string>();
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -41,10 +43,10 @@ const Page = () => {
   const [className, setClassName] = useState<string>();
 
   const createClass = (input: ICreateClassRequest) => {
-    api_class
-      .post("/create-class", input)
+    classApi
+      .createClass(input)
       .then((res) => {
-        console.log(res.data);
+        route.push(`/home/class/${res.data.data.hosted.pop().id}`)
       })
       .catch((err) => {
         console.log(err);

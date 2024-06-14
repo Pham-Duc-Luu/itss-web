@@ -14,6 +14,7 @@ class ClassController {
     res: Response
   ) {
     try {
+      console.log(req.body)
       const { userId, classInfo } = req.body;
       if (!userId || !classInfo || !classInfo.name) {
         throw new MissingParameter();
