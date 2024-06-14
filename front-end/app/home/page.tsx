@@ -29,10 +29,13 @@ const Page = () => {
   const settings = {
     dots: true, // Hiển thị dấu chấm
     infinite: true, // Lặp lại vô hạn
-    speed: 500, // Tốc độ chuyển đổi (ms)
+    speed: 2000, // Tốc độ chuyển đổi (ms)
     slidesToShow: 3, // Số lượng slide hiển thị cùng lúc
     slidesToScroll: 1, // Số lượng slide cuộn khi sử dụng next/prev buttons
     swipeToSlide: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    pauseOnHover: true
   };
 
   const [collections, setCollections] = useState<ICollection[]>();

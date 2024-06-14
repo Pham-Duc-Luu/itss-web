@@ -19,8 +19,8 @@ function ClassCard(prop: { class: IClass }) {
         className="w-full rounded-2xl h-full object-cover group-hover:brightness-110"
       />
       <div className="py-3 w-full px-5 absolute top-2/3 bg-[rgba(255,255,255,0.9)] h-1/3 rounded-b-xl group-hover:bg-[rgba(255,255,255,0.6)] transition-all duration-500 ease-in-out delay-50">
-        <h1 className="font-semibold">{prop?.class?.name}</h1>
-        <p className=" text-ellipsissis text-sm">{prop?.class?.description}</p>
+        <h1 className="font-semibold mb-1">{prop?.class?.name}</h1>
+        <p className=" text-ellipsissis text-sm font-medium">{prop?.class?.description?prop?.class?.description:"No description on this class"}</p>
       </div>
     </div>
   );
