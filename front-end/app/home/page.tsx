@@ -68,11 +68,21 @@ const Page = () => {
     <div className="px-16 py-12 flex flex-col gap-12">
       <div className="">
         <h1 className="text-2xl font-bold mb-10">Collections</h1>
+        {collections?.length?((collections?.length<3)
+        ?
+        <div className="flex gap-10">
+        {collections?.map((collection, index) => (
+          <CollectionCard key={index} collection={collection} />
+        ))}
+        </div>
+        :
         <Slider {...settings}>
           {collections?.map((collection, index) => (
             <CollectionCard key={index} collection={collection} />
           ))}
         </Slider>
+       )
+       :""}
       </div>
 
       <div className="">

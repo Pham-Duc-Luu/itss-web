@@ -69,7 +69,7 @@ const NavBar = () => {
             </Button>
           </form>
 
-          <div className="flex gap-10">
+          <div className="flex gap-8">
             <div className="flex gap-6">
               <Button
                 className="w-auto"
