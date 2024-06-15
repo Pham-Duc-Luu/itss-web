@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import classImg0 from "../../assets/classCard.jpg";
 import classImg1 from "../../assets/9202732.jpg"
 import classImg2 from "../../assets/international-day-education-illustration_23-2151101753.jpg"
@@ -26,11 +26,7 @@ function ClassCard(prop: { class: IClass }) {
       />
       :
       <Image
-        src={prop?.class?.id % 5 === 0 ? classImg0 :
-          prop?.class?.id % 5 === 1 ? classImg1 :
-          prop?.class?.id % 5 === 2 ? classImg2 :
-          prop?.class?.id % 5 === 3 ? classImg3 :
-          classImg4}
+        src={classImg1}
         alt="class image"
         className="w-full rounded-2xl h-full object-cover group-hover:brightness-110"
         
