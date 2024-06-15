@@ -9,16 +9,18 @@ import ClassCard from "@/components/Class/ClassCard";
 import { Button } from "@/components/ui/button";
 import { IUser } from "@/lib/authApi";
 import collectionApi, { ICollection } from "@/lib/CollectionApi";
-import classApi, { IClass } from "@/lib/ClassApi";
+import classApi, { IClass, IClassDetails } from "@/lib/ClassApi";
 import { useRouter } from "next/navigation";
 
 // * list of collections user have
 // * list of class user have
-const Page = () => {
+const Page = ({ params }: { params: { classId: string } }) => {
   const [userInfo, setUserInfo] = useState<IUser>(
     JSON.parse(localStorage.getItem("userData") as string)
   );
     const route = useRouter()
+    const [classDetails, setclassDetails] = useState<IClass[]>();
+
     const [collections, setcollections] = useState<ICollection[]>();
     const [classes, setClasses] = useState<IClass[]>();
     const [currentUserId, setCurrentUserId] = useState<string>(
@@ -26,7 +28,16 @@ const Page = () => {
     );
 
     console.log(userInfo);
-
+    useEffect(() => {
+        classApi
+          .ViewAllClasses("all", undefined, String(userInfo.id))
+          .then((res) => {const classd:IClass[]=res.data.data
+            setclassDetails(res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, []);
     useEffect(() => {
         Promise.all([
             collectionApi.viewCollection("all", undefined, String(userInfo.id)),
@@ -117,7 +128,11 @@ const Page = () => {
                     <CollectionCard key={index} collection={collection} />
                 ))}
             </div>
-            <div className="font-bold text-4xl my-10">Classes</div>
+            <div className="font-bold text-4xl my-10">Classes
+                <div className="grid gap-10 mt-10 grid-cols-3">
+                {classDetails?.filter((x)=>{return x.hostId === (userInfo.id)}).map((x)=>{return <ClassCard class={x}></ClassCard>})}
+                </div>
+            </div>
             <div className="flex gap-10 mt-10">
                 {/* {classes?.map((c, i) => (
           <ClassCard key={i} class={c} />
