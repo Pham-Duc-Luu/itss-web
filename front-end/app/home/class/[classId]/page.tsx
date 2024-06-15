@@ -396,7 +396,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
           <div className="px-7 py-5 flex flex-col items-center">
             <Image src={classImage.src} width={300} height={300} alt="join class"/>
             <h1 className="mb-7 font-semibold font-lg">Join class to view class&apos;information</h1>
-            <Button className="w-28 ml-3 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 hover:scale-110 transition-all ease-in-out" 
+            <Button className="w-auto ml-3 bg-cyan-400 text-black font-semibold hover:bg-cyan-300 hover:scale-110 transition-all ease-in-out" 
               onClick={() => {
                 authApi.requestToClass(Number(params.classId), userId).then(() => {
                   setRequested(true);
