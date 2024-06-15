@@ -129,7 +129,7 @@ const Page = () => {
                     ))}
             </div>
             <div className="font-bold text-4xl my-10">Other Classes</div>
-            <div className="flex gap-10 mt-10">
+            <div className="grid gap-10 mt-10 grid-cols-3">
                 {classes
                     ?.filter(
                         (c) =>      

@@ -15,7 +15,7 @@ function ClassCard(prop: { class: IClass }) {
   const [errorImg, setErrorImg] = useState<boolean>(false)
   return (
     <div
-      className="relative w-1/3 h-64 group rounded-2xl shadow-md flex flex-col classCard transition-all duration-300 ease-in-out overflow-hidden"
+      className="relative w-full h-64 group rounded-2xl shadow-md flex flex-col classCard transition-all duration-300 ease-in-out overflow-hidden"
       onClick={() => route.push(`/home/class/${prop?.class?.id}`)}
     > 
 

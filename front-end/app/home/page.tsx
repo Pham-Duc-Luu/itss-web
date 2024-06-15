@@ -98,8 +98,8 @@ const Page = () => {
           </Button>
         </div>
 
-        <div className="flex gap-10">
-          {classes?.slice(0, 3)?.map((item, index) => (
+        <div className="grid gap-10 grid-cols-3">
+          {classes?.slice(0, 6)?.map((item, index) => (
             <ClassCard key={index} class={item} />
           ))}
         </div>
