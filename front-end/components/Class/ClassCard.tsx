@@ -1,7 +1,10 @@
 "use client";
-import React, { useState } from "react";
-import classImg from "../../assets/classCard.jpg";
-import ClassImga2 from "../../assets/9202732.jpg"
+import React from "react";
+import classImg0 from "../../assets/classCard.jpg";
+import classImg1 from "../../assets/9202732.jpg"
+import classImg2 from "../../assets/international-day-education-illustration_23-2151101753.jpg"
+import classImg3 from "../../assets/space-cartoon-composition-with-neon-glowing-view-extraterrestrial-terrain-with-characters-spaceman-alien-vector-illustration_1284-80790.jpg"
+import classImg4 from "../../assets/organic-flat-people-business-training-illustration_23-2148920666.jpg"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { IClass } from "@/lib/ClassApi";
@@ -23,7 +26,11 @@ function ClassCard(prop: { class: IClass }) {
       />
       :
       <Image
-        src={(prop?.class?.id%2 == 0)?classImg:ClassImga2}
+        src={prop?.class?.id % 5 === 0 ? classImg0 :
+          prop?.class?.id % 5 === 1 ? classImg1 :
+          prop?.class?.id % 5 === 2 ? classImg2 :
+          prop?.class?.id % 5 === 3 ? classImg3 :
+          classImg4}
         alt="class image"
         className="w-full rounded-2xl h-full object-cover group-hover:brightness-110"
         
