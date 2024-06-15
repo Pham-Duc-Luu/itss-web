@@ -15,7 +15,7 @@ function ClassCard(prop: { class: IClass }) {
   const [errorImg, setErrorImg] = useState<boolean>(false)
   return (
     <div
-      className="relative w-1/3 h-64 group rounded-2xl shadow-md flex flex-col classCard transition-all duration-300 ease-in-out overflow-hidden"
+      className="relative w-full h-64 group rounded-2xl shadow-md flex flex-col classCard transition-all duration-300 ease-in-out overflow-hidden"
       onClick={() => route.push(`/home/class/${prop?.class?.id}`)}
     > 
 
@@ -26,11 +26,7 @@ function ClassCard(prop: { class: IClass }) {
       />
       :
       <Image
-        src={prop?.class?.id % 5 === 0 ? classImg0 :
-          prop?.class?.id % 5 === 1 ? classImg1 :
-          prop?.class?.id % 5 === 2 ? classImg2 :
-          prop?.class?.id % 5 === 3 ? classImg3 :
-          classImg4}
+        src={classImg1}
         alt="class image"
         className="w-full rounded-2xl h-full object-cover group-hover:brightness-110"
         
