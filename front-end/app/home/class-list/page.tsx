@@ -1,15 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { FakeClassData } from "@/API/FakeData";
 import { FakeCollectionData } from '@/API/FakeData';
 import Share from '@/components/Svg/Share'
 import ClassCard from "@/components/Class/ClassCard";
 import Plus from '@/components/Svg/Plus';
 import Three_dot from '@/components/Svg/Three_dot';
+import classApi, { IClass } from "@/lib/ClassApi";
+
 // * list of collections user have
 // * list of class user have
+
+        
+
 const page = () => {
+
+  const [classes, setClasses] = useState<IClass[]>();
+
+useEffect(() => {
+  classApi
+      .ViewAllClasses()
+        .then((res) => {
+      setClasses(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
+const router = useRouter();
   return (
     <div className='w-full px-16 py-10 '>
       <div className='w-3/4'>
@@ -28,7 +48,13 @@ const page = () => {
           </div>
         </div>
         <div className='flex gap-5 flex-wrap'>
-                  {FakeClassData.map((classes, index) => <ClassCard key={index} classes={classes}/>)}
+        <div className="w-3/4 flex gap-10">
+
+          {classes?.slice(0, 3)?.map((item, index) => (
+            <ClassCard key={index} class={item} />
+          ))}
+          
+        </div>
                   
         </div>
 
@@ -37,3 +63,8 @@ const page = () => {
 };
 
 export default page;
+// // function setClasses(data: IClass[]) 
+// {
+//   throw new Error("Function not implemented.");
+// }
+

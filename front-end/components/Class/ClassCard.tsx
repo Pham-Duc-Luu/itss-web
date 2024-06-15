@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import classImg0 from "../../assets/classCard.jpg";
 import classImg1 from "../../assets/9202732.jpg"
 import classImg2 from "../../assets/international-day-education-illustration_23-2151101753.jpg"
