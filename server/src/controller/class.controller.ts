@@ -281,7 +281,7 @@ class ClassController {
             create: {
               content: content,
               date: new Date(),
-              // byMemberId: createrId,
+              byMemberId: createrId,
             },
           },
         },

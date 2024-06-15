@@ -15,24 +15,24 @@ import classApi, { IClass } from "@/lib/ClassApi";
 
         
 
-const page = () => {
+const Page = () => {
 
   const [classes, setClasses] = useState<IClass[]>();
 
-useEffect(() => {
-  classApi
-      .ViewAllClasses()
-        .then((res) => {
-      setClasses(res.data.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}, []);
-const router = useRouter();
+  useEffect(() => {
+    classApi
+        .ViewAllClasses()
+          .then((res) => {
+        setClasses(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const router = useRouter();
   return (
     <div className='w-full px-16 py-10 '>
-      <div className='w-3/4'>
+      <div className='w-full'>
           <div className='flex justify-between'>
             <h1 className='flex gap-5 font-black text-3xl mb-5'>
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0,0,256,256" fontStyle="fill:#6B7280">
@@ -48,9 +48,9 @@ const router = useRouter();
           </div>
         </div>
         <div className='flex gap-5 flex-wrap'>
-        <div className="w-3/4 flex gap-10">
+        <div className="w-3/4 grid gap-10 grid-cols-3">
 
-          {classes?.slice(0, 3)?.map((item, index) => (
+          {classes?.map((item, index) => (
             <ClassCard key={index} class={item} />
           ))}
           
@@ -62,9 +62,5 @@ const router = useRouter();
   )
 };
 
-export default page;
-// // function setClasses(data: IClass[]) 
-// {
-//   throw new Error("Function not implemented.");
-// }
+export default Page;
 
