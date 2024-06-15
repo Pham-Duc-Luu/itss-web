@@ -14,6 +14,7 @@ interface ICollectionRequest {
   description: string;
   summary?: String;
   flashCards?: IFlashCardRequest[];
+  belongto?: number;
 }
 
 export interface ICollection {

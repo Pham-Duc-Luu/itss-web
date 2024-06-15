@@ -44,7 +44,7 @@ import CreateCollectionInput from "@/components/Input/CreateCollectionInput";
 import Send from "@/components/Svg/Send";
 import School from "@/components/Svg/School";
 import FlashCard from "@/components/Svg/FlashCard";
-import { Route, User } from "lucide-react";
+import { PlusIcon, Route, User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
 import classApi, { IClass, IClassDetails } from "@/lib/ClassApi";
 import ClassCard from "@/components/Class/ClassCard";
@@ -53,6 +53,7 @@ import Image from "next/image";
 import errorImg from "../../../../assets/404.png"
 import { useRouter } from "next/navigation";
 import classImage from "../../../../assets/class.png"
+import CollectionRow from "@/components/Class/CollectionRow";
 const Page = ({ params }: { params: { classId: string } }) => {
   const route = useRouter()
   const [currentClass, setcurrentClass] = useState<{
@@ -74,6 +75,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
       .viewDetailClass(Number(params.classId))
       .then((res) => {
         setclassDetails(res.data.data);
+        console.log(res.data.data)
       })
       .catch((err) => {
         console.log(err);
@@ -583,33 +585,19 @@ const Page = ({ params }: { params: { classId: string } }) => {
               <Card>
                 <CardHeader>
                   <CardTitle>Collection</CardTitle>
-                  <CardDescription></CardDescription>
+                  <CardDescription>
+                  <button className="text-sm bg-cyan-400 flex gap-1 px-3 py-1 rounded-2xl text-black font-bold mt-2" onClick={
+                    () => route.push(`/home/class/${params.classId}/create_collection`)
+                  }>
+                    <PlusIcon size={15} className="my-auto"/>
+                    <p className="my-auto">Add collection</p>
+                    </button>
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <Card className="w-full mb-4">
-                    <CardHeader>
-                      <CardTitle>
-                        <div className="flex">
-                          <Avatar className="mr-2">
-                            <AvatarImage
-                              src="https://github.com/shadcn.png"
-                              alt="@shadcn"
-                            />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <Badge>Collection Name</Badge>
-                        </div>
-                      </CardTitle>
-                    </CardHeader>
-
-                    <div className="grid">
-                      <button className="justify-self-end mx-8 mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300">
-                        View
-                      </button>
-                    </div>
-
-                    <CardFooter className="flex justify-between"></CardFooter>
-                  </Card>
+                      {classDetails?.collections.map((collection,index) => {
+                                         return <CollectionRow key={index} collection={collection}/>
+                      })}
                 </CardContent>
                 <CardFooter></CardFooter>
               </Card>
