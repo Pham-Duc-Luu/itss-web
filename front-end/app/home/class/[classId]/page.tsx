@@ -623,7 +623,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                                     </Label>
                                                                     <Input
                                                                         id="name"
-                                                                        value="Pedro Duarte"
+                                                                        
                                                                         className="col-span-3"
                                                                     />
                                                                 </div>
@@ -636,7 +636,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                                     </Label>
                                                                     <Input
                                                                         id="username"
-                                                                        value="@peduarte"
+                                                                        
                                                                         className="col-span-3"
                                                                     />
                                                                 </div>
@@ -649,7 +649,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                                                     </Label>
                                                                     <Input
                                                                         id="username"
-                                                                        value="@peduarte"
+
                                                                         className="col-span-3"
                                                                     />
                                                                 </div>
