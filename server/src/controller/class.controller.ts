@@ -14,7 +14,7 @@ class ClassController {
     res: Response
   ) {
     try {
-      console.log(req.body)
+      console.log(req.body);
       const { userId, classInfo } = req.body;
       if (!userId || !classInfo || !classInfo.name) {
         throw new MissingParameter();
@@ -379,7 +379,11 @@ class ClassController {
           },
           collections: true,
           assignments: true,
-          posts: true,
+          posts: {
+            include: {
+              byMember: true,
+            },
+          },
           requests: true,
         },
       });
@@ -395,19 +399,56 @@ class ClassController {
     }
   }
 
-  async viewStudyAt(
-    req: Request<any, any>,
-    res: Response
-  ) {
+  async viewStudyAt(req: Request<any, any>, res: Response) {
     try {
       const { id } = req.query;
       const studyAtInfo = await prisma.studyAt.findMany({
         where: { studentId: Number(id) },
       });
       // const classInfo = classes.map(item => item.class);
-      
+
       console.log(studyAtInfo);
       return res.status(200).json({ data: studyAtInfo });
+    } catch (error: any) {
+      const err = new HttpErrorResponse(
+        String(error?.message),
+        Number(error?.statusCode || 500)
+      );
+
+      console.log(error);
+      return res.status(err.statusCode).json(err.message);
+    }
+  }
+
+  async addStudentWithEmails(
+    req: Request<
+      any,
+      any,
+      { hostId: string; classId: string; emails: string[] }
+    >,
+    res: Response
+  ) {
+    try {
+      const { hostId, classId, emails } = req.body;
+      console.log(emails);
+
+      if (!hostId || !classId || !emails || !(emails.length > 0)) {
+        throw new MissingParameter();
+      }
+
+      let studentIds: Number[] = [];
+      emails.forEach(async (email) => {
+        let id = (await prisma.user.findFirst({ where: { email: email } }))?.id;
+        id && studentIds.push(id);
+      });
+
+      const myclass = await classService.addStudents(
+        Number(hostId),
+        Number(classId),
+        studentIds.map((item) => Number(item))
+      );
+
+      return res.status(200).json({ data: myclass });
     } catch (error: any) {
       const err = new HttpErrorResponse(
         String(error?.message),

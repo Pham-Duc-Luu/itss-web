@@ -37,6 +37,8 @@ export interface IPost {
   id: number;
   date: string;
   content: string;
+  byMemberId: number;
+  byMember: IUser;
 }
 
 export interface IRequest {
@@ -65,8 +67,8 @@ class ClassApi extends Api {
   }
 
   createClass(data: ICreateClassRequest): Promise<any> {
-    return this.api.post<{data: IClass}>("/create-class", {
-      ...data
+    return this.api.post<{ data: IClass }>("/create-class", {
+      ...data,
     });
   }
 
@@ -97,6 +99,13 @@ class ClassApi extends Api {
     }>(`/view-class?${params.toString()}`);
   }
 
+  addStudentByEmail(hostId: string, classId: string, email: string[]) {
+    return this.api.post<{ data: IClass }>("/add-students-with-emails", {
+      hostId,
+      classId,
+      email,
+    });
+  }
   createPost(data: {
     hostId: number;
     classId: number;
@@ -117,6 +126,20 @@ class ClassApi extends Api {
     return this.api.get<{
       data: IClass[];
     }>(`/view-study-at?id=${id}`);
+  }
+  createAssignment(
+    hostId: string,
+    classId: string,
+    assignment: {
+      question: string;
+      due: string;
+    }
+  ) {
+    return this.api.post<{ data: IClass }>("/create-assignment", {
+      classId,
+      hostId,
+      assignment,
+    });
   }
 }
 

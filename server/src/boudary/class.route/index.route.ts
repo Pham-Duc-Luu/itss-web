@@ -5,6 +5,11 @@ const classRouter = Router();
 // * create a new class
 classRouter.post("/create-class", classController.createClass);
 classRouter.post("/add-students", classController.addStudents);
+classRouter.post(
+  "/add-students-with-emails",
+  classController.addStudentWithEmails
+);
+
 classRouter.delete("/remove-students", classController.removeStudent);
 classRouter.post("/create-assignment", classController.createAssignment);
 
