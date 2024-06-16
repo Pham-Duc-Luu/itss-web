@@ -1,3 +1,4 @@
+import { IAnswer } from "@/lib/ClassApi"
 import { ICollection } from "@/lib/CollectionApi"
 import { User } from "lucide-react"
 import Link from "next/link"
