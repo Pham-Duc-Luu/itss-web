@@ -40,7 +40,12 @@ export function CreateAssignment({
   return (
     <Dialog open={open} onOpenChange={setopen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Create assignment</Button>
+        <Button
+          className="rounded-lg my-4 px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm "
+          variant="outline"
+        >
+          Create assignment
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

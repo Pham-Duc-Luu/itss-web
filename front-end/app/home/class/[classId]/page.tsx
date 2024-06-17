@@ -44,17 +44,21 @@ import CreateCollectionInput from "@/components/Input/CreateCollectionInput";
 import Send from "@/components/Svg/Send";
 import School from "@/components/Svg/School";
 import FlashCard from "@/components/Svg/FlashCard";
-import { Route, User } from "lucide-react";
+import { PlusIcon, Route, User } from "lucide-react";
 import { FakeClassData } from "@/API/FakeData";
-import classApi, { IClass, IClassDetails } from "@/lib/ClassApi";
+import classApi, { IAnswer, IClass, IClassDetails } from "@/lib/ClassApi";
 import ClassCard from "@/components/Class/ClassCard";
 import authApi from "@/lib/authApi";
 import Image from "next/image";
 import errorImg from "../../../../assets/404.png";
 import { useRouter } from "next/navigation";
 import classImage from "../../../../assets/class.png";
-import { CreateAssignment } from "./CreateAssignment";
+import CollectionRow from "@/components/Class/CollectionRow";
+import AssignmentCard from "@/components/Class/AssignmentCard";
+import AssignmentCardAdmin from "@/components/Class/AssignmentCardAdmin";
+import AnswerCard from "@/components/Class/AnswerCard";
 import { format } from "date-fns";
+import { CreateAssignment } from "./CreateAssignment";
 import Addstudent from "./Addstudent";
 const Page = ({ params }: { params: { classId: string } }) => {
   const route = useRouter();
@@ -70,6 +74,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
   const [classes, setClasses] = useState<IClass[]>();
   const [userId, setUserId] = useState<number>();
   const [classImg, setClassImg] = useState<string>();
+  const [answer, setAnswer] = useState<IAnswer[]>();
 
   const [isInClass, setisInClass] = useState<boolean>(false);
   useEffect(() => {
@@ -77,6 +82,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
       .viewDetailClass(Number(params.classId))
       .then((res) => {
         setclassDetails(res.data.data);
+        console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -86,10 +92,10 @@ const Page = ({ params }: { params: { classId: string } }) => {
   useEffect(() => {
     if (classDetails?.studyAt.find((item) => item.studentId === userId)) {
       setisInClass(true);
+      console.log("in class");
+    } else {
+      setisInClass(classDetails?.hostId === userId);
     }
-    console.log(classDetails?.hostId === userId);
-
-    setisInClass(classDetails?.hostId === userId);
   }, [classDetails, userId]);
 
   const [createPost_content, setcreatePost_content] = useState<string>();
@@ -175,7 +181,34 @@ const Page = ({ params }: { params: { classId: string } }) => {
             </div>
           </div>
           <div className="flex gap-2">
-            {userId === classDetails?.hostId && <Addstudent></Addstudent>}
+            {userId === classDetails?.hostId && (
+              <Addstudent></Addstudent>
+              // <Dialog>
+              //   <DialogTrigger asChild>
+              //     <button className="py-auto px-3 border-[3px] border-gray-300 rounded-full h-10 w-10 font-semibold flex hover:bg-slate-100">
+              //       <div className="m-auto">
+              //         <Addmember />
+              //       </div>
+              //     </button>
+              //   </DialogTrigger>
+              //   <DialogContent className="sm:max-w-[425px]">
+              //     <DialogHeader>
+              //       <DialogTitle>Add member</DialogTitle>
+              //     </DialogHeader>
+              //     <div className="grid gap-4 py-4">
+              //       <div className="mb-5">
+              //         <Label className="w-[120px] mb-5 text-1xl font-bold">
+              //           Student code:
+              //         </Label>
+              //         <Input type="text" placeholder="code" />
+              //       </div>
+              //     </div>
+              //     <DialogFooter>
+              //       <Button type="submit">Add</Button>
+              //     </DialogFooter>
+              //   </DialogContent>
+              // </Dialog>
+            )}
             {userId === classDetails?.hostId && (
               <Dialog>
                 <DialogTrigger asChild>
@@ -425,7 +458,7 @@ const Page = ({ params }: { params: { classId: string } }) => {
                                     // src="https://github.com/shadcn.png"
                                     alt="@shadcn"
                                   />
-                                  <AvatarFallback>CN</AvatarFallback>
+                                  <AvatarFallback>Avatar</AvatarFallback>
                                 </Avatar>
                                 <Badge className="bg-cyan-400 px-5 leading-none h-auto">
                                   {post.byMember.name}
@@ -481,100 +514,100 @@ const Page = ({ params }: { params: { classId: string } }) => {
               <TabsContent value="assignment">
                 <Card>
                   <CardHeader>
-                    <CardTitle>
-                      Assignment{" "}
-                      {classDetails?.hostId && classDetails.id && (
-                        <CreateAssignment
-                          hostId={String(classDetails.hostId)}
-                          classId={String(classDetails.id)}
-                        ></CreateAssignment>
-                      )}
-                    </CardTitle>
+                    <CardTitle>Assignment</CardTitle>
                     <CardDescription></CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                    <Tabs defaultValue="upcoming" className="w-[340px]">
-                      <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-                        <TabsTrigger value="past-due">Past due</TabsTrigger>
-                        <TabsTrigger value="completed">Completed</TabsTrigger>
+                    <Tabs defaultValue="assignment" className="w-full">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="assignment">Assignment</TabsTrigger>
+                        <TabsTrigger value="answer">Answer</TabsTrigger>
                       </TabsList>
-                    </Tabs>
-                    {classDetails?.assignments?.map((item, i) => (
-                      <Card className="w-full mb-4" key={i}>
-                        <CardHeader>
-                          <CardTitle>
-                            <div className="flex flex-col items-start">
-                              <div className="text-1xl">
-                                Question :
-                                <span className=" font-medium">
-                                  {item.question}
-                                </span>
-                              </div>
-                              <div className=" text-sm">
-                                due : {format(item.due, "PPP")}
-                              </div>
-                            </div>
-                          </CardTitle>
-                        </CardHeader>
-
-                        <CardContent>
-                          <form>
-                            <div className="grid w-full items-center gap-4">
-                              <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="name">{item.description}</Label>
-                              </div>
-                            </div>
-                          </form>
-                        </CardContent>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <div className="ml-auto grid">
-                              <button className="justify-self-end mx-8 rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm ">
-                                Turn in
-                              </button>
-                            </div>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                              <DialogTitle>turn in</DialogTitle>
-                            </DialogHeader>
-
-                            <DialogFooter>
-                              <div className="mb-2 w-full border-b-2 border-gray-600">
-                                <input
-                                  className="hidden"
-                                  type="file"
-                                  id="image-upload"
-                                  name="image-upload"
+                      <TabsContent value="assignment">
+                        {userId === classDetails?.hostId && (
+                          <CreateAssignment
+                            hostId={String(classDetails.hostId)}
+                            classId={String(classDetails.id)}
+                          ></CreateAssignment>
+                          // <Dialog>
+                          //   <DialogTrigger asChild>
+                          //     <Button
+                          //       className="rounded-lg my-4 px-5 py-2 bg-cyan-400 hover:bg-cyan-300 font-semibold text-sm "
+                          //       variant="outline"
+                          //     >
+                          //       Create Assingment
+                          //     </Button>
+                          //   </DialogTrigger>
+                          //   <DialogContent className="sm:max-w-[425px]">
+                          //     <DialogHeader>
+                          //       <DialogTitle>Create Assignment</DialogTitle>
+                          //       <DialogDescription></DialogDescription>
+                          //     </DialogHeader>
+                          //     <div className="grid gap-4 py-4">
+                          //       <div className="grid grid-cols-4 items-center gap-4">
+                          //         <Label htmlFor="name" className="text-right">
+                          //           Question
+                          //         </Label>
+                          //         <Input
+                          //           id="name"
+                          //           value="Pedro Duarte"
+                          //           className="col-span-3"
+                          //         />
+                          //       </div>
+                          //       <div className="grid grid-cols-4 items-center gap-4">
+                          //         <Label
+                          //           htmlFor="username"
+                          //           className="text-right"
+                          //         >
+                          //           Due
+                          //         </Label>
+                          //         <Input
+                          //           id="username"
+                          //           value="@peduarte"
+                          //           className="col-span-3"
+                          //         />
+                          //       </div>
+                          //       <div className="grid grid-cols-4 items-center gap-4">
+                          //         <Label
+                          //           htmlFor="username"
+                          //           className="text-right"
+                          //         >
+                          //           Description
+                          //         </Label>
+                          //         <Input
+                          //           id="username"
+                          //           value="@peduarte"
+                          //           className="col-span-3"
+                          //         />
+                          //       </div>
+                          //     </div>
+                          //     <DialogFooter>
+                          //       <Button type="submit">Create</Button>
+                          //     </DialogFooter>
+                          //   </DialogContent>
+                          // </Dialog>
+                        )}
+                        {userId === classDetails?.hostId
+                          ? classDetails?.assignments?.map(
+                              (item: any, i: any) => (
+                                <AssignmentCardAdmin
+                                  key={i}
+                                  assignment={item}
                                 />
-                                <CldUploadWidget
-                                  uploadPreset="tniqb9sb"
-                                  onSuccess={(results: any) => {
-                                    setClassImg(results.info.public_id);
-                                  }}
-                                >
-                                  {({ open }) => {
-                                    return (
-                                      <Button
-                                        className=" mb-4 bg-cyan-300 font-bold rounded-lg text-black px-4 py-2 cursor-pointer hover:bg-blue-300 transition-colors duration-200 inline-block"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          open();
-                                        }}
-                                      >
-                                        Upload
-                                      </Button>
-                                    );
-                                  }}
-                                </CldUploadWidget>
-                              </div>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                        <CardFooter className="flex justify-between"></CardFooter>
-                      </Card>
-                    ))}
+                              )
+                            )
+                          : classDetails?.assignments?.map(
+                              (item: any, i: any) => (
+                                <AssignmentCard key={i} assignment={item} />
+                              )
+                            )}
+                      </TabsContent>
+                      <TabsContent value="answer">
+                        {answer?.map((item, i) => (
+                          <AnswerCard key={i} answer={item} />
+                        ))}
+                      </TabsContent>
+                    </Tabs>
                   </CardContent>
                   <CardFooter></CardFooter>
                 </Card>
@@ -585,33 +618,26 @@ const Page = ({ params }: { params: { classId: string } }) => {
                 <Card>
                   <CardHeader>
                     <CardTitle>Collection</CardTitle>
-                    <CardDescription></CardDescription>
+                    <CardDescription>
+                      <button
+                        className="text-sm bg-cyan-400 flex gap-1 px-3 py-1 rounded-2xl text-black font-bold mt-2"
+                        onClick={() =>
+                          route.push(
+                            `/home/class/${params.classId}/create_collection`
+                          )
+                        }
+                      >
+                        <PlusIcon size={15} className="my-auto" />
+                        <p className="my-auto">Add collection</p>
+                      </button>
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                    <Card className="w-full mb-4">
-                      <CardHeader>
-                        <CardTitle>
-                          <div className="flex">
-                            <Avatar className="mr-2">
-                              <AvatarImage
-                                src="https://github.com/shadcn.png"
-                                alt="@shadcn"
-                              />
-                              <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
-                            <Badge>Collection Name</Badge>
-                          </div>
-                        </CardTitle>
-                      </CardHeader>
-
-                      <div className="grid">
-                        <button className="justify-self-end mx-8 mb-4 pl-6 text-2xl font-bold rounded-lg px-5 py-2 bg-cyan-400 hover:bg-cyan-300">
-                          View
-                        </button>
-                      </div>
-
-                      <CardFooter className="flex justify-between"></CardFooter>
-                    </Card>
+                    {classDetails?.collections.map((collection, index) => {
+                      return (
+                        <CollectionRow key={index} collection={collection} />
+                      );
+                    })}
                   </CardContent>
                   <CardFooter></CardFooter>
                 </Card>

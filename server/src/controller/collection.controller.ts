@@ -25,12 +25,13 @@ class CollectionController {
                 summary?: string;
                 description?: string;
                 flashCards: [Flashcard];
+                belongto?: number;
             }
         >,
         res: Response
     ) {
         try {
-            const { userId, name, summary, description, flashCards } = req.body;
+            const { userId, name, summary, description, flashCards, belongto } = req.body;
             if (!userId || !name) {
                 throw new MissingParameter();
             }
@@ -57,7 +58,7 @@ class CollectionController {
                             name,
                             summary,
                             description,
-
+                            belongto,
                             flashcards: {
                                 createMany: {
                                     data:

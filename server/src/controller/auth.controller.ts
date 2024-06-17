@@ -219,6 +219,7 @@ class AuthController {
   ) {
     try {
       const { classId, userId } = req.body;
+      console.log(req.body);
 
       if (!classId || !userId) {
         throw new MissingParameter();

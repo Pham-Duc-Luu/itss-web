@@ -14,6 +14,7 @@ import React, { useState } from "react";
 
 const Addstudent = () => {
   const [open, setopen] = useState<boolean>(false);
+  const [emails, setemails] = useState<string[]>(["aas@gmail.com"]);
   return (
     <Dialog open={open} onOpenChange={setopen}>
       <DialogTrigger asChild>
@@ -30,11 +31,21 @@ const Addstudent = () => {
         <div className="grid gap-4 py-4">
           <div className="mb-5">
             <Label className="w-[120px] mb-5 text-1xl font-bold">
-              Student code:
+              Student email:
             </Label>
             <Input type="text" placeholder="code" />
           </div>
         </div>
+        {emails?.map((email, index) => (
+          <div className="mb-5" key={index}>
+            <Button
+              className="w-[120px] mb-5 text-1xl font-bold"
+              variant={"outline"}
+            >
+              {email}
+            </Button>
+          </div>
+        ))}
         <DialogFooter>
           <Button type="submit">Add</Button>
         </DialogFooter>

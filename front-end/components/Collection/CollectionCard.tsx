@@ -7,7 +7,7 @@ function CollectionCard({ collection }: { collection: ICollection }) {
 
   return (
     <div
-      className="w-[450px] h-48  rounded-xl px-10 py-5 shadow-md flex flex-col justify-between hover:border-b-4 hover:border-b-sky-700 bg-white"
+      className="w-[400px] h-48  rounded-xl px-10 py-5 shadow-md flex flex-col justify-between hover:border-b-4 hover:border-b-sky-700 bg-white"
       onClick={() => router.push(`/home/collection/${collection.id}`)}
     >
       <div>
